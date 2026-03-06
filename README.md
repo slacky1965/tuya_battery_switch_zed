@@ -35,7 +35,7 @@
 
 ## Как обновить. 
 <details>
-    <summary><span style="font-size:48px;">**Большой текст**</span></summary>
+    <summary>Раскрыть</summary>
 
 С выходом новой версии `zigbee2mqtt` обновление стало в разы легче. 
 
