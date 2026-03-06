@@ -35,8 +35,7 @@
 
 ## Как обновить. 
 <details>
-    <summary>
-</summary>
+    <summary>Обновление</summary>
 
 С выходом новой версии `zigbee2mqtt` обновление стало в разы легче. 
 
