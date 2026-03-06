@@ -5,14 +5,12 @@ OUT_DIR += \
 /$(SRC_PATH)/common
  
 OBJS += \
-$(OUT_PATH)/$(SRC_PATH)/drv_sdk/drv_hw.o \
 $(OUT_PATH)/$(SRC_PATH)/drv_sdk/drv_putchar.o \
 $(OUT_PATH)/$(SRC_PATH)/common/main.o \
 $(OUT_PATH)/$(SRC_PATH)/common/flash.o \
 $(OUT_PATH)/$(SRC_PATH)/common/factory_reset.o \
 $(OUT_PATH)/$(SRC_PATH)/zcl/zcl_onoffSwitchCfg.o \
 $(OUT_PATH)/$(SRC_PATH)/zcl/zcl_reporting.o \
-$(OUT_PATH)/$(SRC_PATH)/app_gpio.o \
 $(OUT_PATH)/$(SRC_PATH)/app_device.o \
 $(OUT_PATH)/$(SRC_PATH)/app_button.o \
 $(OUT_PATH)/$(SRC_PATH)/app_led.o \

@@ -6,7 +6,6 @@ OUT_DIR += \
 /proj/drivers/usb/app \
 /proj/os
 
-#$(OUT_PATH)/proj/drivers/drv_hw.o \
 #$(OUT_PATH)/proj/drivers/drv_keyboard.o \
 #$(OUT_PATH)/proj/drivers/drv_putchar.o \
  
@@ -20,6 +19,7 @@ $(OUT_PATH)/proj/drivers/drv_adc.o \
 $(OUT_PATH)/proj/drivers/drv_calibration.o \
 $(OUT_PATH)/proj/drivers/drv_flash.o \
 $(OUT_PATH)/proj/drivers/drv_gpio.o \
+$(OUT_PATH)/proj/drivers/drv_hw.o \
 $(OUT_PATH)/proj/drivers/drv_i2c.o \
 $(OUT_PATH)/proj/drivers/drv_nv.o \
 $(OUT_PATH)/proj/drivers/drv_pm.o \

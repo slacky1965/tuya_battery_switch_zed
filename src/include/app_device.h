@@ -61,7 +61,6 @@ typedef struct __attribute__((packed)) {
     uint8_t crc;
 } device_settings_t;
 
-extern bool model_in_flash;
 extern device_model_t device_model;
 extern device_object_t *device;
 extern device_settings_t device_settings;

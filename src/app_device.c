@@ -1,16 +1,12 @@
 #include "app_main.h"
 
 static bool first_start = true;
-static uint8_t zb_modelId[17] = {15,'T','S','0','0','4','1','_','M','0','0','0','-','S','l','D',0};
+static uint8_t zb_modelId[17] = {15,'T','S','0','0','4','1','-','M','0','0','0','-','S','l','D',0};
 
 device_model_t device_model = DEVICE_MODEL;
 device_object_t device_object[DEVICE_MODEL_MAX];
 device_object_t *device = &device_object[DEVICE_MODEL_1];
 device_settings_t device_settings;
-bool model_in_flash = false;
-
-
-void app_gpio_init(int anaRes_init_en);
 
 static void device_gpio_init(device_gpio_t *device_gpio) {
 
@@ -23,15 +19,15 @@ static void device_gpio_init(device_gpio_t *device_gpio) {
 static void device_model_init() {
 
     device = &device_object[device_model];
-//    app_gpio_init(TRUE);
+//    gpio_init(TRUE);
 //    /* ADC */
 //#if VOLTAGE_DETECT_ENABLE
 //    drv_adc_init();
 //    drv_adc_mode_pin_set(DRV_ADC_VBAT_MODE, VOLTAGE_DETECT_ADC_PIN);
 //    drv_adc_enable(ON);
 //#endif
-//    device_gpio_init(&device->button_gpio[0]);
-//    device_gpio_init(&device->led_gpio[0]);
+    device_gpio_init(&device->button_gpio[0]);
+    device_gpio_init(&device->led_gpio[0]);
 #if UART_PRINTF_MODE
     device_gpio_init(&device->debug_gpio);
     gpio_write(device->debug_gpio.gpio, 1);
@@ -189,7 +185,6 @@ void device_model_save(uint8_t model) {
 
 void device_init() {
     uint8_t devi = DEVICE_MODEL_1;
-    DEBUG(UART_PRINTF_MODE, "model_in_flash: %s, model: M%03d\r\n", model_in_flash?"true":"false", device_model+1);
     if (first_start) {
         first_start = false;
         /* TS0203 Zbeacon Tuya  - model_1 */
@@ -210,11 +205,7 @@ void device_init() {
         device_object[devi].debug_gpio.output = ON;
         device_object[devi].debug_gpio.func = AS_GPIO;
         device_object[devi++].debug_gpio.pull = PM_PIN_PULLUP_1M;
-        if (model_in_flash) {
-            device_model_init();
-        } else {
-            device_model_restore();
-        }
+        device_model_restore();
     } else {
         device_model_init();
     }
