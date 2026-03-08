@@ -165,6 +165,33 @@ void user_app_init(void)
     g_appCtx.timerBatteryEvt = TL_ZB_TIMER_SCHEDULE(batteryCb, NULL, BATTERY_TIMER_INTERVAL);
 #endif
 
+    DEBUG(DEBUG_GPIO_EN, "model_in_flash: %d\r\n", model_in_flash);
+
+    DEBUG(DEBUG_GPIO_EN, "reg_gpio_pa_setting1: 0x%x\r\n", reg_gpio_pa_setting1);
+    DEBUG(DEBUG_GPIO_EN, "reg_gpio_pa_setting2: 0x%x\r\n", reg_gpio_pa_setting2);
+
+    DEBUG(DEBUG_GPIO_EN, "areg_gpio_pb_ie: 0x%x\r\n", analog_read(areg_gpio_pb_ie));
+    DEBUG(DEBUG_GPIO_EN, "reg_gpio_pb_oen: 0x%x\r\n", reg_gpio_pb_oen);
+    DEBUG(DEBUG_GPIO_EN, "reg_gpio_pb_out: 0x%x\r\n", reg_gpio_pb_out);
+    DEBUG(DEBUG_GPIO_EN, "areg_gpio_pb_ds: 0x%x\r\n", analog_read(areg_gpio_pb_ds));
+    DEBUG(DEBUG_GPIO_EN, "reg_gpio_pb_gpio: 0x%x\r\n", reg_gpio_pb_gpio);
+
+    DEBUG(DEBUG_GPIO_EN, "areg_gpio_pc_ie: 0x%x\r\n", analog_read(areg_gpio_pc_ie));
+    DEBUG(DEBUG_GPIO_EN, "reg_gpio_pc_oen: 0x%x\r\n", reg_gpio_pc_oen);
+    DEBUG(DEBUG_GPIO_EN, "reg_gpio_pc_out: 0x%x\r\n", reg_gpio_pc_out);
+    DEBUG(DEBUG_GPIO_EN, "areg_gpio_pc_ds: 0x%x\r\n", analog_read(areg_gpio_pc_ds));
+    DEBUG(DEBUG_GPIO_EN, "reg_gpio_pc_gpio: 0x%x\r\n", reg_gpio_pc_gpio);
+
+    DEBUG(DEBUG_GPIO_EN, "reg_gpio_pd_setting1: 0x%x\r\n", reg_gpio_pd_setting1);
+    DEBUG(DEBUG_GPIO_EN, "reg_gpio_pd_setting2: 0x%x\r\n", reg_gpio_pd_setting2);
+
+    DEBUG(DEBUG_GPIO_EN, "Wakeup PA0-PA3 0x0E: 0x%x\r\n", analog_read(0x0E));
+    DEBUG(DEBUG_GPIO_EN, "Wakeup PA4-PA7 0x0F: 0x%x\r\n", analog_read(0x0F));
+    DEBUG(DEBUG_GPIO_EN, "Wakeup PB0-PB3 0x10: 0x%x\r\n", analog_read(0x10));
+    DEBUG(DEBUG_GPIO_EN, "Wakeup PB4-PB7 0x11: 0x%x\r\n", analog_read(0x11));
+    DEBUG(DEBUG_GPIO_EN, "Wakeup PC0-PC3 0x12: 0x%x\r\n", analog_read(0x12));
+    DEBUG(DEBUG_GPIO_EN, "Wakeup PC4-PC7 0x13: 0x%x\r\n", analog_read(0x13));
+    DEBUG(DEBUG_GPIO_EN, "Wakeup PD0-PD3 0x14: 0x%x\r\n", analog_read(0x14));
 }
 
 void app_task(void) {

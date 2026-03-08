@@ -51,6 +51,8 @@
 /* for OTA */
 #define APP_OTA_PERIODIC_QUERY_INTERVAL (1080 * 60)     /* start the OTA request after the set seconds */
 
+#define DEVICE_BUTTON_MAX   6
+
 /**********************************************************************
  * Product Information
  * max 24 symbols
@@ -77,6 +79,9 @@
 #define DEBUG_ONOFF_EN                  OFF
 #define DEBUG_LEVEL_EN                  OFF
 #define DEBUG_SCENE_EN                  ON
+#define DEBUG_GPIO_EN                   ON
+#define DEBUG_LED_EN                    OFF
+#define DEBUG_ZCL_CB_EN                 OFF
 
 #if UART_PRINTF_MODE
 #define DEBUG_INFO_TX_PIN       GPIO_PB1
@@ -84,7 +89,7 @@
 #endif /* UART_PRINTF_MODE */
 
 /* PM */
-#define PM_ENABLE						ON
+#define PM_ENABLE						OFF
 
 /* PA */
 #define PA_ENABLE						OFF
@@ -142,7 +147,7 @@
 #endif
 
 /* Watch dog module */
-#define MODULE_WATCHDOG_ENABLE						OFF
+#define MODULE_WATCHDOG_ENABLE						ON
 
 /* UART module */
 #define	MODULE_UART_ENABLE							OFF

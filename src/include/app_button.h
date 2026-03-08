@@ -1,8 +1,6 @@
 #ifndef SRC_INCLUDE_APP_BUTTON_H_
 #define SRC_INCLUDE_APP_BUTTON_H_
 
-#define DEVICE_BUTTON_MAX   6
-
 typedef enum {
     ACTION_HOLD = 0,
     ACTION_SINGLE,

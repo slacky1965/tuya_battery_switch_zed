@@ -6,28 +6,30 @@
 light_t light[DEVICE_BUTTON_MAX];
 
 void led_on(uint8_t pin_idx) {
-//    printf("LED is ON\r\n");
-    drv_gpio_write(device->led_gpio[pin_idx].gpio, LED_ON(device->led_on));
+    DEBUG(DEBUG_LED_EN, "LED %d is ON\r\n", pin_idx+1);
+    if (device->device_en) drv_gpio_write(device->led_gpio[pin_idx].gpio, LED_ON(device->led_on));
 }
 
 void led_off(uint8_t pin_idx) {
-//    printf("LED is OFF\r\n");
-    drv_gpio_write(device->led_gpio[pin_idx].gpio, LED_OFF(device->led_off));
+    DEBUG(DEBUG_LED_EN, "LED %d is OFF\r\n", pin_idx+1);
+    if (device->device_en) drv_gpio_write(device->led_gpio[pin_idx].gpio, LED_OFF(device->led_off));
 }
 
 void light_on(uint8_t pin_idx) {
-//    printf("light is ON\r\n");
-    led_on(pin_idx);
+    DEBUG(DEBUG_LED_EN, "light %d is ON\r\n", pin_idx+1);
+    if (device->device_en) led_on(pin_idx);
 }
 
 void light_off(uint8_t pin_idx) {
-//    printf("light is OFF\r\n");
-    led_off(pin_idx);
+    DEBUG(DEBUG_LED_EN, "light %d is OFF\r\n", pin_idx+1);
+    if (device->device_en) led_off(pin_idx);
 }
 
 void light_init(void) {
     TL_SETSTRUCTCONTENT(light, 0);
-//    led_off(LED1);
+    for (uint8_t i = 0; i < device->button_num; i++) {
+        if (device->device_en) led_off(i);
+    }
 
 }
 
@@ -56,7 +58,7 @@ static int32_t lightTimerCb(void *args) {
 }
 
 void light_blink_start(uint8_t times, uint16_t ledOnTime, uint16_t ledOffTime, uint8_t pin_idx) {
-//    printf("light_blink_start, times: %d, onTime: %d, offTime: %d\r\n", times, ledOnTime, ledOffTime);
+    DEBUG(DEBUG_LED_EN, "light_blink_start, times: %d, onTime: %d, offTime: %d\r\n", times, ledOnTime, ledOffTime);
     uint32_t interval = 0;
     light[pin_idx].times = times;
 
@@ -80,7 +82,7 @@ void light_blink_start(uint8_t times, uint16_t ledOnTime, uint16_t ledOffTime, u
 }
 
 void light_blink_stop(uint8_t pin_idx) {
-//    printf("light_blink_stop\r\n");
+    DEBUG(DEBUG_LED_EN, "light_blink_stop\r\n");
 
     if(light[pin_idx].timerLedEvt){
         TL_ZB_TIMER_CANCEL(&(light[pin_idx].timerLedEvt));

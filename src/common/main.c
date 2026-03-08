@@ -96,8 +96,10 @@ _attribute_ram_code_ void tuya_zigbee_ota(void) {
     }
 }
 
+startup_state_e app_drv_platform_init(void);
+
 int flash_main(void){
-	startup_state_e state = drv_platform_init();
+	startup_state_e state = app_drv_platform_init();
 
 //    if (state != SYSTEM_DEEP_RETENTION) {
 //        tuya_zigbee_ota();

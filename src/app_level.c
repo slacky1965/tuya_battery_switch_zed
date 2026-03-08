@@ -73,7 +73,7 @@ void app_level_step(uint8_t ep, uint8_t up_down) {
 
     step_t step;
     step.stepMode = up_down;
-    step.stepSize = 25;
+    step.stepSize = LEVEL_STEP_SIZE;
     step.transitionTime = 1;
     step.optPresent = 0;
 

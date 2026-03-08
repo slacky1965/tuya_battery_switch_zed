@@ -5,6 +5,7 @@ OUT_DIR += \
 /$(SRC_PATH)/common
  
 OBJS += \
+$(OUT_PATH)/$(SRC_PATH)/drv_sdk/drv_hw.o \
 $(OUT_PATH)/$(SRC_PATH)/drv_sdk/drv_putchar.o \
 $(OUT_PATH)/$(SRC_PATH)/common/main.o \
 $(OUT_PATH)/$(SRC_PATH)/common/flash.o \
