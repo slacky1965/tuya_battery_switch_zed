@@ -22,12 +22,16 @@ static void device_model_init() {
     device = &device_object[device_model];
     device->device_en = ON;
     if (!model_in_flash) {
-        device_gpio_init(&device->button_gpio[0]);
-        device_gpio_init(&device->led_gpio[0]);
+        for (uint8_t i = 0; i < device->button_num; i++) {
+            device_gpio_init(&device->button_gpio[i]);
+            device_gpio_init(&device->led_gpio[i]);
+        }
 #if UART_PRINTF_MODE && DEBUG_GPIO_EN
     } else {
-        device_gpio_init(&device->button_gpio[0]);
-        device_gpio_init(&device->led_gpio[0]);
+        for (uint8_t i = 0; i < device->button_num; i++) {
+            device_gpio_init(&device->button_gpio[i]);
+            device_gpio_init(&device->led_gpio[i]);
+        }
 #endif
     }
 #if UART_PRINTF_MODE
@@ -48,6 +52,9 @@ static void device_model_init() {
                 break;
             case DEVICE_MODEL_2:
                 zb_modelId[6] = '1';
+                break;
+            case DEVICE_MODEL_3:
+                zb_modelId[6] = '2';
                 break;
             default:
                 zb_modelId[6] = '1';
@@ -228,6 +235,35 @@ void device_init() {
         device_object[devi].led_gpio[0].func = AS_GPIO;
         device_object[devi].led_on = 0;
         device_object[devi].led_off = 1;
+        device_object[devi].debug_gpio.gpio = GPIO_PB1;
+        device_object[devi].debug_gpio.input = OFF;
+        device_object[devi].debug_gpio.output = ON;
+        device_object[devi].debug_gpio.func = AS_GPIO;
+        device_object[devi++].debug_gpio.pull = PM_PIN_PULLUP_1M;
+
+        /* TS0042 _TZ3000_h68nee3e Tuya (EKF)  - model_3 */
+        device_object[devi].device_en = OFF;
+        device_object[devi].button_num = 2;
+        device_object[devi].button_gpio[0].gpio = GPIO_PB5;
+        device_object[devi].button_gpio[0].input = ON;
+        device_object[devi].button_gpio[0].output = OFF;
+        device_object[devi].button_gpio[0].func = AS_GPIO;
+        device_object[devi].button_gpio[0].pull = PM_PIN_PULLUP_1M;
+        device_object[devi].button_gpio[1].gpio = GPIO_PA1;
+        device_object[devi].button_gpio[1].input = ON;
+        device_object[devi].button_gpio[1].output = OFF;
+        device_object[devi].button_gpio[1].func = AS_GPIO;
+        device_object[devi].button_gpio[1].pull = PM_PIN_PULLUP_1M;
+        device_object[devi].led_gpio[0].gpio = GPIO_PC1;
+        device_object[devi].led_gpio[0].input = OFF;
+        device_object[devi].led_gpio[0].output = ON;
+        device_object[devi].led_gpio[0].func = AS_GPIO;
+        device_object[devi].led_gpio[1].gpio = GPIO_PC2;
+        device_object[devi].led_gpio[1].input = OFF;
+        device_object[devi].led_gpio[1].output = ON;
+        device_object[devi].led_gpio[1].func = AS_GPIO;
+        device_object[devi].led_on = 1;
+        device_object[devi].led_off = 0;
         device_object[devi].debug_gpio.gpio = GPIO_PB1;
         device_object[devi].debug_gpio.input = OFF;
         device_object[devi].debug_gpio.output = ON;

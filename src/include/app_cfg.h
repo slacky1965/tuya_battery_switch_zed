@@ -67,7 +67,9 @@
 #include "version_cfg.h"
 
 /* Debug mode config */
+#ifndef UART_PRINTF_MODE
 #define	UART_PRINTF_MODE                ON
+#endif
 #define USB_PRINTF_MODE         		OFF
 
 #define DEBUG_BUTTON_EN                 ON
@@ -89,7 +91,7 @@
 #endif /* UART_PRINTF_MODE */
 
 /* PM */
-#define PM_ENABLE						OFF
+#define PM_ENABLE						ON
 
 /* PA */
 #define PA_ENABLE						OFF

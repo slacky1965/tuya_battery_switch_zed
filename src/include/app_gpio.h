@@ -138,7 +138,40 @@ static inline void app_gpio_init(int anaRes_init_en) {
         reg_gpio_pd_setting1 = 0xFF0000;
         reg_gpio_pd_setting2 = 0xFFFF00;
 
-//    } else if (device_model == DEVICE_MODEL_3) {
+    } else if (device_model == DEVICE_MODEL_3) {
+
+        /* TS0042 _TZ3000_h68nee3e Tuya (EKF)  - model_3 */
+
+        reg_gpio_pa_setting1 = 0xFF8282;
+        reg_gpio_pa_setting2 = 0x7FFF00;
+
+        //PB group
+        //ie
+        analog_write(areg_gpio_pb_ie, 0x20);
+        //oen
+        reg_gpio_pb_oen = 0xFD;
+        //dataO
+        reg_gpio_pb_out = 0x02;
+        //ds
+        analog_write(areg_gpio_pb_ds, 0xFF);
+        //func
+        reg_gpio_pb_gpio = 0xFF;
+
+        //PC group
+        //ie
+        analog_write(areg_gpio_pc_ie, 0x00);
+        //oen
+        reg_gpio_pc_oen = 0xD9;
+        //dataO
+        reg_gpio_pc_out = 0x20;
+        //ds
+        analog_write(areg_gpio_pc_ds, 0xFF);
+        reg_gpio_pc_gpio = 0xFF;
+
+        //PD group
+        reg_gpio_pd_setting1 = 0xFF0000;
+        reg_gpio_pd_setting2 = 0xFFFF00;
+
 //    } else if (device_model == DEVICE_MODEL_4) {
 //    } else if (device_model == DEVICE_MODEL_5) {
 //    } else if (device_model == DEVICE_MODEL_6) {
@@ -235,7 +268,15 @@ static inline void app_gpio_init(int anaRes_init_en) {
             analog_write (0x10, 0x04);
             // WakeUp src PB4-PB7
             analog_write (0x11, 0x10);
-//        } else if (device_model == DEVICE_MODEL_3) {
+        } else if (device_model == DEVICE_MODEL_3) {
+            // WakeUp src PA0-PA3
+            analog_write (0x0e, 0x04);
+            // WakeUp src PA4-PA7
+            analog_write (0x0f, 0x40);
+            // WakeUp src PB0-PB3
+            analog_write (0x10, 0x04);
+            // WakeUp src PB4-PB7
+            analog_write (0x11, 0x04);
 //        } else if (device_model == DEVICE_MODEL_4) {
         }
     }

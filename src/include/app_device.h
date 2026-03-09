@@ -11,6 +11,7 @@
 typedef enum {
     DEVICE_MODEL_1 = 0,
     DEVICE_MODEL_2,
+    DEVICE_MODEL_3,
     DEVICE_MODEL_MAX
 } device_model_t;
 
