@@ -77,7 +77,7 @@
 
 ## Возможности.
 
-<img src="doc/images/z2m-exposes.jpg"/>
+<img src="doc/images/z2m-exposes-1key.jpg"/>
 
 - `Battery` - заряд батарейки в процентах.
 - `Switch actions (Endpoint: X)` - устанавливает, какую команду посылать `On`, `Off` или `Toggle` при `Switch Type` выбранным `toggle` или `momentery` (при других выбранных параметрах эта настройка игнорируется).
