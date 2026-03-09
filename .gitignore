@@ -1,4 +1,5 @@
 out/
 doc_local/
 build/
-bin/
+bin/*.bin
+bin/*.zigbee
