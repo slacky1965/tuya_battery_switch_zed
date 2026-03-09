@@ -20,7 +20,7 @@
 | Custom Zigbee Model | Original Zigbee Model | Z2M Model | Original Zigbee Manufacturer| Update method | Photo    |
 |:-------------------:|:---------------------:|:---------:|:---------------------------:|:-------------:|:--------:|
 | TS0041-M001-SlD | TS0041 | TS0041 | _TZ3000_an5rjiwd | OTA file | :camera: |
-| TS0041-M002-SlD | TS0601<br> TS004F | ZG-101Z ZG-101ZL | _TZE200_nojsjtj2<br> _TZ3000_ja5osu5g | OTA file | :camera: |
+| TS0041-M002-SlD | TS0601<br> TS004F | ZG-101Z<br> ZG-101ZL | _TZE200_nojsjtj2<br> _TZ3000_ja5osu5g | OTA file | :camera: |
 
 
 Проверялся только в zigbee2mqtt. Требует всестороннего тестирования.
