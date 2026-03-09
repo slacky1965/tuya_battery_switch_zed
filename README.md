@@ -21,7 +21,7 @@
 |:-------------------:|:---------------------:|:---------:|:---------------------------:|:-------------:|:-----------:|
 | TS0041-M001-SlD | TS0041 | [TS0041](https://www.zigbee2mqtt.io/devices/TS0041.html) | _TZ3000_an5rjiwd | OTA file | [:bookmark_tabs:](doc/TS0041-M001.md) |
 | TS0041-M002-SlD | TS0601<br> TS004F | [ZG-101Z](https://www.zigbee2mqtt.io/devices/ZG-101Z.html)<br> [ZG-101ZL](https://www.zigbee2mqtt.io/devices/ZG-101ZL.html) | _TZE200_nojsjtj2<br> _TZ3000_ja5osu5g | OTA file<br> BIN file | [:bookmark_tabs:](doc/TS0041-M002.md)<br> [:bookmark_tabs:](doc/TS0041-M002_2.md) |
-
+| TS0042-M003-SlD | TS0042 | [TS0042](https://www.zigbee2mqtt.io/devices/TS0042.html) | _TZ3000_h68nee3e | OTA file | :bookmark_tabs: | 
 
 Проверялся только в zigbee2mqtt. Требует всестороннего тестирования.
 
