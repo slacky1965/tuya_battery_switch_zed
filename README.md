@@ -77,7 +77,13 @@
 
 ## Возможности.
 
+### 1-но кнопочный выключатель
+
 <img src="doc/images/z2m-exposes-1key.jpg"/>
+
+### Многокнопочный выключатель
+
+<img src="doc/images/z2m-exposes.jpg"/>
 
 - `Battery` - заряд батарейки в процентах.
 - `Switch actions (Endpoint: X)` - устанавливает, какую команду посылать `On`, `Off` или `Toggle` при `Switch Type` выбранным `toggle` или `momentery` (при других выбранных параметрах эта настройка игнорируется).
