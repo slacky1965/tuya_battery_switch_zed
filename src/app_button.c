@@ -90,7 +90,17 @@ static void read_button_level(uint8_t i) {
                     if (!factory_reset) {
                         DEBUG(DEBUG_BUTTON_EN, "Press and hold button: %d\r\n", i+1);
 
-                        if ( up_down != 0xFF) {
+                        if (up_down != 0xFF) {
+                            if (device->button_num == 1) {
+                                if (!button->level_up) {
+                                    up_down = LEVEL_MOVE_UP;
+                                    button->level_up = true;
+                                } else {
+                                    up_down = LEVEL_MOVE_DOWN;
+                                    button->level_up = false;
+                                }
+                            }
+                            DEBUG(DEBUG_BUTTON_EN, "Key: %d, up_down: %d, button->level_up: %d\r\n", i+1, up_down, button->level_up);
                             app_level_move(i+1, up_down);
                         }
                     } else {
@@ -156,10 +166,15 @@ static void read_button_level(uint8_t i) {
                 DEBUG(DEBUG_BUTTON_EN, "Button %d press %d times\r\n", i+1, button->counter);
                 switch(button->counter) {
                     case ACTION_SINGLE:                                         // 1
+                        if (device->button_num == 1) {
+                            cmdOnOff = ZCL_CMD_ONOFF_TOGGLE;
+                        }
                         app_cmdOnOff(i+1, cmdOnOff);
                         break;
                     case ACTION_DOUBLE:                                         // 2
-                        app_level_step(i+1, up_down);
+                        if (device->button_num != 1) {
+                            app_level_step(i+1, up_down);
+                        }
                         break;
                     default:
                         break;
@@ -418,6 +433,7 @@ static void read_button_toggle(uint8_t i) {
                 DEBUG(DEBUG_BUTTON_EN, "Key %d released toggle\r\n", i+1);
                 if(button->counter == 1 && zb_isDeviceJoinedNwk()) {
                     if (device_settings.switchType[i] == ZCL_SWITCH_TYPE_MOMENTARY) {
+                        g_appCtx.not_sleep = true;
                         cmd_onoff = ZCL_SWITCH_ACTION_ON_OFF;
                         switch(device_settings.switchActions[i]) {
                             case ZCL_SWITCH_ACTION_OFF_ON:
@@ -440,6 +456,14 @@ static void read_button_toggle(uint8_t i) {
     }
 
     if (button->released && clock_time_exceed(button->pressed_time, TIMEOUT_TICK_750MS)) {
+        if (device_settings.switchType[i] == ZCL_SWITCH_TYPE_MOMENTARY) {
+            if (timerClearSleepEvt) {
+                TL_ZB_TIMER_CANCEL(&timerClearSleepEvt);
+            }
+            if (!g_appCtx.timerSetPollRateEvt && !g_appCtx.ota) {
+                timerClearSleepEvt = TL_ZB_TIMER_SCHEDULE(clearSleepCb, NULL, TIMEOUT_1SEC);
+            }
+        }
         button->counter = 0;
         button->pressed = false;
         button->released = false;
@@ -483,12 +507,6 @@ u8 button_idle() {
 }
 
 void button_init() {
-//    app_button[0].gpio = device->button_gpio[0].gpio; //BUTTON1_GPIO;
-//    app_button[1].gpio = BUTTON2_GPIO;
-//    app_button[2].gpio = BUTTON3_GPIO;
-//    app_button[3].gpio = BUTTON4_GPIO;
-//    app_button[4].gpio = BUTTON1_GPIO;
-//    app_button[5].gpio = BUTTON1_GPIO;
     app_button_t *button = NULL;
     for (uint8_t i = 0; i < DEVICE_BUTTON_MAX; i++) {
         button = &app_button[i];

@@ -320,7 +320,7 @@ const zclAttrInfo_t powerCfg_attrTbl[] =
 
 #define ZCL_POWER_CFG_ATTR_NUM       sizeof(powerCfg_attrTbl) / sizeof(zclAttrInfo_t)
 
-zcl_msInputAttr_t g_zcl_msInputAttrs[DEVICE_MODEL_MAX] = {
+zcl_msInputAttr_t g_zcl_msInputAttrs[DEVICE_BUTTON_MAX] = {
     {
         .value = ACTION_EMPTY,
         .num = 8,
@@ -433,7 +433,7 @@ const zclAttrInfo_t msInput6_attrTbl[] = {
 
 #ifdef ZCL_GROUP
 /* Group */
-zcl_groupAttr_t g_zcl_groupAttrs[DEVICE_MODEL_MAX] =
+zcl_groupAttr_t g_zcl_groupAttrs[DEVICE_BUTTON_MAX] =
 {
     {.nameSupport = 0},
     {.nameSupport = 0},
@@ -456,7 +456,7 @@ const zclAttrInfo_t group1_attrTbl[] =
 
 #ifdef ZCL_SCENE
 /* Scene */
-zcl_sceneAttr_t g_zcl_sceneAttrs[DEVICE_MODEL_MAX] =
+zcl_sceneAttr_t g_zcl_sceneAttrs[DEVICE_BUTTON_MAX] =
 {
     {
         .sceneCount     = 0,
@@ -558,7 +558,7 @@ const zclAttrInfo_t scene6_attrTbl[] = {
 #ifdef ZCL_ON_OFF_SWITCH_CFG
 /* On/Off Config */
 
-zcl_onOffCfgAttr_t g_zcl_onOffCfgAttrs[DEVICE_MODEL_MAX] = {
+zcl_onOffCfgAttr_t g_zcl_onOffCfgAttrs[DEVICE_BUTTON_MAX] = {
     {
         .switchType        = ZCL_SWITCH_TYPE_MULTIFUNCTION,
         .switchActions     = ZCL_SWITCH_ACTION_OFF_ON,
@@ -663,7 +663,7 @@ const zclAttrInfo_t onOffCfg6_attrTbl[] =
 
 #ifdef ZCL_LEVEL_CTRL
 /* Level */
-zcl_levelAttr_t g_zcl_levelAttrs[DEVICE_MODEL_MAX] = {
+zcl_levelAttr_t g_zcl_levelAttrs[DEVICE_BUTTON_MAX] = {
     {
         .currentLevel = 10,
         .minLevel = ZCL_LEVEL_ATTR_MIN_LEVEL,

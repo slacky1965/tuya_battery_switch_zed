@@ -23,9 +23,7 @@
  *
  *******************************************************************************************************/
 #include "tl_common.h"
-
-void app_gpio_init(int anaRes_init_en);
-
+#include "app_gpio.h"
 /*
  * system clock configuration
  */

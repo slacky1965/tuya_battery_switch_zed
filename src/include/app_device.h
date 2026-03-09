@@ -11,10 +11,6 @@
 typedef enum {
     DEVICE_MODEL_1 = 0,
     DEVICE_MODEL_2,
-    DEVICE_MODEL_3,
-    DEVICE_MODEL_4,
-    DEVICE_MODEL_5,
-    DEVICE_MODEL_6,
     DEVICE_MODEL_MAX
 } device_model_t;
 
@@ -32,9 +28,10 @@ typedef struct __attribute__((packed)) {
 } device_gpio_t;
 
 typedef struct __attribute__((packed)) {
+    uint8_t             device_en :1;
     uint8_t             led_on :1;
     uint8_t             led_off :1;
-    uint8_t             button_num :6;
+    uint8_t             button_num :5;
     device_gpio_t       button_gpio[DEVICE_BUTTON_MAX];
     device_gpio_t       led_gpio[DEVICE_BUTTON_MAX];
     uint8_t             switch_debounce;
@@ -61,10 +58,10 @@ typedef struct __attribute__((packed)) {
     uint8_t crc;
 } device_settings_t;
 
-extern bool model_in_flash;
 extern device_model_t device_model;
 extern device_object_t *device;
 extern device_settings_t device_settings;
+extern bool model_in_flash;
 
 void device_model_restore();
 void device_model_save(uint8_t model);

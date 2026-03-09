@@ -1,8 +1,6 @@
 # <a id="Top">LoraTap Wireless switch Zigbee with custom firmware</a>
 
-<img src="doc/images/LoraTap_TS004x.jpg"/>
-
-## [Ссылка на магазин](https://ali.click/09xe01e)
+<!-- <img src="doc/images/LoraTap_TS004x.jpg"/> -->
 
 ---
 
@@ -13,27 +11,27 @@
 
 
 <!--
-| Custom Zigbee Model | Original Zigbee Model | Z2M Model | Original Zigbee Manufacturer| Update method | Photo    |
-|:-------------------:|:---------------------:|:---------:|:---------------------------:|:-------------:|:--------:|
-| TS0044-z-SlD        | TS0044                | TS0043    | _TZ3000_ee8nrt2l            | OTA file      | :camera: |
-| TS0044-z-SlD        | TS0044                | TS0043    | _TZ3000_ee8nrt2l            | OTA file      | :camera: |
+| Custom Zigbee Model | Original Zigbee Model | Z2M Model        | Original Zigbee Manufacturer      | Update method | Photo    |
+|:-------------------:|:---------------------:|:----------------:|:---------------------------------:|:-------------:|:--------:|
+| TS0041-M001-SlD     | TS0041                | TS0041           | _TZ3000_an5rjiwd            	     | OTA file      | :camera: |
+| TS0041-M002-SlD     | TS0601 TS004F         | ZG-101Z ZG-101ZL | _TZE200_nojsjtj2 _TZ3000_ja5osu5g | OTA file      | :camera: |
 -->
 
 | Custom Zigbee Model | Original Zigbee Model | Z2M Model | Original Zigbee Manufacturer| Update method | Photo    |
 |:-------------------:|:---------------------:|:---------:|:---------------------------:|:-------------:|:--------:|
-| TS0041-z-SlD        | TS0041                | TS0041    | ---                         | OTA file      | [:camera:](doc/images/TS0041-z-SlD.png) |
-| TS0042-z-SlD        | TS0042                | TS0042    | ---                         | OTA file      | [:camera:](doc/images/TS0042-z-SlD.png) |
-| TS0043-z-SlD        | TS0043                | TS0043    | ---                         | OTA file      | [:camera:](doc/images/TS0043-z-SlD.png) |
-| TS0044-z-SlD        | TS0044                | [TS0043](https://www.zigbee2mqtt.io/devices/TS0043.html)    | _TZ3000_ee8nrt2l            | [OTA file](https://github.com/slacky1965/tuya_battery_switch_ts004x_zed/raw/refs/heads/main/bin/1141-d3a3-1111114b-tuya_battery_switch_ts004x_zed_model_4.zigbee)      | [:camera:](doc/TS0044.md) |
+| TS0041-M001-SlD | TS0041 | TS0041 | _TZ3000_an5rjiwd | OTA file | :camera: |
+| TS0041-M002-SlD | TS0601<br> TS004F | ZG-101Z<br> ZG-101ZL | _TZE200_nojsjtj2<br> _TZ3000_ja5osu5g | OTA file | :camera: |
 
 
 Проверялся только в zigbee2mqtt. Требует всестороннего тестирования.
 
 ## Зачем. 
 
-Пульт с оригинальной прошивкой умел присылать только одиночное, двойное нажатии и удержание. Биндинга не было. С группами не работал.
+Расширение [проекта](https://github.com/slacky1965/tuya_battery_switch_ts004x_zed) до более универсальной прошивки, одной на многие выключатели.
 
-## Как обновить.
+## Как обновить. 
+<details>
+    <summary>Раскрыть</summary>
 
 С выходом новой версии `zigbee2mqtt` обновление стало в разы легче. 
 
@@ -73,6 +71,8 @@
 > [!WARNING]
 > Чтобы ввести пульт в режим сопряжения, нужно 5 раз подряд нажать любую кнопку. Каждое нажатие будет сопровождаться вспышкой светодиода. После 5-го нажатия светодиод загорится на 3 секунды. За эти 3 секунды нужно успеть нажать кнопку и удерживать ее нажатой 1-2 секунды. Понять, вошел пульт в режим сопряжения можно по моргающему светодиоду с частотой примерно 1 раз в секунду. Время, отведенное на сопряжение, не превышает полторы минуты. После чего светодиод прекращает моргать, а пульт переходит в ждущий режим.
 
+   </details>
+   
 ---
 
 ## Возможности.

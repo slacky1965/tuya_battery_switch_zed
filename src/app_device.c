@@ -1,16 +1,13 @@
 #include "app_main.h"
 
 static bool first_start = true;
-static uint8_t zb_modelId[17] = {15,'T','S','0','0','4','1','_','M','0','0','0','-','S','l','D',0};
+static uint8_t zb_modelId[17] = {15,'T','S','0','0','4','1','-','M','0','0','0','-','S','l','D',0};
 
 device_model_t device_model = DEVICE_MODEL;
 device_object_t device_object[DEVICE_MODEL_MAX];
 device_object_t *device = &device_object[DEVICE_MODEL_1];
 device_settings_t device_settings;
 bool model_in_flash = false;
-
-
-void app_gpio_init(int anaRes_init_en);
 
 static void device_gpio_init(device_gpio_t *device_gpio) {
 
@@ -23,36 +20,43 @@ static void device_gpio_init(device_gpio_t *device_gpio) {
 static void device_model_init() {
 
     device = &device_object[device_model];
-//    app_gpio_init(TRUE);
-//    /* ADC */
-//#if VOLTAGE_DETECT_ENABLE
-//    drv_adc_init();
-//    drv_adc_mode_pin_set(DRV_ADC_VBAT_MODE, VOLTAGE_DETECT_ADC_PIN);
-//    drv_adc_enable(ON);
-//#endif
-//    device_gpio_init(&device->button_gpio[0]);
-//    device_gpio_init(&device->led_gpio[0]);
+    device->device_en = ON;
+    if (!model_in_flash) {
+        device_gpio_init(&device->button_gpio[0]);
+        device_gpio_init(&device->led_gpio[0]);
+#if UART_PRINTF_MODE && DEBUG_GPIO_EN
+    } else {
+        device_gpio_init(&device->button_gpio[0]);
+        device_gpio_init(&device->led_gpio[0]);
+#endif
+    }
 #if UART_PRINTF_MODE
     device_gpio_init(&device->debug_gpio);
     gpio_write(device->debug_gpio.gpio, 1);
 #endif
     light_init();
 
-    zb_modelId[9] = 0x30 + (device_model + 1) / 100;
-    zb_modelId[10] = 0x30 + ((device_model + 1) % 100) / 10;
-    zb_modelId[11] = 0x30 + ((device_model + 1) % 100) % 10;
+    if (first_start) {
+        first_start = false;
+        zb_modelId[9] = 0x30 + (device_model + 1) / 100;
+        zb_modelId[10] = 0x30 + ((device_model + 1) % 100) / 10;
+        zb_modelId[11] = 0x30 + ((device_model + 1) % 100) % 10;
 
-    switch(device_model) {
-        case DEVICE_MODEL_1:
-            zb_modelId[6] = '1';
-            break;
-        default:
-            zb_modelId[6] = '1';
-            break;
+        switch(device_model) {
+            case DEVICE_MODEL_1:
+                zb_modelId[6] = '1';    // key num
+                break;
+            case DEVICE_MODEL_2:
+                zb_modelId[6] = '1';
+                break;
+            default:
+                zb_modelId[6] = '1';
+                break;
+        }
+        memcpy(g_zcl_basicAttrs.modelId, zb_modelId, 16);
+        g_zcl_onOffCfgAttrs[0].device_model = device_model+1;
+        button_init();
     }
-    memcpy(g_zcl_basicAttrs.modelId, zb_modelId, 16);
-    g_zcl_onOffCfgAttrs[0].device_model = device_model+1;
-    button_init();
 }
 
 #if UART_PRINTF_MODE
@@ -189,10 +193,9 @@ void device_model_save(uint8_t model) {
 
 void device_init() {
     uint8_t devi = DEVICE_MODEL_1;
-    DEBUG(UART_PRINTF_MODE, "model_in_flash: %s, model: M%03d\r\n", model_in_flash?"true":"false", device_model+1);
     if (first_start) {
-        first_start = false;
-        /* TS0203 Zbeacon Tuya  - model_1 */
+        /* TS0041 TZ3000_an5rjiwd Tuya  - model_1 */
+        device_object[devi].device_en = OFF;
         device_object[devi].button_num = 1;
         device_object[devi].button_gpio[0].gpio = GPIO_PC2;
         device_object[devi].button_gpio[0].input = ON;
@@ -210,6 +213,27 @@ void device_init() {
         device_object[devi].debug_gpio.output = ON;
         device_object[devi].debug_gpio.func = AS_GPIO;
         device_object[devi++].debug_gpio.pull = PM_PIN_PULLUP_1M;
+
+        /* TS0601 TZ3000_ja5osu5g Loginovo  - model_2 */
+        device_object[devi].device_en = OFF;
+        device_object[devi].button_num = 1;
+        device_object[devi].button_gpio[0].gpio = GPIO_PB6;
+        device_object[devi].button_gpio[0].input = ON;
+        device_object[devi].button_gpio[0].output = OFF;
+        device_object[devi].button_gpio[0].func = AS_GPIO;
+        device_object[devi].button_gpio[0].pull = PM_PIN_PULLUP_1M;
+        device_object[devi].led_gpio[0].gpio = GPIO_PC4;
+        device_object[devi].led_gpio[0].input = OFF;
+        device_object[devi].led_gpio[0].output = ON;
+        device_object[devi].led_gpio[0].func = AS_GPIO;
+        device_object[devi].led_on = 0;
+        device_object[devi].led_off = 1;
+        device_object[devi].debug_gpio.gpio = GPIO_PB1;
+        device_object[devi].debug_gpio.input = OFF;
+        device_object[devi].debug_gpio.output = ON;
+        device_object[devi].debug_gpio.func = AS_GPIO;
+        device_object[devi++].debug_gpio.pull = PM_PIN_PULLUP_1M;
+
         if (model_in_flash) {
             device_model_init();
         } else {
