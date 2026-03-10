@@ -192,6 +192,7 @@ void user_app_init(void)
     DEBUG(DEBUG_GPIO_EN, "Wakeup PC0-PC3 0x12: 0x%x\r\n", analog_read(0x12));
     DEBUG(DEBUG_GPIO_EN, "Wakeup PC4-PC7 0x13: 0x%x\r\n", analog_read(0x13));
     DEBUG(DEBUG_GPIO_EN, "Wakeup PD0-PD3 0x14: 0x%x\r\n", analog_read(0x14));
+    DEBUG(DEBUG_GPIO_EN, "Wakeup PD4-PD7 0x15: 0x%x\r\n", analog_read(0x15));
 }
 
 void app_task(void) {
@@ -207,7 +208,7 @@ void app_task(void) {
         report_handler();
 #if PM_ENABLE
         button_handler();
-        if(!button_idle() && !factory_reset) {
+        if(!button_idle() && !factory_reset && !light_idle()) {
             app_lowPowerEnter();
         }
 #endif
