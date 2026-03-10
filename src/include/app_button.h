@@ -1,6 +1,10 @@
 #ifndef SRC_INCLUDE_APP_BUTTON_H_
 #define SRC_INCLUDE_APP_BUTTON_H_
 
+#ifndef DEBOUNCE_BUTTON
+#define DEBOUNCE_BUTTON     16      /* number of polls for debounce                 */
+#endif
+
 typedef enum {
     ACTION_HOLD = 0,
     ACTION_SINGLE,
