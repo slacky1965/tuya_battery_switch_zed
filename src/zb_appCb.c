@@ -336,10 +336,13 @@ void app_otaProcessMsgHandler(u8 evt, u8 status)
  *
  * @return  None
  */
-void app_leaveCnfHandler(nlme_leave_cnf_t *pLeaveCnf)
-{
+void app_leaveCnfHandler(nlme_leave_cnf_t *pLeaveCnf) {
+
+    DEBUG(1, "app_leaveCnfHandler, status: 0x%04x\r\n", pLeaveCnf->status);
+
     if(pLeaveCnf->status == SUCCESS){
     	//SYSTEM_RESET();
+
 
         nv_sts_t device_settings_default();
 
