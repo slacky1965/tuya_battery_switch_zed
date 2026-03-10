@@ -183,7 +183,7 @@ all: pre-build main-build
 flash8000: $(BIN_FILE)
 	@python3 $(TOOLS_PATH)/TlsrPgm.py -p$(DOWNLOAD_PORT) -z11 -a 100 -s -m we 0x8000 $(BIN_FILE)
 
-flash0: $(BIN_FILE)
+flash0:
 	@python3 $(TOOLS_PATH)/TlsrPgm.py -p$(DOWNLOAD_PORT) -z11 -a 100 -s -m we 0 $(BIN_FILE)
 
 erase-flash:
