@@ -75,9 +75,7 @@ void factoryRst_handler(void){
 		zb_factoryReset();
 	    g_appCtx.net_steer_start = true;
 	    TL_ZB_TIMER_SCHEDULE(net_steer_start_offCb, NULL, TIMEOUT_1MIN30SEC);
-	    for (uint8_t i = 0; i < device->button_num; i++) {
-	        light_blink_start(90, 250, 750, i);
-	    }
+	    light_blink_all_start(90, 250, 750);
 	}
 }
 
