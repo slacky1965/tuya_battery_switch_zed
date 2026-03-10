@@ -56,6 +56,9 @@ static void device_model_init() {
             case DEVICE_MODEL_3:
                 zb_modelId[6] = '2';
                 break;
+            case DEVICE_MODEL_4:
+                zb_modelId[6] = '4';
+                break;
             default:
                 zb_modelId[6] = '1';
                 break;
@@ -79,6 +82,27 @@ static void print_setting_sr(nv_sts_t st, device_settings_t *device_settings_tmp
 }
 #endif
 
+static void set_device_setting_default(device_settings_t *settings) {
+
+    DEBUG(DEBUG_SAVE_EN, "set_device_setting_default\r\n");
+
+    memset(settings, 0, sizeof(device_settings_t));
+
+    for (uint8_t i = 0; i < device->button_num; i++) {
+        if (device_model == DEVICE_MODEL_4) {
+            if (i == 0 || i == 1) settings->switchActions[i] = ZCL_SWITCH_ACTION_OFF_ON;
+            if (i == 2 || i == 3) settings->switchActions[i] = ZCL_SWITCH_ACTION_ON_OFF;
+        } else {
+            settings->switchActions[i] = ZCL_SWITCH_ACTION_TOGGLE;
+            settings->switchType[i] = ZCL_SWITCH_TYPE_TOGGLE;
+        }
+        settings->defaultMoveRate[i] = DEFAULT_MOVE_RATE;
+        settings->scene[i].groupId = 0;
+        settings->scene[i].sceneId = 0;
+    }
+
+}
+
 nv_sts_t device_settings_default() {
 
     nv_sts_t st = NV_SUCC;
@@ -87,13 +111,7 @@ nv_sts_t device_settings_default() {
 
     DEBUG(UART_PRINTF_MODE, "Saved device default settings\r\n");
 
-    for (uint8_t i = 0; i < DEVICE_BUTTON_MAX; i++) {
-        device_settings.switchActions[i] = ZCL_SWITCH_ACTION_TOGGLE;
-        device_settings.switchType[i] = ZCL_SWITCH_TYPE_TOGGLE;
-        device_settings.defaultMoveRate[i] = DEFAULT_MOVE_RATE;
-        device_settings.scene[i].groupId = 0;
-        device_settings.scene[i].sceneId = 0;
-    }
+    set_device_setting_default(&device_settings);
 
     device_settings.crc = checksum((uint8_t*)&device_settings, sizeof(device_settings_t)-1);
     st = nv_flashWriteNew(1, NV_MODULE_APP,  NV_ITEM_APP_USER_CFG, sizeof(device_settings_t), (uint8_t*)&device_settings);
@@ -125,18 +143,11 @@ nv_sts_t device_settings_restore() {
     } else {
         /* default config */
         DEBUG(UART_PRINTF_MODE, "Default device settings \r\n");
-
-        for (uint8_t i = 0; i < DEVICE_BUTTON_MAX; i++) {
-            device_settings_tmp.switchActions[i] = ZCL_SWITCH_ACTION_TOGGLE;
-            device_settings_tmp.switchType[i] = ZCL_SWITCH_TYPE_TOGGLE;
-            device_settings_tmp.defaultMoveRate[i] = DEFAULT_MOVE_RATE;
-            device_settings_tmp.scene[i].groupId = 0;
-            device_settings_tmp.scene[i].sceneId = 0;
-        }
+        set_device_setting_default(&device_settings_tmp);
     }
 
     memcpy(&device_settings, &device_settings_tmp, (sizeof(device_settings_t)));
-    for (uint8_t i = 0; i < DEVICE_BUTTON_MAX; i++) {
+    for (uint8_t i = 0; i < device->button_num; i++) {
         g_zcl_onOffCfgAttrs[i].custom_swtichType = device_settings.switchType[i];
         g_zcl_onOffCfgAttrs[i].switchActions = device_settings.switchActions[i];
         g_zcl_levelAttrs[i].defaultMoveRate = device_settings.defaultMoveRate[i];
@@ -209,6 +220,7 @@ void device_init() {
         device_object[devi].button_gpio[0].output = OFF;
         device_object[devi].button_gpio[0].func = AS_GPIO;
         device_object[devi].button_gpio[0].pull = PM_PIN_PULLUP_1M;
+        device_object[devi].button_debounce = DEBOUNCE_BUTTON;
         device_object[devi].led_gpio[0].gpio = GPIO_PC4;
         device_object[devi].led_gpio[0].input = OFF;
         device_object[devi].led_gpio[0].output = ON;
@@ -229,6 +241,7 @@ void device_init() {
         device_object[devi].button_gpio[0].output = OFF;
         device_object[devi].button_gpio[0].func = AS_GPIO;
         device_object[devi].button_gpio[0].pull = PM_PIN_PULLUP_1M;
+        device_object[devi].button_debounce = DEBOUNCE_BUTTON;
         device_object[devi].led_gpio[0].gpio = GPIO_PC4;
         device_object[devi].led_gpio[0].input = OFF;
         device_object[devi].led_gpio[0].output = ON;
@@ -254,6 +267,7 @@ void device_init() {
         device_object[devi].button_gpio[1].output = OFF;
         device_object[devi].button_gpio[1].func = AS_GPIO;
         device_object[devi].button_gpio[1].pull = PM_PIN_PULLUP_1M;
+        device_object[devi].button_debounce = DEBOUNCE_BUTTON;
         device_object[devi].led_gpio[0].gpio = GPIO_PC1;
         device_object[devi].led_gpio[0].input = OFF;
         device_object[devi].led_gpio[0].output = ON;
@@ -264,6 +278,54 @@ void device_init() {
         device_object[devi].led_gpio[1].func = AS_GPIO;
         device_object[devi].led_on = 1;
         device_object[devi].led_off = 0;
+        device_object[devi].debug_gpio.gpio = GPIO_PB1;
+        device_object[devi].debug_gpio.input = OFF;
+        device_object[devi].debug_gpio.output = ON;
+        device_object[devi].debug_gpio.func = AS_GPIO;
+        device_object[devi++].debug_gpio.pull = PM_PIN_PULLUP_1M;
+
+        /* TS0044 HOBEIAN Tuya - model_4 */
+        device_object[devi].device_en = OFF;
+        device_object[devi].button_num = 4;
+        device_object[devi].button_gpio[0].gpio = GPIO_PC4;
+        device_object[devi].button_gpio[0].input = ON;
+        device_object[devi].button_gpio[0].output = OFF;
+        device_object[devi].button_gpio[0].func = AS_GPIO;
+        device_object[devi].button_gpio[0].pull = PM_PIN_PULLUP_1M;
+        device_object[devi].button_gpio[1].gpio = GPIO_PD3;
+        device_object[devi].button_gpio[1].input = ON;
+        device_object[devi].button_gpio[1].output = OFF;
+        device_object[devi].button_gpio[1].func = AS_GPIO;
+        device_object[devi].button_gpio[1].pull = PM_PIN_PULLUP_1M;
+        device_object[devi].button_gpio[2].gpio = GPIO_PB5;
+        device_object[devi].button_gpio[2].input = ON;
+        device_object[devi].button_gpio[2].output = OFF;
+        device_object[devi].button_gpio[2].func = AS_GPIO;
+        device_object[devi].button_gpio[2].pull = PM_PIN_PULLUP_1M;
+        device_object[devi].button_gpio[3].gpio = GPIO_PD7;
+        device_object[devi].button_gpio[3].input = ON;
+        device_object[devi].button_gpio[3].output = OFF;
+        device_object[devi].button_gpio[3].func = AS_GPIO;
+        device_object[devi].button_gpio[3].pull = PM_PIN_PULLUP_1M;
+        device_object[devi].button_debounce = DEBOUNCE_BUTTON * 2;
+        device_object[devi].led_gpio[0].gpio = GPIO_PC3;
+        device_object[devi].led_gpio[0].input = OFF;
+        device_object[devi].led_gpio[0].output = ON;
+        device_object[devi].led_gpio[0].func = AS_GPIO;
+        device_object[devi].led_gpio[1].gpio = GPIO_PD4;
+        device_object[devi].led_gpio[1].input = OFF;
+        device_object[devi].led_gpio[1].output = ON;
+        device_object[devi].led_gpio[1].func = AS_GPIO;
+        device_object[devi].led_gpio[2].gpio = GPIO_PB6;
+        device_object[devi].led_gpio[2].input = OFF;
+        device_object[devi].led_gpio[2].output = ON;
+        device_object[devi].led_gpio[2].func = AS_GPIO;
+        device_object[devi].led_gpio[3].gpio = GPIO_PA0;
+        device_object[devi].led_gpio[3].input = OFF;
+        device_object[devi].led_gpio[3].output = ON;
+        device_object[devi].led_gpio[3].func = AS_GPIO;
+        device_object[devi].led_on = 0;
+        device_object[devi].led_off = 1;
         device_object[devi].debug_gpio.gpio = GPIO_PB1;
         device_object[devi].debug_gpio.input = OFF;
         device_object[devi].debug_gpio.output = ON;

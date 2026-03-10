@@ -12,6 +12,7 @@ typedef enum {
     DEVICE_MODEL_1 = 0,
     DEVICE_MODEL_2,
     DEVICE_MODEL_3,
+    DEVICE_MODEL_4,
     DEVICE_MODEL_MAX
 } device_model_t;
 
@@ -35,7 +36,7 @@ typedef struct __attribute__((packed)) {
     uint8_t             button_num :5;
     device_gpio_t       button_gpio[DEVICE_BUTTON_MAX];
     device_gpio_t       led_gpio[DEVICE_BUTTON_MAX];
-    uint8_t             switch_debounce;
+    uint8_t             button_debounce;
     device_gpio_t       debug_gpio;
 } device_object_t;
 
