@@ -78,12 +78,13 @@
 #define DEBUG_BATTERY_EN                OFF
 #define DEBUG_PM_EN                     ON
 #define DEBUG_OTA_EN                    ON
-#define DEBUG_ONOFF_EN                  OFF
-#define DEBUG_LEVEL_EN                  OFF
+#define DEBUG_ONOFF_EN                  ON
+#define DEBUG_LEVEL_EN                  ON
 #define DEBUG_SCENE_EN                  ON
 #define DEBUG_GPIO_EN                   ON
 #define DEBUG_LED_EN                    OFF
 #define DEBUG_ZCL_CB_EN                 OFF
+#define DEBUG_ZB_CB_EN                  OFF
 
 #if UART_PRINTF_MODE
 #define DEBUG_INFO_TX_PIN       GPIO_PB1
