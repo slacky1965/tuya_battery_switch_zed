@@ -60,7 +60,7 @@ void app_lowPowerEnter() {
     } else /*if (zb_isDeviceJoinedNwk())*/{
         /* app deep sleep with SRAM retention */
         if (tl_stackBusy() || !zb_isTaskDone()) {
-            DEBUG(DEBUG_PM_EN, "Stack or Task busy. Return from deep sleep start\r\n");
+            APP_DEBUG(DEBUG_PM_EN, "Stack or Task busy. Return from deep sleep start\r\n");
             return;
         }
 
@@ -71,7 +71,7 @@ void app_lowPowerEnter() {
 
         durationMs = g_appCtx.timerBatteryEvt->timeout /*TIME_LONG_DEEP_SLEEP * 1000*/;
 
-        DEBUG(DEBUG_PM_EN, "Long deep sleep start with time: %d sec\r\n", durationMs / 1000);
+        APP_DEBUG(DEBUG_PM_EN, "Long deep sleep start with time: %d sec\r\n", durationMs / 1000);
 
         drv_pm_longSleep(PM_SLEEP_MODE_DEEP_WITH_RETENTION, PM_WAKEUP_SRC_PAD | PM_WAKEUP_SRC_TIMER, durationMs);
 

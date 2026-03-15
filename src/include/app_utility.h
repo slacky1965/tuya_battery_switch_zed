@@ -4,6 +4,8 @@
 /* for clock_time_exceed() */
 #define TIMEOUT_TICK_200MS  200*1000        /* timeout 200 ms   */
 #define TIMEOUT_TICK_250MS  250*1000        /* timeout 250 ms   */
+#define TIMEOUT_TICK_300MS  300*1000        /* timeout 300 ms   */
+#define TIMEOUT_TICK_500MS  500*1000        /* timeout 500 ms   */
 #define TIMEOUT_TICK_750MS  750*1000        /* timeout 750 ms   */
 #define TIMEOUT_TICK_1SEC   1000*1000       /* timeout 1 sec    */
 #define TIMEOUT_TICK_5SEC   5*1000*1000     /* timeout 5 sec    */
@@ -42,6 +44,19 @@
 #define TIMEOUT_3HOUR      10800 * 1000     /* timeout 3 hour   */
 #define TIMEOUT_4HOUR      14400 * 1000     /* timeout 4 hour   */
 #define TIMEOUT_8HOUR      28800 * 1000     /* timeout 8 hour   */
+
+#if (UART_PRINTF_MODE || USB_PRINTF_MODE)
+#define APP_DEBUG(compileFlag, ...)             do{ \
+                                                    if(compileFlag) { \
+                                                        uint32_t r = drv_disable_irq(); \
+                                                        TRACE(__VA_ARGS__); \
+                                                        drv_restore_irq(r); \
+                                                    } \
+                                                }while(0)
+
+#else
+    #define APP_DEBUG(compileFlag, ...)
+#endif
 
 void start_message();
 int32_t poll_rateAppCb(void *arg);

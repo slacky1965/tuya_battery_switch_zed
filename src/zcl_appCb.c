@@ -87,7 +87,7 @@ static ev_timer_event_t *identifyTimerEvt = NULL;
  */
 void app_zclProcessIncomingMsg(zclIncoming_t *pInHdlrMsg)
 {
-	DEBUG(DEBUG_ZCL_CB_EN, "app_zclProcessIncomingMsg\r\n");
+	APP_DEBUG(DEBUG_ZCL_CB_EN, "app_zclProcessIncomingMsg\r\n");
 
 	uint16_t cluster = pInHdlrMsg->msg->indInfo.cluster_id;
 	uint8_t endPoint = pInHdlrMsg->msg->indInfo.dst_ep;
@@ -137,7 +137,7 @@ void app_zclProcessIncomingMsg(zclIncoming_t *pInHdlrMsg)
  */
 static void app_zclReadRspCmd(uint16_t clusterId, zclReadRspCmd_t *pReadRspCmd)
 {
-    DEBUG(DEBUG_ZCL_CB_EN, "app_zclReadRspCmd\r\n");
+    APP_DEBUG(DEBUG_ZCL_CB_EN, "app_zclReadRspCmd\r\n");
 
 }
 #endif	/* ZCL_READ */
@@ -154,7 +154,7 @@ static void app_zclReadRspCmd(uint16_t clusterId, zclReadRspCmd_t *pReadRspCmd)
  */
 static void app_zclWriteRspCmd(uint16_t clusterId, zclWriteRspCmd_t *pWriteRspCmd)
 {
-    DEBUG(DEBUG_ZCL_CB_EN, "app_zclWriteRspCmd\r\n");
+    APP_DEBUG(DEBUG_ZCL_CB_EN, "app_zclWriteRspCmd\r\n");
 
 }
 
@@ -172,7 +172,7 @@ static void app_zclWriteReqCmd(uint8_t endPoint, uint16_t clusterId, zclWriteCmd
     zclWriteRec_t *attr = pWriteReqCmd->attrList;
     bool save = false;
 
-    DEBUG(DEBUG_ZCL_CB_EN, "app_zclWriteReqCmd\r\n");
+    APP_DEBUG(DEBUG_ZCL_CB_EN, "app_zclWriteReqCmd\r\n");
 
     uint8_t idx = endPoint - 1;
     zcl_onOffCfgAttr_t *pOnOffCfg = zcl_onOffCfgAttrsGet();
@@ -182,7 +182,7 @@ static void app_zclWriteReqCmd(uint8_t endPoint, uint16_t clusterId, zclWriteCmd
         for (u8 i = 0; i < numAttr; i++) {
             if (attr[i].attrID == ZCL_CUSTOM_ATTRID_SWITCH_TYPE) {
                 uint8_t type = attr[i].attrData[0];
-                DEBUG(DEBUG_ZCL_CB_EN, "type: 0x%02x, ep: %d\r\n", type, endPoint);
+                APP_DEBUG(DEBUG_ZCL_CB_EN, "type: 0x%02x, ep: %d\r\n", type, endPoint);
                 if (type >= ZCL_SWITCH_TYPE_TOGGLE && type < ZCL_CUSTOM_SWITCH_TYPE_MAXNUM) {
                     device_settings.switchType[idx] = type;
                     pOnOffCfg->switchType = type;
@@ -190,12 +190,12 @@ static void app_zclWriteReqCmd(uint8_t endPoint, uint16_t clusterId, zclWriteCmd
                 }
             } else if (attr[i].attrID == ZCL_ATTRID_SWITCH_ACTION) {
                 uint8_t action = attr[i].attrData[0];
-                DEBUG(DEBUG_ZCL_CB_EN, "action: 0x%02x, ep: %d\r\n", action, endPoint);
+                APP_DEBUG(DEBUG_ZCL_CB_EN, "action: 0x%02x, ep: %d\r\n", action, endPoint);
                 device_settings.switchActions[idx] = action;
                 save = true;
             } else if (attr[i].attrID == ZCL_CUSTOM_ATTRID_DEVICE_MODEL) {
                 uint8_t model = attr[i].attrData[0];
-                DEBUG(DEBUG_ZCL_CB_EN, "model: 0x%02x, ep: %d\r\n", model, endPoint);
+                APP_DEBUG(DEBUG_ZCL_CB_EN, "model: 0x%02x, ep: %d\r\n", model, endPoint);
                 model--;
                 if (model >= DEVICE_MODEL_1 && model < DEVICE_MODEL_MAX) {
                     device_model_save(model);
@@ -208,7 +208,7 @@ static void app_zclWriteReqCmd(uint8_t endPoint, uint16_t clusterId, zclWriteCmd
         for (u8 i = 0; i < numAttr; i++) {
             if (attr[i].attrID == ZCL_ATTRID_LEVEL_DEFAULT_MOVE_RATE) {
                 uint8_t rate = attr[i].attrData[0];
-                DEBUG(DEBUG_ZCL_CB_EN, "Level rate: 0x%02x, ep: %d\r\n", rate, endPoint);
+                APP_DEBUG(DEBUG_ZCL_CB_EN, "Level rate: 0x%02x, ep: %d\r\n", rate, endPoint);
                 device_settings.defaultMoveRate[idx] = rate;
                 save = true;
             }
@@ -219,13 +219,13 @@ static void app_zclWriteReqCmd(uint8_t endPoint, uint16_t clusterId, zclWriteCmd
         for (u8 i = 0; i < numAttr; i++) {
             if (attr[i].attrID == ZCL_CUSTOM_ATTRID_SCENE_SCENE_ID) {
                 uint8_t scene = attr[i].attrData[0];
-                DEBUG(DEBUG_ZCL_CB_EN, "Scne ID: 0x%02x, ep: %d\r\n", scene, endPoint);
+                APP_DEBUG(DEBUG_ZCL_CB_EN, "Scne ID: 0x%02x, ep: %d\r\n", scene, endPoint);
                 device_settings.scene[idx].sceneId = scene;
                 save = true;
             } else if (attr[i].attrID == ZCL_CUSTOM_ATTRID_SCENE_GROUP_ID) {
                 uint16_t group = attr[i].attrData[0] & 0xff;
                 group |= (attr[i].attrData[1] << 8) & 0xffff;
-                DEBUG(DEBUG_ZCL_CB_EN, "Group ID: 0x%04x, ep: %d\r\n", group, endPoint);
+                APP_DEBUG(DEBUG_ZCL_CB_EN, "Group ID: 0x%04x, ep: %d\r\n", group, endPoint);
                 device_settings.scene[idx].groupId = group;
                 save = true;
             }
@@ -259,7 +259,7 @@ static void app_zclWriteReqCmd(uint8_t endPoint, uint16_t clusterId, zclWriteCmd
  */
 static void app_zclDfltRspCmd(uint16_t clusterId, zclDefaultRspCmd_t *pDftRspCmd)
 {
-    DEBUG(DEBUG_ZCL_CB_EN, "app_zclDfltRspCmd\r\n");
+    APP_DEBUG(DEBUG_ZCL_CB_EN, "app_zclDfltRspCmd\r\n");
 
 }
 
@@ -276,12 +276,12 @@ static void app_zclDfltRspCmd(uint16_t clusterId, zclDefaultRspCmd_t *pDftRspCmd
  */
 static void app_zclCfgReportCmd(uint8_t endPoint, uint16_t clusterId, zclCfgReportCmd_t *pCfgReportCmd)
 {
-//    DEBUG(DEBUG_ZCL_CB_EN, "app_zclCfgReportCmd\r\n");
+//    APP_DEBUG(DEBUG_ZCL_CB_EN, "app_zclCfgReportCmd\r\n");
 //    reportCfgInfo_t *pEntry = NULL;
 //    for (u8 i = 0; i < ZCL_REPORTING_TABLE_NUM; i++) {
 //        pEntry = &reportingTab.reportCfgInfo[i];
 //        if (pEntry->used) {
-//            DEBUG(DEBUG_ZCL_CB_EN, "ep: %d, cluster: 0x%04x, attr: 0x%04x, min: %d, max: %d\r\n", pEntry->endPoint, pEntry->clusterID, pEntry->attrID, pEntry->minInterval, pEntry->maxInterval);
+//            APP_DEBUG(DEBUG_ZCL_CB_EN, "ep: %d, cluster: 0x%04x, attr: 0x%04x, min: %d, max: %d\r\n", pEntry->endPoint, pEntry->clusterID, pEntry->attrID, pEntry->minInterval, pEntry->maxInterval);
 //        }
 //
 //    }
@@ -289,7 +289,7 @@ static void app_zclCfgReportCmd(uint8_t endPoint, uint16_t clusterId, zclCfgRepo
     if (clusterId == ZCL_CLUSTER_GEN_POWER_CFG) {
         for (uint8_t i = 0; i < pCfgReportCmd->numAttr; i++) {
             if (pCfgReportCmd->attrList[i].attrID == ZCL_ATTRID_BATTERY_PERCENTAGE_REMAINING) {
-                DEBUG(DEBUG_REPORTING_EN, "Battery reporting configure - ep: %d, clId: 0x%04x, attrId: 0x%04x, maxInterval: %d\r\n",
+                APP_DEBUG(DEBUG_REPORTING_EN, "Battery reporting configure - ep: %d, clId: 0x%04x, attrId: 0x%04x, maxInterval: %d\r\n",
                         endPoint, clusterId, pCfgReportCmd->attrList[i].attrID, pCfgReportCmd->attrList[i].maxReportInt);
 
                 if (g_appCtx.timerBatteryEvt) {
@@ -314,7 +314,7 @@ static void app_zclCfgReportCmd(uint8_t endPoint, uint16_t clusterId, zclCfgRepo
  */
 static void app_zclCfgReportRspCmd(uint16_t clusterId, zclCfgReportRspCmd_t *pCfgReportRspCmd)
 {
-    DEBUG(DEBUG_ZCL_CB_EN, "app_zclCfgReportRspCmd\r\n");
+    APP_DEBUG(DEBUG_ZCL_CB_EN, "app_zclCfgReportRspCmd\r\n");
 
 }
 
@@ -329,7 +329,7 @@ static void app_zclCfgReportRspCmd(uint16_t clusterId, zclCfgReportRspCmd_t *pCf
  */
 static void app_zclReportCmd(uint16_t clusterId, zclReportCmd_t *pReportCmd)
 {
-    DEBUG(DEBUG_ZCL_CB_EN, "app_zclReportCmd\r\n");
+    APP_DEBUG(DEBUG_ZCL_CB_EN, "app_zclReportCmd\r\n");
 
 }
 #endif	/* ZCL_REPORT */
@@ -529,7 +529,7 @@ status_t app_powerCfgCb(zclIncomingAddrInfo_t *pAddrInfo, uint8_t cmdId, void *c
  */
 static void app_zclAddGroupRspCmdHandler(zcl_addGroupRsp_t *pAddGroupRsp)
 {
-    DEBUG(DEBUG_ZCL_CB_EN, "app_zclAddGroupRspCmdHandler\r\n");
+    APP_DEBUG(DEBUG_ZCL_CB_EN, "app_zclAddGroupRspCmdHandler\r\n");
 }
 
 /*********************************************************************
@@ -543,7 +543,7 @@ static void app_zclAddGroupRspCmdHandler(zcl_addGroupRsp_t *pAddGroupRsp)
  */
 static void app_zclViewGroupRspCmdHandler(zcl_viewGroupRsp_t *pViewGroupRsp)
 {
-    DEBUG(DEBUG_ZCL_CB_EN, "app_zclViewGroupRspCmdHandler\r\n");
+    APP_DEBUG(DEBUG_ZCL_CB_EN, "app_zclViewGroupRspCmdHandler\r\n");
 }
 
 /*********************************************************************
@@ -557,7 +557,7 @@ static void app_zclViewGroupRspCmdHandler(zcl_viewGroupRsp_t *pViewGroupRsp)
  */
 static void app_zclRemoveGroupRspCmdHandler(zcl_removeGroupRsp_t *pRemoveGroupRsp)
 {
-    DEBUG(DEBUG_ZCL_CB_EN, "app_zclRemoveGroupRspCmdHandler\r\n");
+    APP_DEBUG(DEBUG_ZCL_CB_EN, "app_zclRemoveGroupRspCmdHandler\r\n");
 }
 
 /*********************************************************************
@@ -571,7 +571,7 @@ static void app_zclRemoveGroupRspCmdHandler(zcl_removeGroupRsp_t *pRemoveGroupRs
  */
 static void app_zclGetGroupMembershipRspCmdHandler(zcl_getGroupMembershipRsp_t *pGetGroupMembershipRsp)
 {
-    DEBUG(DEBUG_ZCL_CB_EN, "app_zclGetGroupMembershipRspCmdHandler\r\n");
+    APP_DEBUG(DEBUG_ZCL_CB_EN, "app_zclGetGroupMembershipRspCmdHandler\r\n");
 }
 
 /*********************************************************************
@@ -587,7 +587,7 @@ static void app_zclGetGroupMembershipRspCmdHandler(zcl_getGroupMembershipRsp_t *
  */
 status_t app_groupCb(zclIncomingAddrInfo_t *pAddrInfo, uint8_t cmdId, void *cmdPayload)
 {
-    DEBUG(DEBUG_ZCL_CB_EN, "app_groupCb\r\n");
+    APP_DEBUG(DEBUG_ZCL_CB_EN, "app_groupCb\r\n");
 	if(pAddrInfo->dstEp == APP_ENDPOINT1){
 		if(pAddrInfo->dirCluster == ZCL_FRAME_SERVER_CLIENT_DIR){
 			switch(cmdId){
@@ -714,7 +714,7 @@ static void app_zclGetSceneMembershipRspCmdHandler(getSceneMemRsp_t *pGetSceneMe
  */
 status_t app_sceneCb(zclIncomingAddrInfo_t *pAddrInfo, uint8_t cmdId, void *cmdPayload) {
 
-    DEBUG(DEBUG_ZCL_CB_EN, "app_sceneCb\r\n");
+    APP_DEBUG(DEBUG_ZCL_CB_EN, "app_sceneCb\r\n");
 
 //    if(pAddrInfo->dirCluster == ZCL_FRAME_SERVER_CLIENT_DIR){
 //        switch(cmdId){
@@ -928,7 +928,7 @@ status_t app_pollCtrlCb(zclIncomingAddrInfo_t *pAddrInfo, uint8_t cmdId, void *c
 
 status_t app_msInputCb(zclIncomingAddrInfo_t *pAddrInfo, uint8_t cmdId, void *cmdPayload) {
 
-    DEBUG(DEBUG_ZCL_CB_EN, "app_aInputCb(). pAddrInfo->dirCluster: %0x%x, cmdId: 0x%x\r\n", pAddrInfo->dirCluster, cmdId);
+    APP_DEBUG(DEBUG_ZCL_CB_EN, "app_aInputCb(). pAddrInfo->dirCluster: %0x%x, cmdId: 0x%x\r\n", pAddrInfo->dirCluster, cmdId);
 
     status_t status = ZCL_STA_SUCCESS;
 
@@ -948,7 +948,7 @@ status_t app_msInputCb(zclIncomingAddrInfo_t *pAddrInfo, uint8_t cmdId, void *cm
  */
 
 status_t app_levelCb(zclIncomingAddrInfo_t *pAddrInfo, u8 cmdId, void *cmdPayload) {
-    DEBUG(DEBUG_ZCL_CB_EN, "app_LevelCb\r\n");
+    APP_DEBUG(DEBUG_ZCL_CB_EN, "app_LevelCb\r\n");
 //    if(pAddrInfo->dstEp == APP_ENDPOINT1 || pAddrInfo->dstEp == APP_ENDPOINT2) {
 //        switch(cmdId){
 //            case ZCL_CMD_LEVEL_MOVE_TO_LEVEL:

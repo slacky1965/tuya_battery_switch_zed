@@ -3,29 +3,29 @@
 
 #include "app_main.h"
 
-#define DEBUG_LED_EN1 1
+#define DEBUG_LED_EN1 1 //DEBUG_LED_EN
 
 light_t light[DEVICE_BUTTON_MAX];
 
 void led_on(uint8_t pin_idx) {
-    DEBUG(DEBUG_LED_EN, "LED %d is ON\r\n", pin_idx+1);
+    APP_DEBUG(DEBUG_LED_EN, "LED %d is ON\r\n", pin_idx+1);
     if (device->device_en) drv_gpio_write(device->led_gpio[pin_idx].gpio, LED_ON(device->led_on));
 //    light[pin_idx].led_status = true;
 }
 
 void led_off(uint8_t pin_idx) {
-    DEBUG(DEBUG_LED_EN, "LED %d is OFF\r\n", pin_idx+1);
+    APP_DEBUG(DEBUG_LED_EN, "LED %d is OFF\r\n", pin_idx+1);
     if (device->device_en) drv_gpio_write(device->led_gpio[pin_idx].gpio, LED_OFF(device->led_off));
 //    light[pin_idx].led_status = false;
 }
 
 void light_on(uint8_t pin_idx) {
-    DEBUG(DEBUG_LED_EN, "light %d is ON\r\n", pin_idx+1);
+    APP_DEBUG(DEBUG_LED_EN, "light %d is ON\r\n", pin_idx+1);
     if (device->device_en) led_on(pin_idx);
 }
 
 void light_off(uint8_t pin_idx) {
-    DEBUG(DEBUG_LED_EN, "light %d is OFF\r\n", pin_idx+1);
+    APP_DEBUG(DEBUG_LED_EN, "light %d is OFF\r\n", pin_idx+1);
     if (device->device_en) led_off(pin_idx);
 }
 
@@ -71,7 +71,7 @@ void light_blink_start(uint8_t times, uint16_t ledOnTime, uint16_t ledOffTime, u
     lt->times = times;
 
     if(!lt->timerLedEvt){
-        DEBUG(DEBUG_LED_EN1, "pin_idx: %d, light_blink_start, times: %d, onTime: %d, offTime: %d\r\n", pin_idx, times, ledOnTime, ledOffTime);
+        APP_DEBUG(DEBUG_LED_EN1, "pin_idx: %d, light_blink_start, times: %d, onTime: %d, offTime: %d\r\n", pin_idx, times, ledOnTime, ledOffTime);
         if(lt->oriSta) {
             light_off(pin_idx);
             lt->sta = 0;
@@ -91,28 +91,28 @@ void light_blink_start(uint8_t times, uint16_t ledOnTime, uint16_t ledOffTime, u
 }
 
 void light_blink_stop(uint8_t pin_idx) {
-    DEBUG(DEBUG_LED_EN1, "light_blink_stop\r\n");
+    APP_DEBUG(DEBUG_LED_EN1, "light_blink_stop\r\n");
 
     light_t *lt = &light[pin_idx];
 
     if(lt->timerLedEvt) {
-        DEBUG(DEBUG_LED_EN1, "idx: %d, timerLedEvt true\r\n", pin_idx);
+        APP_DEBUG(DEBUG_LED_EN1, "idx: %d, timerLedEvt true\r\n", pin_idx);
         TL_ZB_TIMER_CANCEL(&lt->timerLedEvt);
         lt->times = 0;
     }
     light_off(pin_idx);
-    DEBUG(DEBUG_LED_EN1, "idx: %d, status: %d, timerLedEvt? %s\r\n", pin_idx, lt->led_status, lt->timerLedEvt?"true":"NULL");
+    APP_DEBUG(DEBUG_LED_EN1, "idx: %d, status: %d, timerLedEvt? %s\r\n", pin_idx, lt->led_status, lt->timerLedEvt?"true":"NULL");
 }
 
 void light_blink_all_start(uint8_t times, uint16_t ledOnTime, uint16_t ledOffTime) {
-    DEBUG(DEBUG_LED_EN1, "light_blink_all_start\r\n");
+    APP_DEBUG(DEBUG_LED_EN1, "light_blink_all_start\r\n");
     for (uint8_t i = 0; i < device->button_num; i++) {
         light_blink_start(times, ledOnTime, ledOffTime, i);
     }
 }
 
 void light_blink_all_stop() {
-    DEBUG(DEBUG_LED_EN1, "light_blink_all_stop\r\n");
+    APP_DEBUG(DEBUG_LED_EN1, "light_blink_all_stop\r\n");
     for (uint8_t i = 0; i < device->button_num; i++) {
         light_blink_stop(i);
     }

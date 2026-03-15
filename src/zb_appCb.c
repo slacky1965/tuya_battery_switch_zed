@@ -102,7 +102,7 @@ static s32 app_rejoinBackoff(void *arg)
         return -1;
     }
 
-    //printf("rejoin mode = %d\n", rejoinMode);
+    //APP_DEBUG(DEBUG_ZB_CB_EN, "rejoin mode = %d\n", rejoinMode);
 
     zb_rejoinSecModeSet(rejoinMode);
     zb_rejoinReq(zb_apsChannelMaskGet(), g_bdbAttrs.scanDuration);
@@ -125,7 +125,7 @@ static s32 app_rejoinBackoff(void *arg)
  */
 void zb_bdbInitCb(u8 status, u8 joinedNetwork)
 {
-    //printf("bdbInitCb: sta = %x, joined = %x\n", status, joinedNetwork);
+    //APP_DEBUG(DEBUG_ZB_CB_EN, "bdbInitCb: sta = %x, joined = %x\n", status, joinedNetwork);
 
     if (status == BDB_INIT_STATUS_SUCCESS) {
         /*
@@ -181,7 +181,7 @@ void zb_bdbInitCb(u8 status, u8 joinedNetwork)
  */
 void zb_bdbCommissioningCb(u8 status, void *arg)
 {
-    //printf("bdbCommCb: sta = %x\n", status);
+    //APP_DEBUG(DEBUG_ZB_CB_EN, "bdbCommCb: sta = %x\n", status);
 
     switch (status) {
     case BDB_COMMISSION_STA_SUCCESS:
@@ -296,7 +296,7 @@ void zb_bdbFindBindSuccessCb(findBindDst_t *pDstInfo)
 #ifdef ZCL_OTA
 void app_otaProcessMsgHandler(u8 evt, u8 status)
 {
-    //printf("app_otaProcessMsgHandler: status = %x\n", status);
+    //APP_DEBUG(DEBUG_ZB_CB_EN, "app_otaProcessMsgHandler: status = %x\n", status);
     if (evt == OTA_EVT_START) {
         if (status == ZCL_STA_SUCCESS) {
             DEBUG(DEBUG_OTA_EN, "OTA update start.\r\n");
@@ -382,7 +382,7 @@ void app_leaveCnfHandler(nlme_leave_cnf_t *pLeaveCnf) {
  */
 void app_leaveIndHandler(nlme_leave_ind_t *pLeaveInd)
 {
-    //printf("app_leaveIndHandler, rejoin = %d\n", pLeaveInd->rejoin);
+    //APP_DEBUG(DEBUG_ZB_CB_EN, "app_leaveIndHandler, rejoin = %d\n", pLeaveInd->rejoin);
     //printfArray(pLeaveInd->device_address, 8);
 }
 
@@ -397,12 +397,12 @@ void app_leaveIndHandler(nlme_leave_ind_t *pLeaveInd)
  */
 void app_nwkStatusIndHandler(zdo_nwk_status_ind_t *pNwkStatusInd)
 {
-    //printf("nwkStatusIndHandler: addr = %x, status = %x\n", pNwkStatusInd->shortAddr, pNwkStatusInd->status);
+    //APP_DEBUG(DEBUG_ZB_CB_EN, "nwkStatusIndHandler: addr = %x, status = %x\n", pNwkStatusInd->shortAddr, pNwkStatusInd->status);
 
     if (pNwkStatusInd->status == NWK_COMMAND_STATUS_BAD_FRAME_COUNTER) {
         tl_zb_normal_neighbor_entry_t *nbe = nwk_neTblGetByShortAddr(pNwkStatusInd->shortAddr);
         if (nbe) {
-            //printf("curFC = %d, rcvFC = %d, failCnt = %d\n", nbe->incomingFrameCnt, nbe->receivedFrameCnt, nbe->frameCounterFailCnt);
+            //APP_DEBUG(DEBUG_ZB_CB_EN, "curFC = %d, rcvFC = %d, failCnt = %d\n", nbe->incomingFrameCnt, nbe->receivedFrameCnt, nbe->frameCounterFailCnt);
         }
     } else if (pNwkStatusInd->status == NWK_COMMAND_STATUS_BAD_KEY_SEQUENCE_NUMBER) {
         zb_rejoinSecModeSet(REJOIN_INSECURITY);

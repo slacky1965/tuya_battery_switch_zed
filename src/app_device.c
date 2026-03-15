@@ -72,11 +72,11 @@ static void device_model_init() {
 #if UART_PRINTF_MODE
 static void print_setting_sr(nv_sts_t st, device_settings_t *device_settings_tmp, bool save) {
 
-    DEBUG(DEBUG_SAVE_EN, "Settings %s. Return: %s\r\n", save?"saved":"restored", st==NV_SUCC?"Ok":"Error");
+    APP_DEBUG(DEBUG_SAVE_EN, "Settings %s. Return: %s\r\n", save?"saved":"restored", st==NV_SUCC?"Ok":"Error");
 
     for (uint8_t i = 0; i < DEVICE_BUTTON_MAX; i++) {
-        DEBUG(DEBUG_SAVE_EN, "switchActions%d:     0x%02x\r\n", i, device_settings_tmp->switchActions[i]);
-        DEBUG(DEBUG_SAVE_EN, "switchType%d:        0x%02x\r\n", i, device_settings_tmp->switchType[i]);
+        APP_DEBUG(DEBUG_SAVE_EN, "switchActions%d:     0x%02x\r\n", i, device_settings_tmp->switchActions[i]);
+        APP_DEBUG(DEBUG_SAVE_EN, "switchType%d:        0x%02x\r\n", i, device_settings_tmp->switchType[i]);
     }
 
 }
@@ -84,7 +84,7 @@ static void print_setting_sr(nv_sts_t st, device_settings_t *device_settings_tmp
 
 static void set_device_setting_default(device_settings_t *settings) {
 
-    DEBUG(DEBUG_SAVE_EN, "set_device_setting_default\r\n");
+    APP_DEBUG(DEBUG_SAVE_EN, "set_device_setting_default\r\n");
 
     memset(settings, 0, sizeof(device_settings_t));
 
@@ -109,7 +109,7 @@ nv_sts_t device_settings_default() {
 
 #if NV_ENABLE
 
-    DEBUG(UART_PRINTF_MODE, "Saved device default settings\r\n");
+    APP_DEBUG(UART_PRINTF_MODE, "Saved device default settings\r\n");
 
     set_device_setting_default(&device_settings);
 
@@ -135,14 +135,14 @@ nv_sts_t device_settings_restore() {
 
     if (st == NV_SUCC && device_settings_tmp.crc == checksum((uint8_t*)&device_settings_tmp, sizeof(device_settings_t)-1)) {
 
-        DEBUG(UART_PRINTF_MODE, "Restored device settings\r\n");
+        APP_DEBUG(UART_PRINTF_MODE, "Restored device settings\r\n");
 #if UART_PRINTF_MODE
         print_setting_sr(st, &device_settings_tmp, false);
 #endif
 
     } else {
         /* default config */
-        DEBUG(UART_PRINTF_MODE, "Default device settings \r\n");
+        APP_DEBUG(UART_PRINTF_MODE, "Default device settings \r\n");
         set_device_setting_default(&device_settings_tmp);
     }
 
@@ -167,7 +167,7 @@ nv_sts_t device_settings_save() {
 
 #if NV_ENABLE
 
-    DEBUG(UART_PRINTF_MODE, "Saved device settings\r\n");
+    APP_DEBUG(UART_PRINTF_MODE, "Saved device settings\r\n");
 
     device_settings.crc = checksum((uint8_t*)&device_settings, sizeof(device_settings_t)-1);
     st = nv_flashWriteNew(1, NV_MODULE_APP,  NV_ITEM_APP_USER_CFG, sizeof(device_settings_t), (uint8_t*)&device_settings);
@@ -186,11 +186,11 @@ void device_model_restore() {
 
     if (model_cfg.id == ID_DEVICE_MODEL_CFG) {
         device_model = model_cfg.device_model;
-        DEBUG(UART_PRINTF_MODE, "Model restore: M%03d\r\n", device_model+1);
+        APP_DEBUG(UART_PRINTF_MODE, "Model restore: M%03d\r\n", device_model+1);
         device_model_init();
     } else {
         device_model = DEVICE_MODEL;
-        DEBUG(UART_PRINTF_MODE, "Default model: M%03d\r\n", device_model+1);
+        APP_DEBUG(UART_PRINTF_MODE, "Default model: M%03d\r\n", device_model+1);
         device_model_save(device_model);
     }
 }
@@ -204,7 +204,7 @@ void device_model_save(uint8_t model) {
     flash_erase(DEVICE_MODEL_CFG_ADDR);
     flash_write(DEVICE_MODEL_CFG_ADDR, sizeof(config_model_t), (uint8_t*)&(model_cfg));
 
-    DEBUG(UART_PRINTF_MODE, "Model save: M%03d\r\n", device_model+1);
+    APP_DEBUG(UART_PRINTF_MODE, "Model save: M%03d\r\n", device_model+1);
 
     device_model_init();
 }

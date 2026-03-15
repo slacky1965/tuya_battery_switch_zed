@@ -7,15 +7,15 @@ uint32_t mcuBootAddrGet(void);
 
 void start_message() {
 #ifdef ZCL_OTA
-        DEBUG(UART_PRINTF_MODE, "OTA mode enabled. MCU boot from address: 0x%x\r\n", mcuBootAddrGet());
+        APP_DEBUG(UART_PRINTF_MODE, "OTA mode enabled. MCU boot from address: 0x%x\r\n", mcuBootAddrGet());
 #else
-        DEBUG(UART_PRINTF_MODE, "OTA mode desabled. MCU boot from address: 0x%x\r\n", mcuBootAddrGet());
+        APP_DEBUG(UART_PRINTF_MODE, "OTA mode desabled. MCU boot from address: 0x%x\r\n", mcuBootAddrGet());
 #endif
 
 #if UART_PRINTF_MODE
     const uint8_t version[] = ZCL_BASIC_SW_BUILD_ID;
 #endif
-    DEBUG(UART_PRINTF_MODE, "Firmware version: %s\r\n", version+1);
+    APP_DEBUG(UART_PRINTF_MODE, "Firmware version: %s\r\n", version+1);
 }
 
 int32_t delayedMcuResetCb(void *arg) {
@@ -47,7 +47,7 @@ int32_t delayedFullResetCb(void *arg) {
 
 static int32_t set_pollRateCb(void *args) {
 
-    DEBUG(DEBUG_PM_EN, "set_pollRateCb\r\n");
+    APP_DEBUG(DEBUG_PM_EN, "set_pollRateCb\r\n");
 
     g_appCtx.not_sleep = false;
 
@@ -59,7 +59,7 @@ static int32_t set_pollRateCb(void *args) {
 
 void app_setPollRate(uint32_t sec) {
 
-    DEBUG(DEBUG_PM_EN, "app_setPollRate(). sec: %d\r\n", sec);
+    APP_DEBUG(DEBUG_PM_EN, "app_setPollRate(). sec: %d\r\n", sec);
 
     g_appCtx.not_sleep = true;
 
