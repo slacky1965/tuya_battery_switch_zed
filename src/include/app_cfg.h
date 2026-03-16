@@ -72,10 +72,11 @@
 #endif
 #define USB_PRINTF_MODE         		OFF
 
-#define DEBUG_BUTTON_EN                 OFF
+#define DEBUG_BUTTON_EN                 ON
 #define DEBUG_SAVE_EN                   ON
 #define DEBUG_REPORTING_EN              ON
 #define DEBUG_BATTERY_EN                OFF
+#define DEBUG_BINDING_EN                ON
 #define DEBUG_PM_EN                     ON
 #define DEBUG_OTA_EN                    ON
 #define DEBUG_ONOFF_EN                  ON

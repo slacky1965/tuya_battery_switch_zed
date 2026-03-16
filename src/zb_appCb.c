@@ -147,6 +147,9 @@ void zb_bdbInitCb(u8 status, u8 joinedNetwork)
 #ifdef ZCL_POLL_CTRL
             app_zclCheckInStart();
 #endif
+
+            app_getIeeeCoordinator();
+
         } else if (g_appCtx.net_steer_start) {
             u16 jitter = 0;
             do {
@@ -202,6 +205,8 @@ void zb_bdbCommissioningCb(u8 status, void *arg)
         if (!zb_isDeviceJoinedNwk()) {
             zb_rejoinReq(zb_apsChannelMaskGet(), g_bdbAttrs.scanDuration);
         }
+
+        app_getIeeeCoordinator();
 
 #ifdef ZCL_POLL_CTRL
         app_zclCheckInStart();

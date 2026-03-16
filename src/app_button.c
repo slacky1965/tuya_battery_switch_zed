@@ -482,6 +482,18 @@ static void read_button_toggle(uint8_t i) {
         if (!g_appCtx.timerSetPollRateEvt && !g_appCtx.ota) {
             timerClearSleepEvt = TL_ZB_TIMER_SCHEDULE(clearSleepCb, NULL, TIMEOUT_1SEC);
         }
+#if DEBUG_BUTTON_EN
+        if (button->counter == 2) {
+            aps_binding_entry_t *bind_tbl = bindTblEntryGet();
+
+            for (uint8_t i = 0; i < APS_BINDING_TABLE_NUM; i++) {
+                if (bind_tbl->used) {
+                    APP_DEBUG(1, "ep: %d, cl: 0x%04x\r\n", bind_tbl->srcEp, bind_tbl->clusterId);
+                }
+                bind_tbl++;
+            }
+        }
+#endif
         button->counter = 0;
         button->pressed = false;
         button->released = false;

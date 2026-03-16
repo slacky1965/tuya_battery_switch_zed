@@ -16,6 +16,7 @@
 #include "app_pm.h"
 #include "app_battery.h"
 #include "app_reporting.h"
+#include "app_binding.h"
 #include "app_endpoint_cfg.h"
 #include "app_utility.h"
 #include "app_on_off.h"
