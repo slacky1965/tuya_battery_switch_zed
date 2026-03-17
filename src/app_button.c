@@ -141,7 +141,7 @@ static void read_button_level(uint8_t i) {
     } else {
         if (button->debounce != 1) {
             button->debounce--;
-            if (button->debounce == 1 || button->hold == HOLD_FIX) {
+            if (button->debounce == 1 && (button->pressed || button->hold == HOLD_FIX)) {
                 button->released = true;
                 g_appCtx.not_sleep = true;
                 APP_DEBUG(DEBUG_BUTTON_EN, "Key %d released level\r\n", i+1);
