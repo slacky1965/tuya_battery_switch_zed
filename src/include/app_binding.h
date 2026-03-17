@@ -14,5 +14,6 @@ typedef struct {
 app_bind_t *g_app_bind;
 
 void app_getIeeeCoordinator();
+void app_update_bind(void *args);
 
 #endif /* SRC_INCLUDE_APP_BINDING_H_ */

@@ -2,6 +2,7 @@
 OUT_DIR += \
 /$(SRC_PATH) \
 /$(SRC_PATH)/zcl \
+/$(SRC_PATH)/zdo \
 /$(SRC_PATH)/common
  
 OBJS += \
@@ -12,6 +13,7 @@ $(OUT_PATH)/$(SRC_PATH)/common/flash.o \
 $(OUT_PATH)/$(SRC_PATH)/common/factory_reset.o \
 $(OUT_PATH)/$(SRC_PATH)/zcl/zcl_onoffSwitchCfg.o \
 $(OUT_PATH)/$(SRC_PATH)/zcl/zcl_reporting.o \
+$(OUT_PATH)/$(SRC_PATH)/zdo/zdp.o \
 $(OUT_PATH)/$(SRC_PATH)/app_device.o \
 $(OUT_PATH)/$(SRC_PATH)/app_button.o \
 $(OUT_PATH)/$(SRC_PATH)/app_led.o \

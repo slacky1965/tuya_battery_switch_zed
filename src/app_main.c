@@ -206,7 +206,7 @@ void app_task(void) {
 
     if(bdb_isIdle()) {
         report_handler();
-#if PM_ENABLE
+#if PM_ENABLE1
         button_handler();
         if(!button_idle() && !factory_reset && !light_idle()) {
             app_lowPowerEnter();

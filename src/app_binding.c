@@ -7,25 +7,52 @@ static void app_bind_req(uint8_t endpoint, uint16_t cluster) {
 
     if(zb_isDeviceJoinedNwk()) {
 
-        zdo_bind_req_t req;
-        memset(&req, 0, sizeof(zdo_bind_req_t));
+//        zdo_bind_req_t req;
+//        memset(&req, 0, sizeof(zdo_bind_req_t));
+
+        APP_DEBUG(1, "bind cluster: 0x%04x\r\n", cluster);
+
+//        ZB_IEEE_ADDR_COPY(req.dst_ext_addr, g_app_bind->extAddrCoordinator);
+//        req.src_endpoint = endpoint;
+//        req.dst_endpoint = 1;
+//
+//        req.cid16_l = cluster & 0xFF;
+//        req.cid16_h = (cluster >> 8) & 0xFF;
+//        req.dst_addr_mode = APS_LONG_DSTADDR_WITHEP;
+//        ZB_IEEE_ADDR_COPY(req.src_addr, NIB_IEEE_ADDRESS());
+//
+//        uint8_t sn = 0;
+//        zb_zdoBindUnbindReq(1, &req, &sn, NULL);
 
 
-        ZB_IEEE_ADDR_COPY(req.src_addr, g_app_bind->extAddrCoordinator);
-        req.src_endpoint = 1;
-        req.dst_endpoint = endpoint;
-
-        req.cid16_l = cluster & 0xFF;
-        req.cid16_h = (cluster >> 8) & 0xFF;
-        req.dst_addr_mode = APS_LONG_DSTADDR_WITHEP;
-        ZB_IEEE_ADDR_COPY(req.dst_ext_addr, NIB_IEEE_ADDRESS());
-
-        uint8_t sn = 0;
-        zb_zdoBindUnbindReq(0, &req, &sn, NULL);
+        aps_me_bind_req_t ambr;
+        ZB_IEEE_ADDR_COPY(ambr.dst_ext_addr, g_app_bind->extAddrCoordinator);
+        ambr.src_ep = endpoint;
+        ambr.dst_ep = 1;
+        ambr.cid16_l = cluster & 0xFF;
+        ambr.cid16_h = (cluster >> 8) & 0xFF;
+        ambr.dst_addr_mode = APS_LONG_DSTADDR_WITHEP;
+        ZB_IEEE_ADDR_COPY(ambr.ext_src_addr, NIB_IEEE_ADDRESS());
+        aps_me_bind_req(&ambr);
     }
 }
 
-static void app_update_bind() {
+void app_update_bind(void *args) {
+
+//    aps_data_ind_t *p = (aps_data_ind_t *)args;
+//    APP_DEBUG(1, "dst_addr_mode: %d\r\n", p->dst_addr_mode);
+//    APP_DEBUG(1, "dst_addr:      0x%04x\r\n", p->dst_addr);
+//    APP_DEBUG(1, "dst_ep:        %d\r\n", p->dst_ep);
+//    APP_DEBUG(1, "src_addr_mode: %d\r\n", p->src_addr_mode);
+//    APP_DEBUG(1, "src_addr:      0x%04x\r\n", p->src_short_addr);
+//    APP_DEBUG(1, "src_ep:        %d\r\n", p->src_ep);
+//    APP_DEBUG(1, "cluster:       0x%04x\r\n", p->cluster_id);
+//    APP_DEBUG(1, "asduLength:    0x%04x\r\n", p->asduLength);
+//    APP_DEBUG(1, "asdu:          0x");
+//    for (uint8_t i = 0; i < p->asduLength; i++) {
+//        APP_DEBUG(1, "%02x", p->asdu[i]);
+//    }
+//    APP_DEBUG(1, "\r\n");
 
     for (uint8_t endpoint = device->button_num; endpoint > 0; endpoint--) {
         app_bind_req(endpoint, ZCL_CLUSTER_GEN_ON_OFF);
@@ -66,7 +93,7 @@ static int32_t app_getIeeeCoordinatorCb(void *args) {
                     g_app_bind->extAddrCoordinator[2], g_app_bind->extAddrCoordinator[3],
                     g_app_bind->extAddrCoordinator[4], g_app_bind->extAddrCoordinator[5],
                     g_app_bind->extAddrCoordinator[6], g_app_bind->extAddrCoordinator[7]);
-            TL_SCHEDULE_TASK(app_update_bind, NULL);
+//            TL_SCHEDULE_TASK(app_update_bind, NULL);
             g_app_bind->timerGetIeeeCoordinatorEvt = NULL;
             return -1;
         }

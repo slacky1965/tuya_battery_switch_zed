@@ -147,7 +147,7 @@ SIZEDUMMY :=
 RM := rm -rf
 
 # All of the sources participating in the build are defined here
--include $(MAKE_INCLUDES)/zdo.mk
+#-include $(MAKE_INCLUDES)/zdo.mk
 -include $(MAKE_INCLUDES)/zcl.mk
 -include $(MAKE_INCLUDES)/wwah.mk
 -include $(MAKE_INCLUDES)/ss.mk
