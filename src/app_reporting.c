@@ -53,6 +53,9 @@ void app_forcedReport(uint8_t endpoint, uint16_t claster_id, uint16_t attr_id) {
 
     if (zb_isDeviceJoinedNwk()) {
 
+        bool not_sleep = g_appCtx.not_sleep;
+        g_appCtx.not_sleep = true;
+
         epInfo_t dstEpInfo;
         TL_SETSTRUCTCONTENT(dstEpInfo, 0);
 
@@ -102,8 +105,7 @@ void app_forcedReport(uint8_t endpoint, uint16_t claster_id, uint16_t attr_id) {
                 bind_tbl++;
             }
         }
+        g_appCtx.not_sleep = not_sleep;
     }
-
-
 }
 
