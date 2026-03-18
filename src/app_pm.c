@@ -38,12 +38,12 @@ void app_wakeupPinConfig() {
         pin_PmCfg[i].wakeupPin = device->button_gpio[i].gpio;
         pin_PmCfg[i].wakeupLevel = PM_WAKEUP_LEVEL_LOW;
     }
-    drv_pm_wakeupPinConfig(pin_PmCfg, sizeof(pin_PmCfg)/sizeof(drv_pm_pinCfg_t));
+    drv_pm_wakeupPinConfig(pin_PmCfg, device->button_num /*sizeof(pin_PmCfg)/sizeof(drv_pm_pinCfg_t)*/);
 }
 
 
 void app_wakeupPinLevelChange() {
-    drv_pm_wakeupPinLevelChange(pin_PmCfg, 1);
+    drv_pm_wakeupPinLevelChange(pin_PmCfg, device->button_num);
 }
 
 void app_lowPowerEnter() {
