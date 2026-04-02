@@ -48,10 +48,9 @@ static void device_model_init() {
 
         switch(device_model) {
             case DEVICE_MODEL_1:
-                zb_modelId[6] = '1';    // key num
-                break;
             case DEVICE_MODEL_2:
-                zb_modelId[6] = '1';
+            case DEVICE_MODEL_5:
+                zb_modelId[6] = '1';    // key num
                 break;
             case DEVICE_MODEL_3:
                 zb_modelId[6] = '2';
@@ -212,7 +211,7 @@ void device_model_save(uint8_t model) {
 void device_init() {
     uint8_t devi = DEVICE_MODEL_1;
     if (first_start) {
-        /* TS0041 TZ3000_an5rjiwd Tuya  - model_1 */
+        /* TS0041 _TZ3000_an5rjiwd Tuya - model_1 */
         device_object[devi].device_en = OFF;
         device_object[devi].button_num = 1;
         device_object[devi].button_gpio[0].gpio = GPIO_PC2;
@@ -326,6 +325,27 @@ void device_init() {
         device_object[devi].led_gpio[3].func = AS_GPIO;
         device_object[devi].led_on = 0;
         device_object[devi].led_off = 1;
+        device_object[devi].debug_gpio.gpio = GPIO_PB1;
+        device_object[devi].debug_gpio.input = OFF;
+        device_object[devi].debug_gpio.output = ON;
+        device_object[devi].debug_gpio.func = AS_GPIO;
+        device_object[devi++].debug_gpio.pull = PM_PIN_PULLUP_1M;
+
+        /* TS0041 _TZ3000_itb0omhv Tuya - model_5 */
+        device_object[devi].device_en = OFF;
+        device_object[devi].button_num = 1;
+        device_object[devi].button_gpio[0].gpio = GPIO_PC2;
+        device_object[devi].button_gpio[0].input = ON;
+        device_object[devi].button_gpio[0].output = OFF;
+        device_object[devi].button_gpio[0].func = AS_GPIO;
+        device_object[devi].button_gpio[0].pull = PM_PIN_PULLUP_1M;
+        device_object[devi].button_debounce = DEBOUNCE_BUTTON;
+        device_object[devi].led_gpio[0].gpio = GPIO_PC4;
+        device_object[devi].led_gpio[0].input = OFF;
+        device_object[devi].led_gpio[0].output = ON;
+        device_object[devi].led_gpio[0].func = AS_GPIO;
+        device_object[devi].led_on = 1;
+        device_object[devi].led_off = 0;
         device_object[devi].debug_gpio.gpio = GPIO_PB1;
         device_object[devi].debug_gpio.input = OFF;
         device_object[devi].debug_gpio.output = ON;
