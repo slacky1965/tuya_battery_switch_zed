@@ -70,9 +70,10 @@ static inline void app_gpio_init(int anaRes_init_en) {
         device_model = DEVICE_MODEL;
     }
 
-    if (device_model == DEVICE_MODEL_1) {
+    if (device_model == DEVICE_MODEL_1 || device_model == DEVICE_MODEL_5) {
 
-        /* TS0041 TZ3000_an5rjiwd Tuya  - model_1 */
+        /* TS0041 _TZ3000_an5rjiwd Tuya - model_1 */
+        /* TS0041 _TZ3000_itb0omhv Tuya - model_5 */
 
         reg_gpio_pa_setting1 = 0xFF8080;
         reg_gpio_pa_setting2 = 0x7FFF00;

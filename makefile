@@ -29,10 +29,17 @@ else
 				PROJECT_DEF = "-DDEVICE_MODEL=DEVICE_MODEL_4"
 				MODEL = _M004
 			else
-				MANUF_CODE ?= 4417
-				IMAGE_TYPE ?= 54179
-				PROJECT_DEF = "-DDEVICE_MODEL=DEVICE_BUTTON_1"
-				MODEL = _M001
+				ifeq ($(PROJECT_MODEL),_model_5)
+					MANUF_CODE ?= 4417
+					IMAGE_TYPE ?= 54179
+					PROJECT_DEF = "-DDEVICE_MODEL=DEVICE_MODEL_5"
+					MODEL = _M005
+				else
+					MANUF_CODE ?= 4417
+					IMAGE_TYPE ?= 54179
+					PROJECT_DEF = "-DDEVICE_MODEL=DEVICE_MODEL_1"
+					MODEL = _M001
+				endif
 			endif
 		endif
 	endif
