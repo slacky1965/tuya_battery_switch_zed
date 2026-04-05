@@ -16,6 +16,7 @@
 #include "app_pm.h"
 #include "app_battery.h"
 #include "app_reporting.h"
+#include "app_findbind.h"
 #include "app_endpoint_cfg.h"
 #include "app_utility.h"
 #include "app_on_off.h"
@@ -34,7 +35,6 @@ typedef struct {
 } analog_reg_t;
 
 typedef struct {
-    ev_timer_event_t *bdbFBTimerEvt;
     ev_timer_event_t *timerForcedReportEvt;
     ev_timer_event_t *timerFactoryReset;
     ev_timer_event_t *timerSetPollRateEvt;
@@ -91,6 +91,6 @@ void app_leaveCnfHandler(nlme_leave_cnf_t *pLeaveCnf);
 void app_leaveIndHandler(nlme_leave_ind_t *pLeaveInd);
 void app_otaProcessMsgHandler(uint8_t evt, uint8_t status);
 void app_wakeupPinLevelChange();
-
+int32_t app_bdbFindAndBindStart(void *arg);
 
 #endif /* SRC_INCLUDE_APP_MAIN_H_ */
