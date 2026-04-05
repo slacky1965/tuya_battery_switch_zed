@@ -74,7 +74,7 @@ void factoryRst_handler(void){
 		factoryRst_exist = FALSE;
 		zb_factoryReset();
 	    g_appCtx.net_steer_start = true;
-	    TL_ZB_TIMER_SCHEDULE(net_steer_start_offCb, NULL, TIMEOUT_1MIN30SEC);
+	    TL_ZB_TIMER_SCHEDULE(net_steer_start_offCb, NULL, TIMEOUT_1p5MIN);
 	    light_blink_all_start(90, 250, 750);
 	}
 }
