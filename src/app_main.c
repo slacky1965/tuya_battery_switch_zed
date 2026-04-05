@@ -7,7 +7,6 @@
 static bool boot_announce_sent = false;
 
 app_ctx_t g_appCtx = {
-        .bdbFBTimerEvt = NULL,
         .timerForcedReportEvt = NULL,
         .timerCheckSleepEvt = NULL,
         .timerSetPollRateEvt = NULL,
@@ -208,7 +207,7 @@ void app_task(void) {
         report_handler();
 #if PM_ENABLE
         button_handler();
-        if(!button_idle() && !factory_reset && !light_idle()) {
+        if(!button_idle() && !light_idle()) {
             app_lowPowerEnter();
         }
 #endif
