@@ -54,8 +54,11 @@ void app_lowPowerEnter() {
 
     app_wakeupPinLevelChange();
 
-    if (g_appCtx.not_sleep) {
+    if (g_appCtx.not_sleep || findbind->timerClearFindBindFlagEvt) {
         /* SDK deep sleep with SRAM retention */
+        APP_DEBUG(DEBUG_PM_EN, ".");
+//        APP_DEBUG(DEBUG_PM_EN, "timeout: %d\r\n", g_appCtx.timerSetPollRateEvt->timeout);
+//        APP_DEBUG(DEBUG_PM_EN, "not_sleep: %d, findBindFlag: %d\r\n", g_appCtx.not_sleep, findbind->timerClearFindBindFlagEvt?1:0);
         drv_pm_lowPowerEnter();
     } else /*if (zb_isDeviceJoinedNwk())*/{
         /* app deep sleep with SRAM retention */
