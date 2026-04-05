@@ -54,6 +54,9 @@ const zdo_appIndCb_t appCbLst = {
 uint16_t bdb_findBindClusterList[] =
 {
     ZCL_CLUSTER_GEN_ON_OFF,
+    ZCL_CLUSTER_GEN_MULTISTATE_INPUT_BASIC,
+    ZCL_CLUSTER_GEN_LEVEL_CONTROL,
+    ZCL_CLUSTER_GEN_SCENES,
 };
 
 /**
@@ -135,22 +138,32 @@ void user_app_init(void)
 
     /* register endPoint */
     af_endpointRegister(APP_ENDPOINT1, (af_simple_descriptor_t *)&app_ep1Desc, zcl_rx_handler, NULL);
-    af_endpointRegister(APP_ENDPOINT2, (af_simple_descriptor_t *)&app_ep2Desc, zcl_rx_handler, NULL);
-    af_endpointRegister(APP_ENDPOINT3, (af_simple_descriptor_t *)&app_ep3Desc, zcl_rx_handler, NULL);
-    af_endpointRegister(APP_ENDPOINT4, (af_simple_descriptor_t *)&app_ep4Desc, zcl_rx_handler, NULL);
-    af_endpointRegister(APP_ENDPOINT5, (af_simple_descriptor_t *)&app_ep5Desc, zcl_rx_handler, NULL);
-    af_endpointRegister(APP_ENDPOINT6, (af_simple_descriptor_t *)&app_ep6Desc, zcl_rx_handler, NULL);
+    if (device->button_num > 1)
+        af_endpointRegister(APP_ENDPOINT2, (af_simple_descriptor_t *)&app_ep2Desc, zcl_rx_handler, NULL);
+    if (device->button_num > 2)
+        af_endpointRegister(APP_ENDPOINT3, (af_simple_descriptor_t *)&app_ep3Desc, zcl_rx_handler, NULL);
+    if (device->button_num > 3)
+        af_endpointRegister(APP_ENDPOINT4, (af_simple_descriptor_t *)&app_ep4Desc, zcl_rx_handler, NULL);
+    if (device->button_num > 4)
+        af_endpointRegister(APP_ENDPOINT5, (af_simple_descriptor_t *)&app_ep5Desc, zcl_rx_handler, NULL);
+    if (device->button_num > 5)
+        af_endpointRegister(APP_ENDPOINT6, (af_simple_descriptor_t *)&app_ep6Desc, zcl_rx_handler, NULL);
 
     zcl_reportingTabInit();
     device_settings_restore();
 
     /* Register ZCL specific cluster information */
     zcl_register(APP_ENDPOINT1, APP_EP1_CB_CLUSTER_NUM, (zcl_specClusterInfo_t *)g_appEp1ClusterList);
-    zcl_register(APP_ENDPOINT2, APP_EP2_CB_CLUSTER_NUM, (zcl_specClusterInfo_t *)g_appEp2ClusterList);
-    zcl_register(APP_ENDPOINT3, APP_EP3_CB_CLUSTER_NUM, (zcl_specClusterInfo_t *)g_appEp3ClusterList);
-    zcl_register(APP_ENDPOINT4, APP_EP4_CB_CLUSTER_NUM, (zcl_specClusterInfo_t *)g_appEp4ClusterList);
-    zcl_register(APP_ENDPOINT5, APP_EP5_CB_CLUSTER_NUM, (zcl_specClusterInfo_t *)g_appEp5ClusterList);
-    zcl_register(APP_ENDPOINT6, APP_EP6_CB_CLUSTER_NUM, (zcl_specClusterInfo_t *)g_appEp6ClusterList);
+    if (device->button_num > 1)
+        zcl_register(APP_ENDPOINT2, APP_EP2_CB_CLUSTER_NUM, (zcl_specClusterInfo_t *)g_appEp2ClusterList);
+    if (device->button_num > 2)
+        zcl_register(APP_ENDPOINT3, APP_EP3_CB_CLUSTER_NUM, (zcl_specClusterInfo_t *)g_appEp3ClusterList);
+    if (device->button_num > 3)
+        zcl_register(APP_ENDPOINT4, APP_EP4_CB_CLUSTER_NUM, (zcl_specClusterInfo_t *)g_appEp4ClusterList);
+    if (device->button_num > 4)
+        zcl_register(APP_ENDPOINT5, APP_EP5_CB_CLUSTER_NUM, (zcl_specClusterInfo_t *)g_appEp5ClusterList);
+    if (device->button_num > 5)
+        zcl_register(APP_ENDPOINT6, APP_EP6_CB_CLUSTER_NUM, (zcl_specClusterInfo_t *)g_appEp6ClusterList);
 
 #if ZCL_OTA_SUPPORT
     ota_init(OTA_TYPE_CLIENT, (af_simple_descriptor_t *)&app_ep1Desc, &app_otaInfo, &app_otaCb);
