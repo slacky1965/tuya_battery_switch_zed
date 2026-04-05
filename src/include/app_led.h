@@ -6,6 +6,9 @@
 
 typedef struct {
     ev_timer_event_t *timerLedEvt;
+    ev_timer_event_t *timerAllLedEvt;
+    bool timer_stop;
+    bool all_led;
 
     uint32_t led_pin;
     bool     led_status;
@@ -18,15 +21,17 @@ typedef struct {
 } light_t;
 
 void light_blink_start(uint8_t times, uint16_t ledOnTime, uint16_t ledOffTime, uint8_t pin_idx);
-void light_blink_stop(uint8_t pin_idx);
+uint8_t light_blink_stop(uint8_t pin_idx);
 
 void light_blink_all_start(uint8_t times, uint16_t ledOnTime, uint16_t ledOffTime);
 void light_blink_all_stop();
+int32_t lightTimerStopCb(void *args);
 
 void light_init(void);
 void light_on(uint8_t pin_idx);
 void light_off(uint8_t pin_idx);
 bool light_idle();
+void light_test_timer();
 
 void led_on(uint8_t pin_idx);
 void led_off(uint8_t pin_idx);
