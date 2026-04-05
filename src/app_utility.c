@@ -14,8 +14,9 @@ void start_message() {
 
 #if UART_PRINTF_MODE
     const uint8_t version[] = ZCL_BASIC_SW_BUILD_ID;
-#endif
     APP_DEBUG(UART_PRINTF_MODE, "Firmware version: %s\r\n", version+1);
+    APP_DEBUG(UART_PRINTF_MODE, "Model: %d\r\n", device_model+1);
+#endif
 }
 
 int32_t delayedMcuResetCb(void *arg) {
