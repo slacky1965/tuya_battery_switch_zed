@@ -31,7 +31,8 @@ static bool factory_reset = false;
 static int32_t clearSleepCb(void *args) {
 
 
-    if (!g_appCtx.timerSetPollRateEvt && !g_appCtx.ota && !buttonFindBindFlag) {
+    if ((!g_appCtx.timerSetPollRateEvt || !g_appCtx.timerSetPollRateEvt->used || g_appCtx.timerSetPollRateEvt->isBusy) &&
+            !g_appCtx.ota && !buttonFindBindFlag) {
         g_appCtx.not_sleep = false;
     }
 
@@ -50,7 +51,7 @@ static void clearSleepTimer() {
 
 static int32_t start_factory_reset_lightCb(void *args) {
 
-    light_blink_all_start(90, 250, 750);
+    light_blink_all_start(90, 30, 750);
 
     return -1;
 }
@@ -67,7 +68,7 @@ static void button_factory_reset_start(uint8_t i) {
 
     g_appCtx.net_steer_start = true;
     TL_ZB_TIMER_SCHEDULE(net_steer_start_offCb, NULL, TIMEOUT_1p5MIN);
-    light_blink_all_stop();
+//    light_blink_all_stop();
     TL_ZB_TIMER_SCHEDULE(start_factory_reset_lightCb, NULL, TIMEOUT_500MS);
     app_setPollRate(TIMEOUT_2MIN);
 }
@@ -540,9 +541,11 @@ static void read_button_toggle(uint8_t i) {
             light_blink_start(1, 2000, 100, i);
             if (timerFactoryResetEvt) TL_ZB_TIMER_CANCEL(&timerFactoryResetEvt);
             timerFactoryResetEvt = TL_ZB_TIMER_SCHEDULE(factoryResetCb, NULL, TIMEOUT_3SEC);
-#if DEBUG_BUTTON_EN
+#if UART_PRINTF_MODE && DEBUG_BUTTON_EN
         } else if (button->counter == 1) {
             APP_DEBUG(DEBUG_BUTTON_EN, "idle light: %d, button: %d, timeout: %d, buttonFindBindFlag: %d, factory_reset: %d, bdb_isIdle: %d\r\n", light_idle(), button_idle(), g_appCtx.timerSetPollRateEvt?g_appCtx.timerSetPollRateEvt->timeout:0, buttonFindBindFlag, factory_reset, bdb_isIdle());
+        } else if (button->counter == 2) {
+            light_test_timer();
 #endif
         }
         clearSleepTimer();

@@ -195,8 +195,8 @@ void zb_bdbCommissioningCb(u8 status, void *arg)
     switch (status) {
     case BDB_COMMISSION_STA_SUCCESS:
         g_appCtx.net_steer_start = false;
-        light_blink_all_stop();
-        light_blink_all_start(3, 100, 300);
+//        light_blink_all_stop();
+        light_blink_all_start(3, 30, 300);
 //        TL_ZB_TIMER_SCHEDULE(lightTimerStopCb, (void*)((uint32_t)device->button_num), TIMEOUT_1p5SEC);
         if (findbind->timerClearFindBindFlagEvt) {
             stop_timerClearFindBindFlag();
@@ -255,8 +255,8 @@ void zb_bdbCommissioningCb(u8 status, void *arg)
     case BDB_COMMISSION_STA_FORMATION_FAILURE:
         break;
     case BDB_COMMISSION_STA_NO_IDENTIFY_QUERY_RESPONSE:
-        light_blink_all_stop();
-        light_blink_all_start(1, 100, 300);
+//        light_blink_all_stop();
+        light_blink_all_start(1, 30, 300);
         if (findbind->timerClearFindBindFlagEvt) {
             stop_timerClearFindBindFlag();
         }
@@ -326,9 +326,10 @@ void app_otaProcessMsgHandler(u8 evt, u8 status)
             g_appCtx.not_sleep = true;
             g_appCtx.ota = true;
             if (g_appCtx.timerSetPollRateEvt) {
-                TL_ZB_TIMER_CANCEL(&g_appCtx.timerSetPollRateEvt);
+                timerSetPollRate_stop();
+//                TL_ZB_TIMER_CANCEL(&g_appCtx.timerSetPollRateEvt);
             }
-            light_blink_all_stop();
+//            light_blink_all_stop();
             light_blink_all_start(5, 100, 500);
         } else {
 
