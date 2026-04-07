@@ -85,6 +85,9 @@ void app_setPollRate(uint32_t ms) {
     timerSetPollRate_stop();
     g_appCtx.not_sleep = true;
     g_appCtx.timerSetPollRateEvt = TL_ZB_TIMER_SCHEDULE(set_pollRateCb, NULL, ms);
+    APP_DEBUG(DEBUG_PM_EN, "app_setPollRate -  timerSetPollRateEvt: 0x%08x, used: %d\r\n",
+            g_appCtx.timerSetPollRateEvt?g_appCtx.timerSetPollRateEvt:0,
+            g_appCtx.timerSetPollRateEvt?g_appCtx.timerSetPollRateEvt->used:0);
 
 }
 
