@@ -36,7 +36,9 @@ static int32_t clearSleepCb(void *args) {
         g_appCtx.not_sleep = false;
     }
 
-    APP_DEBUG(DEBUG_PM_EN, "clearSleepCb, not_sleep: %d\r\n", g_appCtx.not_sleep);
+    APP_DEBUG(DEBUG_PM_EN, "clearSleepCb, not_sleep: %d, timerSetPollRateEvt: 0x%08x, used: %d\r\n",
+            g_appCtx.not_sleep, g_appCtx.timerSetPollRateEvt?g_appCtx.timerSetPollRateEvt:0,
+            g_appCtx.timerSetPollRateEvt?g_appCtx.timerSetPollRateEvt->used:0);
 
     timerClearSleepEvt = NULL;
     return -1;
@@ -88,6 +90,7 @@ static int32_t factoryResetCb(void *args) {
 static int32_t clearButtonFindBindFlagCb(void *args) {
 
     APP_DEBUG(DEBUG_BUTTON_EN, "clearButtonFindBindFlagCb\r\n");
+    clearSleepTimer();
     buttonFindBindFlag = false;
     timerButtonFindBindEvt = NULL;
     return -1;
@@ -201,7 +204,7 @@ static void read_button_level(uint8_t i) {
                         break;
                     case BATTERY_COUNTER:                                      // 4
                         batteryCb(NULL);
-                        if (!g_appCtx.timerSetPollRateEvt) {
+                        if (!g_appCtx.timerSetPollRateEvt || !g_appCtx.timerSetPollRateEvt->used) {
                             app_setPollRate(TIMEOUT_20SEC);
                         }
                         break;
@@ -305,7 +308,7 @@ static void read_button_multifunction(uint8_t i) {
                         break;
                     case BATTERY_COUNTER:
                         batteryCb(NULL);
-                        if (!g_appCtx.timerSetPollRateEvt) {
+                        if (!g_appCtx.timerSetPollRateEvt || !g_appCtx.timerSetPollRateEvt->used) {
                             app_setPollRate(TIMEOUT_20SEC);
                         }
                         break;
@@ -397,7 +400,7 @@ static void read_button_scene(uint8_t i) {
         APP_DEBUG(DEBUG_BUTTON_EN, "Scene. Button %d pressed %d times\r\n", i+1, button->counter);
         if (button->counter == BATTERY_COUNTER) {
             batteryCb(NULL);
-            if (!g_appCtx.timerSetPollRateEvt) {
+            if (!g_appCtx.timerSetPollRateEvt || !g_appCtx.timerSetPollRateEvt->used) {
                 app_setPollRate(TIMEOUT_20SEC);
             }
         }
@@ -528,7 +531,7 @@ static void read_button_toggle(uint8_t i) {
             light_blink_stop(i);
             light_blink_start(1, 2000, 1, i);
             batteryCb(NULL);
-            if (!g_appCtx.timerSetPollRateEvt) {
+            if (!g_appCtx.timerSetPollRateEvt || !g_appCtx.timerSetPollRateEvt->used) {
                 app_setPollRate(TIMEOUT_20SEC);
             }
             if (timerButtonFindBindEvt) TL_ZB_TIMER_CANCEL(&timerButtonFindBindEvt);
