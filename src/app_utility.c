@@ -58,33 +58,39 @@ static int32_t set_pollRateCb(void *args) {
     return -1;
 }
 
-void app_setPollRate(uint32_t sec) {
+void timerSetPollRate_stop() {
 
-    APP_DEBUG(DEBUG_PM_EN, "app_setPollRate(). sec: %d\r\n", sec);
+    for (uint8_t i = 0; i < 128 && g_appCtx.timerSetPollRateEvt; i++) {
+        if (TL_ZB_TIMER_CANCEL(&g_appCtx.timerSetPollRateEvt) == NO_TIMER_AVAIL) {
+            g_appCtx.timerSetPollRateEvt = NULL;
+        }
+    }
+    if (!g_appCtx.ota) {
+        g_appCtx.not_sleep = false;
+    }
+}
 
-    g_appCtx.not_sleep = true;
+void app_setPollRate(uint32_t ms) {
+
+    APP_DEBUG(DEBUG_PM_EN, "app_setPollRate(). sec: %d\r\n", ms/1000);
 
     if (g_appCtx.ota) {
-        if (g_appCtx.timerSetPollRateEvt) {
-            TL_ZB_TIMER_CANCEL(&g_appCtx.timerSetPollRateEvt);
-        }
+        timerSetPollRate_stop();
+        g_appCtx.not_sleep = true;
         return;
     }
 
     zb_setPollRate(POLL_RATE * 3);
 
-    if (g_appCtx.timerSetPollRateEvt) {
-        TL_ZB_TIMER_CANCEL(&g_appCtx.timerSetPollRateEvt);
-    }
-    g_appCtx.timerSetPollRateEvt = TL_ZB_TIMER_SCHEDULE(set_pollRateCb, NULL, sec);
+    timerSetPollRate_stop();
+    g_appCtx.not_sleep = true;
+    g_appCtx.timerSetPollRateEvt = TL_ZB_TIMER_SCHEDULE(set_pollRateCb, NULL, ms);
 
 }
 
 int32_t net_steer_start_offCb(void *args) {
 
     g_appCtx.net_steer_start = false;
-
-    light_blink_all_stop();
 
     return -1;
 }

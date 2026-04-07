@@ -27,7 +27,7 @@ static int32_t app_clearFindBindFlagCb(void *args) {
 
     APP_DEBUG(DEBUG_BUTTON_EN, "clearFindBindFlagCb\r\n");
     findbind->find_bind_flag = false;
-    if (!g_appCtx.timerSetPollRateEvt && !g_appCtx.ota) {
+    if (/*!g_appCtx.timerSetPollRateEvt &&*/ !g_appCtx.ota) {
         g_appCtx.not_sleep = false;
     }
     findbind->timerClearFindBindFlagEvt = NULL;
@@ -62,6 +62,7 @@ void app_findBindStart(uint8_t i) {
             TL_ZB_TIMER_CANCEL(&(findbind->timerClearFindBindFlagEvt));
         }
         findbind->timerClearFindBindFlagEvt = TL_ZB_TIMER_SCHEDULE(app_clearFindBindFlagCb, NULL, TIMEOUT_3MIN);
+        light_blink_all_start(90, 30, 750);
     }
 
 }
@@ -92,13 +93,14 @@ int32_t app_getCoordinatorExtAddrCb(void *args) {
 
 void stop_timerClearFindBindFlag() {
     APP_DEBUG(DEBUG_FINDBIND_EN, "stop_timerClearFindBindFlag\r\n");
-    if (findbind->timerClearFindBindFlagEvt) {
-        uint8_t ret = TL_ZB_TIMER_CANCEL(&(findbind->timerClearFindBindFlagEvt));
-        if (ret == NO_TIMER_AVAIL) {
+
+    for (uint8_t i = 0; i < 16 && findbind->timerClearFindBindFlagEvt; i++) {
+        if (TL_ZB_TIMER_CANCEL(&(findbind->timerClearFindBindFlagEvt)) == NO_TIMER_AVAIL) {
             findbind->timerClearFindBindFlagEvt = NULL;
         }
     }
-    if (!g_appCtx.timerSetPollRateEvt && !g_appCtx.ota) {
+    findbind->find_bind_flag = false;
+    if (/*!g_appCtx.timerSetPollRateEvt &&*/ !g_appCtx.ota) {
         g_appCtx.not_sleep = false;
     }
 }

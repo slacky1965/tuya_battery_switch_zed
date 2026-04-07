@@ -54,7 +54,7 @@ void app_lowPowerEnter() {
 
     app_wakeupPinLevelChange();
 
-    if (g_appCtx.not_sleep || findbind->timerClearFindBindFlagEvt) {
+    if (g_appCtx.not_sleep || findbind->timerClearFindBindFlagEvt || light_idle()) {
         /* SDK deep sleep with SRAM retention */
         APP_DEBUG(DEBUG_PM_EN, ".");
 //        APP_DEBUG(DEBUG_PM_EN, "timeout: %d\r\n", g_appCtx.timerSetPollRateEvt->timeout);

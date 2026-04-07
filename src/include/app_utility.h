@@ -13,6 +13,7 @@
 #define TIMEOUT_TICK_15SEC  15*1000*1000    /* timeout 15 sec   */
 #define TIMEOUT_TICK_30SEC  30*1000*1000    /* timeout 30 sec   */
 #define TIMEOUT_TICK_60SEC  60*1000*1000    /* timeout 60 sec   */
+#define TIMEOUT_TICK_2MIN   120*1000*1000   /* timeout 2  min   */
 
 /* for TL_ZB_TIMER_SCHEDULE() */
 #define TIMEOUT_10MS               10       /* timeout 10  ms   */
@@ -63,11 +64,11 @@
 #endif
 
 void start_message();
-int32_t poll_rateAppCb(void *arg);
 int32_t delayedMcuResetCb(void *arg);
 int32_t delayedFactoryResetCb(void *arg);
 int32_t delayedFullResetCb(void *arg);
-void app_setPollRate(uint32_t sec);
+void app_setPollRate(uint32_t ms);
+void timerSetPollRate_stop();
 int32_t net_steer_start_offCb(void *args);
 uint8_t checksum(uint8_t *data, uint16_t length);
 
