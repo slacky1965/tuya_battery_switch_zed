@@ -68,7 +68,7 @@ void app_cmdOnOff(uint8_t ep, uint8_t command) {
                 memcpy(dstEpInfo.dstAddr.extAddr, bind_tbl->dstExtAddrInfo.extAddr, sizeof(extAddr_t));
             }
             st = cmdOnOffSend(ep, &dstEpInfo, command);
-#if DEBUG_ONOFF_EN
+#if UART_PRINTF_MODE && DEBUG_ONOFF_EN
             APP_DEBUG(DEBUG_ONOFF_EN, "OnOff for bind. cmd: %s, src_ep: %d, dst_ep: %d, clId: 0x%04x, addrMode: %d - %s, ",
                     (command == 0)?"Off":(command == 1)?"On":"Toggle",
                      bind_tbl->srcEp, bind_tbl->dstExtAddrInfo.dstEp, bind_tbl->clusterId, dstEpInfo.dstAddrMode,

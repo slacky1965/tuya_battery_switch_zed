@@ -48,7 +48,7 @@ void app_level_move(uint8_t ep, uint8_t up_down) {
                 memcpy(dstEpInfo.dstAddr.extAddr, bind_tbl->dstExtAddrInfo.extAddr, sizeof(extAddr_t));
             }
             st = zcl_level_moveWithOnOffCmd(ep, &dstEpInfo, FALSE, &move);
-#if DEBUG_LEVEL_EN
+#if UART_PRINTF_MODE && DEBUG_LEVEL_EN
             APP_DEBUG(DEBUG_LEVEL_EN, "Level move %s for bind with rate: %d, ep: %d, clId: 0x%04x, addrMode: %d - %s, ",
                     up_down?"Down":"Up", move.rate, bind_tbl->srcEp, bind_tbl->clusterId, dstEpInfo.dstAddrMode,
                     (dstEpInfo.dstAddrMode == APS_DSTADDR_EP_NOTPRESETNT)?"APS_DSTADDR_EP_NOTPRESETNT":
@@ -117,7 +117,7 @@ void app_level_stop(uint8_t ep) {
                 memcpy(dstEpInfo.dstAddr.extAddr, bind_tbl->dstExtAddrInfo.extAddr, sizeof(extAddr_t));
             }
             st = zcl_level_stopCmd(ep, &dstEpInfo, FALSE, &stop);
-#if DEBUG_LEVEL_EN
+#if UART_PRINTF_MODE && DEBUG_LEVEL_EN
             APP_DEBUG(DEBUG_LEVEL_EN, "Level stop for bind, ep: %d, clId: 0x%04x, addrMode: %d - %s, ",
                     bind_tbl->srcEp, bind_tbl->clusterId, dstEpInfo.dstAddrMode,
                     (dstEpInfo.dstAddrMode == APS_DSTADDR_EP_NOTPRESETNT)?"APS_DSTADDR_EP_NOTPRESETNT":
@@ -188,7 +188,7 @@ void app_level_step(uint8_t ep, uint8_t up_down) {
                 memcpy(dstEpInfo.dstAddr.extAddr, bind_tbl->dstExtAddrInfo.extAddr, sizeof(extAddr_t));
             }
             st = zcl_level_stepWithOnOffCmd(ep, &dstEpInfo, FALSE, &step);
-#if DEBUG_LEVEL_EN
+#if UART_PRINTF_MODE && DEBUG_LEVEL_EN
             APP_DEBUG(DEBUG_LEVEL_EN, "Level step %s for bind with size: %d, ep: %d, clId: 0x%04x, addrMode: %d - %s, ",
                     up_down?"Down":"Up", step.stepSize, bind_tbl->srcEp, bind_tbl->clusterId, dstEpInfo.dstAddrMode,
                     (dstEpInfo.dstAddrMode == APS_DSTADDR_EP_NOTPRESETNT)?"APS_DSTADDR_EP_NOTPRESETNT":

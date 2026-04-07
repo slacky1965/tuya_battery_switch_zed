@@ -82,7 +82,7 @@ void app_forcedReport(uint8_t endpoint, uint16_t claster_id, uint16_t attr_id) {
                     }
                     st = zcl_sendReportCmd(endpoint, &dstEpInfo,  TRUE, ZCL_FRAME_SERVER_CLIENT_DIR,
                                 claster_id, pAttrEntry->id, pAttrEntry->type, pAttrEntry->data);
-#if DEBUG_REPORTING_EN
+#if UART_PRINTF_MODE && DEBUG_REPORTING_EN
                     APP_DEBUG(DEBUG_REPORTING_EN, "forceReportCb. Ep: %d, clId: 0x%04x, attr_id: 0x%04x, data: 0x%08x, addrMode: %d - %s, ",
                             bind_tbl->srcEp, bind_tbl->clusterId, attr_id, *pAttrEntry->data, dstEpInfo.dstAddrMode,
                             (dstEpInfo.dstAddrMode == APS_DSTADDR_EP_NOTPRESETNT)?"APS_DSTADDR_EP_NOTPRESETNT":

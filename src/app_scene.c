@@ -33,7 +33,7 @@ void app_scene_send(uint8_t ep) {
                     memcpy(dstEpInfo.dstAddr.extAddr, bind_tbl->dstExtAddrInfo.extAddr, sizeof(extAddr_t));
                 }
                 st = zcl_scene_recallSceneCmd(ep, &dstEpInfo, FALSE, &recallScene);
-#if DEBUG_SCENE_EN
+#if UART_PRINTF_MODE && DEBUG_SCENE_EN
                 APP_DEBUG(DEBUG_SCENE_EN, "Recall scene command, ep: %d, clId: 0x%04x, addrMode: %d - %s, ",
                          bind_tbl->srcEp, bind_tbl->clusterId, dstEpInfo.dstAddrMode,
                         (dstEpInfo.dstAddrMode == APS_DSTADDR_EP_NOTPRESETNT)?"APS_DSTADDR_EP_NOTPRESETNT":
