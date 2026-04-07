@@ -357,8 +357,8 @@ void device_init() {
         } else {
             device_model_restore();
         }
-    } else {
-        device_model_init();
+//    } else {
+//        device_model_init();
     }
 }
 
