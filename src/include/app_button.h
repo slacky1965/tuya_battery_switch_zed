@@ -19,7 +19,5 @@ typedef enum {
 void button_handler();
 bool button_idle();
 void button_init();
-//bool get_findBindFlag();
-void stop_timerClearFindBindFlag();
 
 #endif /* SRC_INCLUDE_APP_BUTTON_H_ */
