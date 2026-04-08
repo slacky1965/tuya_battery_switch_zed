@@ -50,6 +50,15 @@ static int32_t lightTimerCb(void *args) {
 
     light_t *lt = &light[pin_idx];
 
+    if (lt->timer_stop) {
+        light_off(pin_idx);
+        lt->timer_stop = false;
+        lt->times = 0;
+        lt->timerLedEvt = NULL;
+        return -1;
+    }
+
+
     if(lt->sta == lt->oriSta){
         lt->times--;
         if(lt->times <= 0){
@@ -60,12 +69,6 @@ static int32_t lightTimerCb(void *args) {
 
     lt->sta = !lt->sta;
     if(lt->sta) {
-        if (lt->timer_stop) {
-            light_off(pin_idx);
-            lt->timer_stop = false;
-            lt->timerLedEvt = NULL;
-            return -1;
-        }
         light_on(pin_idx);
         interval = lt->ledOnTime;
     }else {
@@ -85,9 +88,20 @@ static int32_t lightAllTimerCb(void *args) {
 
     APP_DEBUG(DEBUG_LED_EN2, "lightAllTimerCb. onTime: %d, offTime: %d, times: %d\r\n", lt->ledOnTime, lt->ledOffTime, lt->times);
 
+    if (lt->timer_stop) {
+        for (uint8_t i = 0; i < device->button_num; i++) {
+            light_off(i);
+        }
+        lt->timer_stop = false;
+        lt->times = 0;
+        lt->timerLedEvt = NULL;
+        return -1;
+    }
+
     if(lt->sta == lt->oriSta) {
         lt->times--;
         if(lt->times <= 0) {
+            lt->times = 0;
             lt->timerLedEvt = NULL;
             return -1;
         }
@@ -95,14 +109,6 @@ static int32_t lightAllTimerCb(void *args) {
 
     lt->sta = !lt->sta;
     if(lt->sta) {
-        if (lt->timer_stop) {
-            for (uint8_t i = 0; i < device->button_num; i++) {
-                light_off(i);
-            }
-            lt->timer_stop = false;
-            lt->timerLedEvt = NULL;
-            return -1;
-        }
         for (uint8_t i = 0; i < device->button_num; i++) {
             light_on(i);
         }
@@ -202,8 +208,8 @@ void light_blink_all_start(uint8_t times, uint16_t ledOnTime, uint16_t ledOffTim
     light_t *lt = &light[device->button_num];
 
 
-//    APP_DEBUG(DEBUG_LED_EN2, "timer: %s, pin_idx: %d, light_blink_start, times: %d, onTime: %d, offTime: %d\r\n",
-//            lt->timerLedEvt?"true":"false", pin_idx, times, ledOnTime, ledOffTime);
+    APP_DEBUG(DEBUG_LED_EN2, "timer: %s, pin_idx: %d, light_blink_all_start, times: %d, onTime: %d, offTime: %d\r\n",
+            lt->timerLedEvt?"true":"false", device->button_num, times, ledOnTime, ledOffTime);
 
     if (lt->timerLedEvt) {
         light_blink_all_stop();
@@ -226,7 +232,7 @@ void light_blink_all_start(uint8_t times, uint16_t ledOnTime, uint16_t ledOffTim
     lt->ledOffTime = ledOffTime;
     lt->timer_stop = false;
 
-    APP_DEBUG(DEBUG_LED_EN2, "light_blink_all_start. timerLedEvt = NULL, times: %d, sta: %d, interval: %d\r\n", lt->times, lt->sta, interval);
+    APP_DEBUG(DEBUG_LED_EN1, "light_blink_all_start. timerLedEvt = NULL, times: %d, sta: %d, interval: %d\r\n", lt->times, lt->sta, interval);
 
     lt->timerLedEvt = TL_ZB_TIMER_SCHEDULE(lightAllTimerCb, NULL, interval);
     if (lt->timerLightBlinkStopEvt) TL_ZB_TIMER_CANCEL(&(lt->timerLightBlinkStopEvt));
@@ -267,7 +273,7 @@ bool light_idle() {
 
     for (uint8_t i = 0; i <= device->button_num; i++) {
         lt = &light[i];
-        if (lt->times && lt->timerLedEvt) {
+        if (lt->timerLedEvt && lt->timerLedEvt->used && lt->times) {
             return true;
         }
     }
