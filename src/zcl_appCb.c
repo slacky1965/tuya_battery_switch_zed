@@ -211,6 +211,28 @@ static void app_zclWriteReqCmd(uint8_t endPoint, uint16_t clusterId, zclWriteCmd
                 APP_DEBUG(DEBUG_ZCL_CB_EN, "Level rate: 0x%02x, ep: %d\r\n", rate, endPoint);
                 device_settings.defaultMoveRate[idx] = rate;
                 save = true;
+            } else if (attr[i].attrID == ZCL_ATTRID_LEVEL_MIN_LEVEL) {
+                uint8_t min = attr[i].attrData[0];
+#if UART_PRINTF_MODE && DEBUG_ZCL_CB_EN
+                APP_DEBUG(DEBUG_ZCL_CB_EN, "Level min: %d, ep: %d\r\n", min, epId);
+#endif
+                device_settings.levelMin[idx] = min;
+                save = true;
+            } else if (attr[i].attrID == ZCL_ATTRID_LEVEL_MAX_LEVEL) {
+                uint8_t max = attr[i].attrData[0];
+#if UART_PRINTF_MODE && DEBUG_ZCL_CB_EN
+                APP_DEBUG(DEBUG_ZCL_CB_EN, "Level max: %d, ep: %d\r\n", max, epId);
+#endif
+                device_settings.levelMax[idx] = max;
+                save = true;
+            } else if (attr[i].attrID == ZCL_ATTRID_LEVEL_ON_OFF_TRANSITION_TIME) {
+                uint16_t time = attr[i].attrData[0] & 0xff;
+                time |= (attr[i].attrData[1] << 8) & 0xffff;
+#if UART_PRINTF_MODE && DEBUG_ZCL_CB_EN
+                APP_DEBUG(DEBUG_ZCL_CB_EN, "Level time: %d, ep: %d\r\n", time, epId);
+#endif
+                device_settings.transitionTime[idx] = time;
+                save = true;
             }
         }
     }
