@@ -211,6 +211,28 @@ static void app_zclWriteReqCmd(uint8_t endPoint, uint16_t clusterId, zclWriteCmd
                 APP_DEBUG(DEBUG_ZCL_CB_EN, "Level rate: 0x%02x, ep: %d\r\n", rate, endPoint);
                 device_settings.defaultMoveRate[idx] = rate;
                 save = true;
+            } else if (attr[i].attrID == ZCL_ATTRID_LEVEL_MIN_LEVEL) {
+                uint8_t min = attr[i].attrData[0];
+#if UART_PRINTF_MODE && DEBUG_ZCL_CB_EN
+                APP_DEBUG(DEBUG_ZCL_CB_EN, "Level min: %d, ep: %d\r\n", min, epId);
+#endif
+                device_settings.levelMin[idx] = min;
+                save = true;
+            } else if (attr[i].attrID == ZCL_ATTRID_LEVEL_MAX_LEVEL) {
+                uint8_t max = attr[i].attrData[0];
+#if UART_PRINTF_MODE && DEBUG_ZCL_CB_EN
+                APP_DEBUG(DEBUG_ZCL_CB_EN, "Level max: %d, ep: %d\r\n", max, epId);
+#endif
+                device_settings.levelMax[idx] = max;
+                save = true;
+            } else if (attr[i].attrID == ZCL_ATTRID_LEVEL_ON_OFF_TRANSITION_TIME) {
+                uint16_t time = attr[i].attrData[0] & 0xff;
+                time |= (attr[i].attrData[1] << 8) & 0xffff;
+#if UART_PRINTF_MODE && DEBUG_ZCL_CB_EN
+                APP_DEBUG(DEBUG_ZCL_CB_EN, "Level time: %d, ep: %d\r\n", time, epId);
+#endif
+                device_settings.transitionTime[idx] = time;
+                save = true;
             }
         }
     }
@@ -450,16 +472,17 @@ static void app_zcltriggerCmdHandler(zcl_triggerEffect_t *pTriggerEffect)
  *
  * @return  None
  */
-static void app_zclIdentifyQueryRspCmdHandler(uint8_t endpoint, uint16_t srcAddr, zcl_identifyRspCmd_t *identifyRsp)
-{
+static void app_zclIdentifyQueryRspCmdHandler(uint8_t src_ep, uint8_t dst_ep, uint16_t srcAddr, zcl_identifyRspCmd_t *identifyRsp) {
+    APP_DEBUG(DEBUG_ZCL_CB_EN, "app_zclIdentifyQueryRspCmdHandler. src_ep: %d, dst_ep: %d, time: %d\r\n", src_ep, dst_ep, identifyRsp->timeout);
 #if FIND_AND_BIND_SUPPORT
-	if(identifyRsp->timeout){
-		findBindDst_t dstInfo;
-		dstInfo.addr = srcAddr;
-		dstInfo.endpoint = endpoint;
+    if(identifyRsp->timeout){
+        findBindDst_t dstInfo;
+        dstInfo.addr = srcAddr;
+        dstInfo.endpoint = dst_ep;
+        findbind->find_bind_dst_ep = src_ep;
 
-		bdb_addIdentifyActiveEpForFB(dstInfo);
-	}
+        bdb_addIdentifyActiveEpForFB(dstInfo);
+    }
 #endif
 }
 
@@ -474,9 +497,11 @@ static void app_zclIdentifyQueryRspCmdHandler(uint8_t endpoint, uint16_t srcAddr
  *
  * @return  status_t
  */
-status_t app_identifyCb(zclIncomingAddrInfo_t *pAddrInfo, uint8_t cmdId, void *cmdPayload)
-{
-	if(pAddrInfo->dstEp == APP_ENDPOINT1){
+status_t app_identifyCb(zclIncomingAddrInfo_t *pAddrInfo, uint8_t cmdId, void *cmdPayload) {
+
+    APP_DEBUG(DEBUG_ZCL_CB_EN, "app_identifyCb, ep: %d, dirCluster: %d, cmd: 0x%02x\r\n", pAddrInfo->dstEp, pAddrInfo->dirCluster, cmdId);
+
+    if(pAddrInfo->dstEp >= APP_ENDPOINT1 && pAddrInfo->dstEp <= APP_ENDPOINT6){
 		if(pAddrInfo->dirCluster == ZCL_FRAME_CLIENT_SERVER_DIR){
 			switch(cmdId){
 				case ZCL_CMD_IDENTIFY:
@@ -490,7 +515,7 @@ status_t app_identifyCb(zclIncomingAddrInfo_t *pAddrInfo, uint8_t cmdId, void *c
 			}
 		}else{
 			if(cmdId == ZCL_CMD_IDENTIFY_QUERY_RSP){
-				app_zclIdentifyQueryRspCmdHandler(pAddrInfo->dstEp, pAddrInfo->srcAddr, (zcl_identifyRspCmd_t *)cmdPayload);
+                app_zclIdentifyQueryRspCmdHandler(pAddrInfo->srcEp, pAddrInfo->dstEp, pAddrInfo->srcAddr, (zcl_identifyRspCmd_t *)cmdPayload);
 			}
 		}
 	}

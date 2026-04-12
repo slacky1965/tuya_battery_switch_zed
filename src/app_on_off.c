@@ -7,15 +7,15 @@ static status_t cmdOnOffSend(uint8_t ep, epInfo_t *dstEpInfo, uint8_t command) {
     /* command 0x00 - off, 0x01 - on, 0x02 - toggle */
     switch(command) {
         case ZCL_CMD_ONOFF_OFF:
-            APP_DEBUG(DEBUG_ONOFF_EN, "OnOff command: off\r\n");
+//            APP_DEBUG(DEBUG_ONOFF_EN, "OnOff command: off\r\n");
             st = zcl_onOff_offCmd(ep, dstEpInfo, FALSE);
             break;
         case ZCL_CMD_ONOFF_ON:
-            APP_DEBUG(DEBUG_ONOFF_EN, "OnOff command: on\r\n");
+//            APP_DEBUG(DEBUG_ONOFF_EN, "OnOff command: on\r\n");
             st = zcl_onOff_onCmd(ep, dstEpInfo, FALSE);
             break;
         case ZCL_CMD_ONOFF_TOGGLE:
-            APP_DEBUG(DEBUG_ONOFF_EN, "OnOff command: toggle\r\n");
+//            APP_DEBUG(DEBUG_ONOFF_EN, "OnOff command: toggle\r\n");
             st = zcl_onOff_toggleCmd(ep, dstEpInfo, FALSE);
             break;
         default:
@@ -68,10 +68,10 @@ void app_cmdOnOff(uint8_t ep, uint8_t command) {
                 memcpy(dstEpInfo.dstAddr.extAddr, bind_tbl->dstExtAddrInfo.extAddr, sizeof(extAddr_t));
             }
             st = cmdOnOffSend(ep, &dstEpInfo, command);
-#if DEBUG_ONOFF_EN
-            APP_DEBUG(DEBUG_ONOFF_EN, "OnOff for bind. cmd: %s, ep: %d, clId: 0x%04x, addrMode: %d - %s, ",
+#if UART_PRINTF_MODE && DEBUG_ONOFF_EN
+            APP_DEBUG(DEBUG_ONOFF_EN, "OnOff for bind. cmd: %s, src_ep: %d, dst_ep: %d, clId: 0x%04x, addrMode: %d - %s, ",
                     (command == 0)?"Off":(command == 1)?"On":"Toggle",
-                     bind_tbl->srcEp, bind_tbl->clusterId, dstEpInfo.dstAddrMode,
+                     bind_tbl->srcEp, bind_tbl->dstExtAddrInfo.dstEp, bind_tbl->clusterId, dstEpInfo.dstAddrMode,
                     (dstEpInfo.dstAddrMode == APS_DSTADDR_EP_NOTPRESETNT)?"APS_DSTADDR_EP_NOTPRESETNT":
                     (dstEpInfo.dstAddrMode == APS_SHORT_GROUPADDR_NOEP)?"APS_SHORT_GROUPADDR_NOEP":
                     (dstEpInfo.dstAddrMode == APS_SHORT_DSTADDR_WITHEP)?"APS_SHORT_DSTADDR_WITHEP":"APS_LONG_DSTADDR_WITHEP");
@@ -93,7 +93,5 @@ void app_cmdOnOff(uint8_t ep, uint8_t command) {
         }
         bind_tbl++;
     }
-//    cmdOnOffSend(ep, &dstEpInfo, command);
-//    printf("OnOffCmf send. Command: 0x%02x\r\n", command);
 }
 

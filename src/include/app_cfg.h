@@ -73,18 +73,20 @@
 #define USB_PRINTF_MODE         		OFF
 
 #define DEBUG_BUTTON_EN                 ON
-#define DEBUG_SAVE_EN                   ON
-#define DEBUG_REPORTING_EN              ON
+#define DEBUG_SAVE_EN                   OFF
+#define DEBUG_REPORTING_EN              OFF
 #define DEBUG_BATTERY_EN                OFF
 #define DEBUG_PM_EN                     ON
-#define DEBUG_OTA_EN                    ON
+#define DEBUG_OTA_EN                    OFF
 #define DEBUG_ONOFF_EN                  ON
 #define DEBUG_LEVEL_EN                  ON
-#define DEBUG_SCENE_EN                  ON
-#define DEBUG_GPIO_EN                   ON
+#define DEBUG_SCENE_EN                  OFF
+#define DEBUG_GPIO_EN                   OFF
 #define DEBUG_LED_EN                    OFF
 #define DEBUG_ZCL_CB_EN                 OFF
 #define DEBUG_ZB_CB_EN                  OFF
+#define DEBUG_BDB_EN                    OFF
+#define DEBUG_FINDBIND_EN               ON
 
 #if UART_PRINTF_MODE
 #define DEBUG_INFO_TX_PIN       GPIO_PB1
@@ -99,7 +101,7 @@
 
 /* BDB */
 #define TOUCHLINK_SUPPORT				OFF
-#define FIND_AND_BIND_SUPPORT			OFF
+#define FIND_AND_BIND_SUPPORT			ON
 
 /* Board define */
 #if defined(MCU_CORE_826x)

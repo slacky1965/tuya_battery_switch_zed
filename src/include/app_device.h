@@ -56,7 +56,10 @@ typedef struct __attribute__((packed)) {
      */
     uint8_t switchType[DEVICE_BUTTON_MAX];
     uint8_t switchActions[DEVICE_BUTTON_MAX];
+    uint8_t levelMin[DEVICE_BUTTON_MAX];
+    uint8_t levelMax[DEVICE_BUTTON_MAX];
     uint8_t defaultMoveRate[DEVICE_BUTTON_MAX];
+    uint16_t transitionTime[DEVICE_BUTTON_MAX];
     app_scene_t scene[DEVICE_BUTTON_MAX];
     uint8_t crc;
 } device_settings_t;

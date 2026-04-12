@@ -7,7 +7,6 @@
 static bool boot_announce_sent = false;
 
 app_ctx_t g_appCtx = {
-        .bdbFBTimerEvt = NULL,
         .timerForcedReportEvt = NULL,
         .timerCheckSleepEvt = NULL,
         .timerSetPollRateEvt = NULL,
@@ -55,6 +54,9 @@ const zdo_appIndCb_t appCbLst = {
 uint16_t bdb_findBindClusterList[] =
 {
     ZCL_CLUSTER_GEN_ON_OFF,
+    ZCL_CLUSTER_GEN_MULTISTATE_INPUT_BASIC,
+    ZCL_CLUSTER_GEN_LEVEL_CONTROL,
+    ZCL_CLUSTER_GEN_SCENES,
 };
 
 /**
@@ -136,22 +138,32 @@ void user_app_init(void)
 
     /* register endPoint */
     af_endpointRegister(APP_ENDPOINT1, (af_simple_descriptor_t *)&app_ep1Desc, zcl_rx_handler, NULL);
-    af_endpointRegister(APP_ENDPOINT2, (af_simple_descriptor_t *)&app_ep2Desc, zcl_rx_handler, NULL);
-    af_endpointRegister(APP_ENDPOINT3, (af_simple_descriptor_t *)&app_ep3Desc, zcl_rx_handler, NULL);
-    af_endpointRegister(APP_ENDPOINT4, (af_simple_descriptor_t *)&app_ep4Desc, zcl_rx_handler, NULL);
-    af_endpointRegister(APP_ENDPOINT5, (af_simple_descriptor_t *)&app_ep5Desc, zcl_rx_handler, NULL);
-    af_endpointRegister(APP_ENDPOINT6, (af_simple_descriptor_t *)&app_ep6Desc, zcl_rx_handler, NULL);
+    if (device->button_num > 1)
+        af_endpointRegister(APP_ENDPOINT2, (af_simple_descriptor_t *)&app_ep2Desc, zcl_rx_handler, NULL);
+    if (device->button_num > 2)
+        af_endpointRegister(APP_ENDPOINT3, (af_simple_descriptor_t *)&app_ep3Desc, zcl_rx_handler, NULL);
+    if (device->button_num > 3)
+        af_endpointRegister(APP_ENDPOINT4, (af_simple_descriptor_t *)&app_ep4Desc, zcl_rx_handler, NULL);
+    if (device->button_num > 4)
+        af_endpointRegister(APP_ENDPOINT5, (af_simple_descriptor_t *)&app_ep5Desc, zcl_rx_handler, NULL);
+    if (device->button_num > 5)
+        af_endpointRegister(APP_ENDPOINT6, (af_simple_descriptor_t *)&app_ep6Desc, zcl_rx_handler, NULL);
 
     zcl_reportingTabInit();
     device_settings_restore();
 
     /* Register ZCL specific cluster information */
     zcl_register(APP_ENDPOINT1, APP_EP1_CB_CLUSTER_NUM, (zcl_specClusterInfo_t *)g_appEp1ClusterList);
-    zcl_register(APP_ENDPOINT2, APP_EP2_CB_CLUSTER_NUM, (zcl_specClusterInfo_t *)g_appEp2ClusterList);
-    zcl_register(APP_ENDPOINT3, APP_EP3_CB_CLUSTER_NUM, (zcl_specClusterInfo_t *)g_appEp3ClusterList);
-    zcl_register(APP_ENDPOINT4, APP_EP4_CB_CLUSTER_NUM, (zcl_specClusterInfo_t *)g_appEp4ClusterList);
-    zcl_register(APP_ENDPOINT5, APP_EP5_CB_CLUSTER_NUM, (zcl_specClusterInfo_t *)g_appEp5ClusterList);
-    zcl_register(APP_ENDPOINT6, APP_EP6_CB_CLUSTER_NUM, (zcl_specClusterInfo_t *)g_appEp6ClusterList);
+    if (device->button_num > 1)
+        zcl_register(APP_ENDPOINT2, APP_EP2_CB_CLUSTER_NUM, (zcl_specClusterInfo_t *)g_appEp2ClusterList);
+    if (device->button_num > 2)
+        zcl_register(APP_ENDPOINT3, APP_EP3_CB_CLUSTER_NUM, (zcl_specClusterInfo_t *)g_appEp3ClusterList);
+    if (device->button_num > 3)
+        zcl_register(APP_ENDPOINT4, APP_EP4_CB_CLUSTER_NUM, (zcl_specClusterInfo_t *)g_appEp4ClusterList);
+    if (device->button_num > 4)
+        zcl_register(APP_ENDPOINT5, APP_EP5_CB_CLUSTER_NUM, (zcl_specClusterInfo_t *)g_appEp5ClusterList);
+    if (device->button_num > 5)
+        zcl_register(APP_ENDPOINT6, APP_EP6_CB_CLUSTER_NUM, (zcl_specClusterInfo_t *)g_appEp6ClusterList);
 
 #if ZCL_OTA_SUPPORT
     ota_init(OTA_TYPE_CLIENT, (af_simple_descriptor_t *)&app_ep1Desc, &app_otaInfo, &app_otaCb);
@@ -159,40 +171,40 @@ void user_app_init(void)
 
     batteryCb(NULL);
 
-#if DEBUG_BATTERY_EN
+#if UART_PRINTF_MODE && DEBUG_BATTERY_EN
     g_appCtx.timerBatteryEvt = TL_ZB_TIMER_SCHEDULE(batteryCb, NULL, TIMEOUT_1MIN);
 #else
     g_appCtx.timerBatteryEvt = TL_ZB_TIMER_SCHEDULE(batteryCb, NULL, BATTERY_TIMER_INTERVAL);
 #endif
 
-    DEBUG(DEBUG_GPIO_EN, "model_in_flash: %d\r\n", model_in_flash);
+    APP_DEBUG(DEBUG_GPIO_EN, "model_in_flash: %d\r\n", model_in_flash);
 
-    DEBUG(DEBUG_GPIO_EN, "reg_gpio_pa_setting1: 0x%x\r\n", reg_gpio_pa_setting1);
-    DEBUG(DEBUG_GPIO_EN, "reg_gpio_pa_setting2: 0x%x\r\n", reg_gpio_pa_setting2);
+    APP_DEBUG(DEBUG_GPIO_EN, "reg_gpio_pa_setting1: 0x%x\r\n", reg_gpio_pa_setting1);
+    APP_DEBUG(DEBUG_GPIO_EN, "reg_gpio_pa_setting2: 0x%x\r\n", reg_gpio_pa_setting2);
 
-    DEBUG(DEBUG_GPIO_EN, "areg_gpio_pb_ie: 0x%x\r\n", analog_read(areg_gpio_pb_ie));
-    DEBUG(DEBUG_GPIO_EN, "reg_gpio_pb_oen: 0x%x\r\n", reg_gpio_pb_oen);
-    DEBUG(DEBUG_GPIO_EN, "reg_gpio_pb_out: 0x%x\r\n", reg_gpio_pb_out);
-    DEBUG(DEBUG_GPIO_EN, "areg_gpio_pb_ds: 0x%x\r\n", analog_read(areg_gpio_pb_ds));
-    DEBUG(DEBUG_GPIO_EN, "reg_gpio_pb_gpio: 0x%x\r\n", reg_gpio_pb_gpio);
+    APP_DEBUG(DEBUG_GPIO_EN, "areg_gpio_pb_ie: 0x%x\r\n", analog_read(areg_gpio_pb_ie));
+    APP_DEBUG(DEBUG_GPIO_EN, "reg_gpio_pb_oen: 0x%x\r\n", reg_gpio_pb_oen);
+    APP_DEBUG(DEBUG_GPIO_EN, "reg_gpio_pb_out: 0x%x\r\n", reg_gpio_pb_out);
+    APP_DEBUG(DEBUG_GPIO_EN, "areg_gpio_pb_ds: 0x%x\r\n", analog_read(areg_gpio_pb_ds));
+    APP_DEBUG(DEBUG_GPIO_EN, "reg_gpio_pb_gpio: 0x%x\r\n", reg_gpio_pb_gpio);
 
-    DEBUG(DEBUG_GPIO_EN, "areg_gpio_pc_ie: 0x%x\r\n", analog_read(areg_gpio_pc_ie));
-    DEBUG(DEBUG_GPIO_EN, "reg_gpio_pc_oen: 0x%x\r\n", reg_gpio_pc_oen);
-    DEBUG(DEBUG_GPIO_EN, "reg_gpio_pc_out: 0x%x\r\n", reg_gpio_pc_out);
-    DEBUG(DEBUG_GPIO_EN, "areg_gpio_pc_ds: 0x%x\r\n", analog_read(areg_gpio_pc_ds));
-    DEBUG(DEBUG_GPIO_EN, "reg_gpio_pc_gpio: 0x%x\r\n", reg_gpio_pc_gpio);
+    APP_DEBUG(DEBUG_GPIO_EN, "areg_gpio_pc_ie: 0x%x\r\n", analog_read(areg_gpio_pc_ie));
+    APP_DEBUG(DEBUG_GPIO_EN, "reg_gpio_pc_oen: 0x%x\r\n", reg_gpio_pc_oen);
+    APP_DEBUG(DEBUG_GPIO_EN, "reg_gpio_pc_out: 0x%x\r\n", reg_gpio_pc_out);
+    APP_DEBUG(DEBUG_GPIO_EN, "areg_gpio_pc_ds: 0x%x\r\n", analog_read(areg_gpio_pc_ds));
+    APP_DEBUG(DEBUG_GPIO_EN, "reg_gpio_pc_gpio: 0x%x\r\n", reg_gpio_pc_gpio);
 
-    DEBUG(DEBUG_GPIO_EN, "reg_gpio_pd_setting1: 0x%x\r\n", reg_gpio_pd_setting1);
-    DEBUG(DEBUG_GPIO_EN, "reg_gpio_pd_setting2: 0x%x\r\n", reg_gpio_pd_setting2);
+    APP_DEBUG(DEBUG_GPIO_EN, "reg_gpio_pd_setting1: 0x%x\r\n", reg_gpio_pd_setting1);
+    APP_DEBUG(DEBUG_GPIO_EN, "reg_gpio_pd_setting2: 0x%x\r\n", reg_gpio_pd_setting2);
 
-    DEBUG(DEBUG_GPIO_EN, "Wakeup PA0-PA3 0x0E: 0x%x\r\n", analog_read(0x0E));
-    DEBUG(DEBUG_GPIO_EN, "Wakeup PA4-PA7 0x0F: 0x%x\r\n", analog_read(0x0F));
-    DEBUG(DEBUG_GPIO_EN, "Wakeup PB0-PB3 0x10: 0x%x\r\n", analog_read(0x10));
-    DEBUG(DEBUG_GPIO_EN, "Wakeup PB4-PB7 0x11: 0x%x\r\n", analog_read(0x11));
-    DEBUG(DEBUG_GPIO_EN, "Wakeup PC0-PC3 0x12: 0x%x\r\n", analog_read(0x12));
-    DEBUG(DEBUG_GPIO_EN, "Wakeup PC4-PC7 0x13: 0x%x\r\n", analog_read(0x13));
-    DEBUG(DEBUG_GPIO_EN, "Wakeup PD0-PD3 0x14: 0x%x\r\n", analog_read(0x14));
-    DEBUG(DEBUG_GPIO_EN, "Wakeup PD4-PD7 0x15: 0x%x\r\n", analog_read(0x15));
+    APP_DEBUG(DEBUG_GPIO_EN, "Wakeup PA0-PA3 0x0E: 0x%x\r\n", analog_read(0x0E));
+    APP_DEBUG(DEBUG_GPIO_EN, "Wakeup PA4-PA7 0x0F: 0x%x\r\n", analog_read(0x0F));
+    APP_DEBUG(DEBUG_GPIO_EN, "Wakeup PB0-PB3 0x10: 0x%x\r\n", analog_read(0x10));
+    APP_DEBUG(DEBUG_GPIO_EN, "Wakeup PB4-PB7 0x11: 0x%x\r\n", analog_read(0x11));
+    APP_DEBUG(DEBUG_GPIO_EN, "Wakeup PC0-PC3 0x12: 0x%x\r\n", analog_read(0x12));
+    APP_DEBUG(DEBUG_GPIO_EN, "Wakeup PC4-PC7 0x13: 0x%x\r\n", analog_read(0x13));
+    APP_DEBUG(DEBUG_GPIO_EN, "Wakeup PD0-PD3 0x14: 0x%x\r\n", analog_read(0x14));
+    APP_DEBUG(DEBUG_GPIO_EN, "Wakeup PD4-PD7 0x15: 0x%x\r\n", analog_read(0x15));
 }
 
 void app_task(void) {
@@ -208,7 +220,7 @@ void app_task(void) {
         report_handler();
 #if PM_ENABLE
         button_handler();
-        if(!button_idle() && !factory_reset && !light_idle()) {
+        if(!button_idle() /*&& !light_idle()*/) {
             app_lowPowerEnter();
         }
 #endif
@@ -219,7 +231,7 @@ extern volatile uint16_t T_evtExcept[4];
 
 static void appSysException(void) {
 
-    DEBUG(UART_PRINTF_MODE, "app_sysException, line: %d, event: 0x%02x, reset\r\n", T_evtExcept[0], T_evtExcept[1]);
+    APP_DEBUG(UART_PRINTF_MODE, "app_sysException, line: %d, event: 0x%02x, reset\r\n", T_evtExcept[0], T_evtExcept[1]);
 
 #if 1
     SYSTEM_RESET();
@@ -242,8 +254,6 @@ void user_init(bool isRetention) {
 
     device_init();
 
-    /* Initialize LEDs*/
-    light_init();
 
 #if PA_ENABLE
     rf_paInit(PA_TX, PA_RX);
@@ -258,6 +268,9 @@ void user_init(bool isRetention) {
 #endif
 
     if(!isRetention) {
+
+        /* Initialize LEDs*/
+        light_init();
 
         start_message();
 

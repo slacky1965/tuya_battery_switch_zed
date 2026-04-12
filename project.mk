@@ -1,7 +1,9 @@
 # Add inputs and outputs from these tool invocations to the build variables
 OUT_DIR += \
 /$(SRC_PATH) \
-/$(SRC_PATH)/zcl \
+/$(SRC_PATH)/zigbee/zcl \
+/$(SRC_PATH)/zigbee/zdo \
+/$(SRC_PATH)/zigbee/bdb \
 /$(SRC_PATH)/common
  
 OBJS += \
@@ -10,8 +12,10 @@ $(OUT_PATH)/$(SRC_PATH)/drv_sdk/drv_putchar.o \
 $(OUT_PATH)/$(SRC_PATH)/common/main.o \
 $(OUT_PATH)/$(SRC_PATH)/common/flash.o \
 $(OUT_PATH)/$(SRC_PATH)/common/factory_reset.o \
-$(OUT_PATH)/$(SRC_PATH)/zcl/zcl_onoffSwitchCfg.o \
-$(OUT_PATH)/$(SRC_PATH)/zcl/zcl_reporting.o \
+$(OUT_PATH)/$(SRC_PATH)/zigbee/zcl/zcl_onoffSwitchCfg.o \
+$(OUT_PATH)/$(SRC_PATH)/zigbee/zcl/zcl_reporting.o \
+$(OUT_PATH)/$(SRC_PATH)/zigbee/bdb/bdb.o \
+$(OUT_PATH)/$(SRC_PATH)/zigbee/zdo/zdp.o \
 $(OUT_PATH)/$(SRC_PATH)/app_device.o \
 $(OUT_PATH)/$(SRC_PATH)/app_button.o \
 $(OUT_PATH)/$(SRC_PATH)/app_led.o \
@@ -21,6 +25,7 @@ $(OUT_PATH)/$(SRC_PATH)/app_scene.o \
 $(OUT_PATH)/$(SRC_PATH)/app_pm.o \
 $(OUT_PATH)/$(SRC_PATH)/app_battery.o \
 $(OUT_PATH)/$(SRC_PATH)/app_reporting.o \
+$(OUT_PATH)/$(SRC_PATH)/app_findbind.o \
 $(OUT_PATH)/$(SRC_PATH)/app_endpoint_cfg.o \
 $(OUT_PATH)/$(SRC_PATH)/app_utility.o \
 $(OUT_PATH)/$(SRC_PATH)/app_main.o \

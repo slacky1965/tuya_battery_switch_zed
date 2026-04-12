@@ -76,6 +76,12 @@ static void print_setting_sr(nv_sts_t st, device_settings_t *device_settings_tmp
     for (uint8_t i = 0; i < DEVICE_BUTTON_MAX; i++) {
         APP_DEBUG(DEBUG_SAVE_EN, "switchActions%d:     0x%02x\r\n", i, device_settings_tmp->switchActions[i]);
         APP_DEBUG(DEBUG_SAVE_EN, "switchType%d:        0x%02x\r\n", i, device_settings_tmp->switchType[i]);
+        APP_DEBUG(DEBUG_SAVE_EN, "levelMin%d:          %d\r\n", i, device_settings_tmp->levelMin[i]);
+        APP_DEBUG(DEBUG_SAVE_EN, "levelMax%d:          %d\r\n", i, device_settings_tmp->levelMax[i]);
+        APP_DEBUG(DEBUG_SAVE_EN, "defaultMoveRate%d:   %d\r\n", i, device_settings_tmp->defaultMoveRate[i]);
+        APP_DEBUG(DEBUG_SAVE_EN, "transitionTime%d:    %d\r\n", i, device_settings_tmp->transitionTime[i]);
+        APP_DEBUG(DEBUG_SAVE_EN, "Scene%d:             %d\r\n", i, device_settings_tmp->scene[i].sceneId);
+        APP_DEBUG(DEBUG_SAVE_EN, "SceneGroup%d:        %d\r\n", i, device_settings_tmp->scene[i].groupId);
     }
 
 }
@@ -96,6 +102,10 @@ static void set_device_setting_default(device_settings_t *settings) {
             settings->switchType[i] = ZCL_SWITCH_TYPE_TOGGLE;
         }
         settings->defaultMoveRate[i] = DEFAULT_MOVE_RATE;
+        settings->defaultMoveRate[i] = DEFAULT_MOVE_RATE;
+        settings->levelMin[i] = ZCL_LEVEL_ATTR_MIN_LEVEL;
+        settings->levelMax[i] = ZCL_LEVEL_ATTR_MAX_LEVEL;
+        settings->transitionTime[i] = LEVEL_TRANSITION_TIME;
         settings->scene[i].groupId = 0;
         settings->scene[i].sceneId = 0;
     }
@@ -150,6 +160,9 @@ nv_sts_t device_settings_restore() {
         g_zcl_onOffCfgAttrs[i].custom_swtichType = device_settings.switchType[i];
         g_zcl_onOffCfgAttrs[i].switchActions = device_settings.switchActions[i];
         g_zcl_levelAttrs[i].defaultMoveRate = device_settings.defaultMoveRate[i];
+        g_zcl_levelAttrs[i].minLevel = device_settings.levelMin[i];
+        g_zcl_levelAttrs[i].maxLevel = device_settings.levelMax[i];
+        g_zcl_levelAttrs[i].transitionTime = device_settings.transitionTime[i];
         g_zcl_sceneAttrs[i].customScene = device_settings.scene[i].sceneId;
         g_zcl_sceneAttrs[i].customGroup = device_settings.scene[i].groupId;
     }
@@ -357,8 +370,8 @@ void device_init() {
         } else {
             device_model_restore();
         }
-    } else {
-        device_model_init();
+//    } else {
+//        device_model_init();
     }
 }
 

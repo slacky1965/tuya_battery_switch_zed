@@ -63,6 +63,7 @@ const uint16_t app_ep1_outClusterList[] =
  */
 const uint16_t app_ep2_inClusterList[] =
 {
+    ZCL_CLUSTER_GEN_IDENTIFY,
     ZCL_CLUSTER_GEN_ON_OFF_SWITCH_CONFIG,
     ZCL_CLUSTER_GEN_MULTISTATE_INPUT_BASIC,
     ZCL_CLUSTER_GEN_LEVEL_CONTROL,
@@ -84,6 +85,7 @@ const uint16_t app_ep2_outClusterList[] =
  */
 const uint16_t app_ep3_inClusterList[] =
 {
+    ZCL_CLUSTER_GEN_IDENTIFY,
     ZCL_CLUSTER_GEN_ON_OFF_SWITCH_CONFIG,
     ZCL_CLUSTER_GEN_MULTISTATE_INPUT_BASIC,
     ZCL_CLUSTER_GEN_LEVEL_CONTROL,
@@ -105,6 +107,7 @@ const uint16_t app_ep3_outClusterList[] =
  */
 const uint16_t app_ep4_inClusterList[] =
 {
+    ZCL_CLUSTER_GEN_IDENTIFY,
     ZCL_CLUSTER_GEN_ON_OFF_SWITCH_CONFIG,
     ZCL_CLUSTER_GEN_MULTISTATE_INPUT_BASIC,
     ZCL_CLUSTER_GEN_LEVEL_CONTROL,
@@ -126,6 +129,7 @@ const uint16_t app_ep4_outClusterList[] =
  */
 const uint16_t app_ep5_inClusterList[] =
 {
+    ZCL_CLUSTER_GEN_IDENTIFY,
     ZCL_CLUSTER_GEN_ON_OFF_SWITCH_CONFIG,
     ZCL_CLUSTER_GEN_MULTISTATE_INPUT_BASIC,
     ZCL_CLUSTER_GEN_LEVEL_CONTROL,
@@ -147,6 +151,7 @@ const uint16_t app_ep5_outClusterList[] =
  */
 const uint16_t app_ep6_inClusterList[] =
 {
+    ZCL_CLUSTER_GEN_IDENTIFY,
     ZCL_CLUSTER_GEN_ON_OFF_SWITCH_CONFIG,
     ZCL_CLUSTER_GEN_MULTISTATE_INPUT_BASIC,
     ZCL_CLUSTER_GEN_LEVEL_CONTROL,
@@ -304,6 +309,76 @@ const zclAttrInfo_t identify_attrTbl[] =
 };
 
 #define ZCL_IDENTIFY_ATTR_NUM           sizeof(identify_attrTbl) / sizeof(zclAttrInfo_t)
+
+zcl_identifyAttr_t g_zcl_identify2Attrs =
+{
+    .identifyTime   = 0x0000,
+};
+
+const zclAttrInfo_t identify2_attrTbl[] =
+{
+    { ZCL_ATTRID_IDENTIFY_TIME,             ZCL_UINT16,   RW,   (uint8_t*)&g_zcl_identify2Attrs.identifyTime },
+
+    { ZCL_ATTRID_GLOBAL_CLUSTER_REVISION,   ZCL_UINT16,   R,    (uint8_t*)&zcl_attr_global_clusterRevision},
+};
+
+#define ZCL_IDENTIFY2_ATTR_NUM           sizeof(identify2_attrTbl) / sizeof(zclAttrInfo_t)
+
+zcl_identifyAttr_t g_zcl_identify3Attrs =
+{
+    .identifyTime   = 0x0000,
+};
+
+const zclAttrInfo_t identify3_attrTbl[] =
+{
+    { ZCL_ATTRID_IDENTIFY_TIME,             ZCL_UINT16,   RW,   (uint8_t*)&g_zcl_identify3Attrs.identifyTime },
+
+    { ZCL_ATTRID_GLOBAL_CLUSTER_REVISION,   ZCL_UINT16,   R,    (uint8_t*)&zcl_attr_global_clusterRevision},
+};
+
+#define ZCL_IDENTIFY3_ATTR_NUM           sizeof(identify3_attrTbl) / sizeof(zclAttrInfo_t)
+
+zcl_identifyAttr_t g_zcl_identify4Attrs =
+{
+    .identifyTime   = 0x0000,
+};
+
+const zclAttrInfo_t identify4_attrTbl[] =
+{
+    { ZCL_ATTRID_IDENTIFY_TIME,             ZCL_UINT16,   RW,   (uint8_t*)&g_zcl_identify4Attrs.identifyTime },
+
+    { ZCL_ATTRID_GLOBAL_CLUSTER_REVISION,   ZCL_UINT16,   R,    (uint8_t*)&zcl_attr_global_clusterRevision},
+};
+
+#define ZCL_IDENTIFY4_ATTR_NUM           sizeof(identify4_attrTbl) / sizeof(zclAttrInfo_t)
+
+zcl_identifyAttr_t g_zcl_identify5Attrs =
+{
+    .identifyTime   = 0x0000,
+};
+
+const zclAttrInfo_t identify5_attrTbl[] =
+{
+    { ZCL_ATTRID_IDENTIFY_TIME,             ZCL_UINT16,   RW,   (uint8_t*)&g_zcl_identify5Attrs.identifyTime },
+
+    { ZCL_ATTRID_GLOBAL_CLUSTER_REVISION,   ZCL_UINT16,   R,    (uint8_t*)&zcl_attr_global_clusterRevision},
+};
+
+#define ZCL_IDENTIFY5_ATTR_NUM           sizeof(identify5_attrTbl) / sizeof(zclAttrInfo_t)
+
+zcl_identifyAttr_t g_zcl_identify6Attrs =
+{
+    .identifyTime   = 0x0000,
+};
+
+const zclAttrInfo_t identify6_attrTbl[] =
+{
+    { ZCL_ATTRID_IDENTIFY_TIME,             ZCL_UINT16,   RW,   (uint8_t*)&g_zcl_identify6Attrs.identifyTime },
+
+    { ZCL_ATTRID_GLOBAL_CLUSTER_REVISION,   ZCL_UINT16,   R,    (uint8_t*)&zcl_attr_global_clusterRevision},
+};
+
+#define ZCL_IDENTIFY6_ATTR_NUM           sizeof(identify6_attrTbl) / sizeof(zclAttrInfo_t)
 
 /* power */
 zcl_powerAttr_t g_zcl_powerAttrs =
@@ -670,6 +745,7 @@ zcl_levelAttr_t g_zcl_levelAttrs[DEVICE_BUTTON_MAX] = {
         .maxLevel = ZCL_LEVEL_ATTR_MAX_LEVEL,
         .options  = 0,
         .defaultMoveRate = 100,
+        .transitionTime = LEVEL_TRANSITION_TIME,
     },
     {
         .currentLevel = 10,
@@ -677,6 +753,7 @@ zcl_levelAttr_t g_zcl_levelAttrs[DEVICE_BUTTON_MAX] = {
         .maxLevel = ZCL_LEVEL_ATTR_MAX_LEVEL,
         .options  = 0,
         .defaultMoveRate = 100,
+        .transitionTime = LEVEL_TRANSITION_TIME,
     },
     {
         .currentLevel = 10,
@@ -684,6 +761,7 @@ zcl_levelAttr_t g_zcl_levelAttrs[DEVICE_BUTTON_MAX] = {
         .maxLevel = ZCL_LEVEL_ATTR_MAX_LEVEL,
         .options  = 0,
         .defaultMoveRate = 100,
+        .transitionTime = LEVEL_TRANSITION_TIME,
     },
     {
         .currentLevel = 10,
@@ -691,6 +769,7 @@ zcl_levelAttr_t g_zcl_levelAttrs[DEVICE_BUTTON_MAX] = {
         .maxLevel = ZCL_LEVEL_ATTR_MAX_LEVEL,
         .options  = 0,
         .defaultMoveRate = 100,
+        .transitionTime = LEVEL_TRANSITION_TIME,
     },
     {
         .currentLevel = 10,
@@ -698,6 +777,7 @@ zcl_levelAttr_t g_zcl_levelAttrs[DEVICE_BUTTON_MAX] = {
         .maxLevel = ZCL_LEVEL_ATTR_MAX_LEVEL,
         .options  = 0,
         .defaultMoveRate = 100,
+        .transitionTime = LEVEL_TRANSITION_TIME,
     },
     {
         .currentLevel = 10,
@@ -705,16 +785,18 @@ zcl_levelAttr_t g_zcl_levelAttrs[DEVICE_BUTTON_MAX] = {
         .maxLevel = ZCL_LEVEL_ATTR_MAX_LEVEL,
         .options  = 0,
         .defaultMoveRate = 100,
+        .transitionTime = LEVEL_TRANSITION_TIME,
     },
 };
 
 const zclAttrInfo_t level1_attrTbl[] =
 {
     { ZCL_ATTRID_LEVEL_CURRENT_LEVEL,       ZCL_UINT8,      RR, (uint8_t*)&g_zcl_levelAttrs[0].currentLevel },
-    { ZCL_ATTRID_LEVEL_MIN_LEVEL,           ZCL_UINT8,      R,  (uint8_t*)&g_zcl_levelAttrs[0].minLevel     },
-    { ZCL_ATTRID_LEVEL_MAX_LEVEL,           ZCL_UINT8,      R,  (uint8_t*)&g_zcl_levelAttrs[0].maxLevel     },
+    { ZCL_ATTRID_LEVEL_MIN_LEVEL,           ZCL_UINT8,      RW, (uint8_t*)&g_zcl_levelAttrs[0].minLevel     },
+    { ZCL_ATTRID_LEVEL_MAX_LEVEL,           ZCL_UINT8,      RW, (uint8_t*)&g_zcl_levelAttrs[0].maxLevel     },
     { ZCL_ATTRID_LEVEL_OPTIONS,             ZCL_BITMAP8,    RW, (uint8_t*)&g_zcl_levelAttrs[0].options      },
-    { ZCL_ATTRID_LEVEL_DEFAULT_MOVE_RATE,   ZCL_UINT8,      RW, (uint8_t*)&g_zcl_levelAttrs[0].defaultMoveRate     },
+    { ZCL_ATTRID_LEVEL_DEFAULT_MOVE_RATE,   ZCL_UINT8,      RW, (uint8_t*)&g_zcl_levelAttrs[0].defaultMoveRate  },
+    { ZCL_ATTRID_LEVEL_ON_OFF_TRANSITION_TIME, ZCL_UINT16,  RW, (uint8_t*)&g_zcl_levelAttrs[0].transitionTime   },
 
     { ZCL_ATTRID_GLOBAL_CLUSTER_REVISION,   ZCL_UINT16,     R,  (u8*)&zcl_attr_global_clusterRevision       },
 };
@@ -724,10 +806,11 @@ const zclAttrInfo_t level1_attrTbl[] =
 const zclAttrInfo_t level2_attrTbl[] =
 {
     { ZCL_ATTRID_LEVEL_CURRENT_LEVEL,       ZCL_UINT8,      RR, (uint8_t*)&g_zcl_levelAttrs[1].currentLevel },
-    { ZCL_ATTRID_LEVEL_MIN_LEVEL,           ZCL_UINT8,      R,  (uint8_t*)&g_zcl_levelAttrs[1].minLevel     },
-    { ZCL_ATTRID_LEVEL_MAX_LEVEL,           ZCL_UINT8,      R,  (uint8_t*)&g_zcl_levelAttrs[1].maxLevel     },
+    { ZCL_ATTRID_LEVEL_MIN_LEVEL,           ZCL_UINT8,      RW, (uint8_t*)&g_zcl_levelAttrs[1].minLevel     },
+    { ZCL_ATTRID_LEVEL_MAX_LEVEL,           ZCL_UINT8,      RW, (uint8_t*)&g_zcl_levelAttrs[1].maxLevel     },
     { ZCL_ATTRID_LEVEL_OPTIONS,             ZCL_BITMAP8,    RW, (uint8_t*)&g_zcl_levelAttrs[1].options      },
-    { ZCL_ATTRID_LEVEL_DEFAULT_MOVE_RATE,   ZCL_UINT8,      RW, (uint8_t*)&g_zcl_levelAttrs[1].defaultMoveRate     },
+    { ZCL_ATTRID_LEVEL_DEFAULT_MOVE_RATE,   ZCL_UINT8,      RW, (uint8_t*)&g_zcl_levelAttrs[1].defaultMoveRate  },
+    { ZCL_ATTRID_LEVEL_ON_OFF_TRANSITION_TIME, ZCL_UINT16,  RW, (uint8_t*)&g_zcl_levelAttrs[1].transitionTime   },
 
     { ZCL_ATTRID_GLOBAL_CLUSTER_REVISION,   ZCL_UINT16,     R,  (u8*)&zcl_attr_global_clusterRevision       },
 };
@@ -737,10 +820,11 @@ const zclAttrInfo_t level2_attrTbl[] =
 const zclAttrInfo_t level3_attrTbl[] =
 {
     { ZCL_ATTRID_LEVEL_CURRENT_LEVEL,       ZCL_UINT8,      RR, (uint8_t*)&g_zcl_levelAttrs[2].currentLevel },
-    { ZCL_ATTRID_LEVEL_MIN_LEVEL,           ZCL_UINT8,      R,  (uint8_t*)&g_zcl_levelAttrs[2].minLevel     },
-    { ZCL_ATTRID_LEVEL_MAX_LEVEL,           ZCL_UINT8,      R,  (uint8_t*)&g_zcl_levelAttrs[2].maxLevel     },
+    { ZCL_ATTRID_LEVEL_MIN_LEVEL,           ZCL_UINT8,      RW, (uint8_t*)&g_zcl_levelAttrs[2].minLevel     },
+    { ZCL_ATTRID_LEVEL_MAX_LEVEL,           ZCL_UINT8,      RW, (uint8_t*)&g_zcl_levelAttrs[2].maxLevel     },
     { ZCL_ATTRID_LEVEL_OPTIONS,             ZCL_BITMAP8,    RW, (uint8_t*)&g_zcl_levelAttrs[2].options      },
-    { ZCL_ATTRID_LEVEL_DEFAULT_MOVE_RATE,   ZCL_UINT8,      RW, (uint8_t*)&g_zcl_levelAttrs[2].defaultMoveRate     },
+    { ZCL_ATTRID_LEVEL_DEFAULT_MOVE_RATE,   ZCL_UINT8,      RW, (uint8_t*)&g_zcl_levelAttrs[2].defaultMoveRate  },
+    { ZCL_ATTRID_LEVEL_ON_OFF_TRANSITION_TIME, ZCL_UINT16,  RW, (uint8_t*)&g_zcl_levelAttrs[2].transitionTime   },
 
     { ZCL_ATTRID_GLOBAL_CLUSTER_REVISION,   ZCL_UINT16,     R,  (u8*)&zcl_attr_global_clusterRevision       },
 };
@@ -750,10 +834,11 @@ const zclAttrInfo_t level3_attrTbl[] =
 const zclAttrInfo_t level4_attrTbl[] =
 {
     { ZCL_ATTRID_LEVEL_CURRENT_LEVEL,       ZCL_UINT8,      RR, (uint8_t*)&g_zcl_levelAttrs[3].currentLevel },
-    { ZCL_ATTRID_LEVEL_MIN_LEVEL,           ZCL_UINT8,      R,  (uint8_t*)&g_zcl_levelAttrs[3].minLevel     },
-    { ZCL_ATTRID_LEVEL_MAX_LEVEL,           ZCL_UINT8,      R,  (uint8_t*)&g_zcl_levelAttrs[3].maxLevel     },
+    { ZCL_ATTRID_LEVEL_MIN_LEVEL,           ZCL_UINT8,      RW, (uint8_t*)&g_zcl_levelAttrs[3].minLevel     },
+    { ZCL_ATTRID_LEVEL_MAX_LEVEL,           ZCL_UINT8,      RW, (uint8_t*)&g_zcl_levelAttrs[3].maxLevel     },
     { ZCL_ATTRID_LEVEL_OPTIONS,             ZCL_BITMAP8,    RW, (uint8_t*)&g_zcl_levelAttrs[3].options      },
-    { ZCL_ATTRID_LEVEL_DEFAULT_MOVE_RATE,   ZCL_UINT8,      RW, (uint8_t*)&g_zcl_levelAttrs[3].defaultMoveRate     },
+    { ZCL_ATTRID_LEVEL_DEFAULT_MOVE_RATE,   ZCL_UINT8,      RW, (uint8_t*)&g_zcl_levelAttrs[3].defaultMoveRate  },
+    { ZCL_ATTRID_LEVEL_ON_OFF_TRANSITION_TIME, ZCL_UINT16,  RW, (uint8_t*)&g_zcl_levelAttrs[3].transitionTime   },
 
     { ZCL_ATTRID_GLOBAL_CLUSTER_REVISION,   ZCL_UINT16,     R,  (u8*)&zcl_attr_global_clusterRevision       },
 };
@@ -763,10 +848,11 @@ const zclAttrInfo_t level4_attrTbl[] =
 const zclAttrInfo_t level5_attrTbl[] =
 {
     { ZCL_ATTRID_LEVEL_CURRENT_LEVEL,       ZCL_UINT8,      RR, (uint8_t*)&g_zcl_levelAttrs[4].currentLevel },
-    { ZCL_ATTRID_LEVEL_MIN_LEVEL,           ZCL_UINT8,      R,  (uint8_t*)&g_zcl_levelAttrs[4].minLevel     },
-    { ZCL_ATTRID_LEVEL_MAX_LEVEL,           ZCL_UINT8,      R,  (uint8_t*)&g_zcl_levelAttrs[4].maxLevel     },
+    { ZCL_ATTRID_LEVEL_MIN_LEVEL,           ZCL_UINT8,      RW, (uint8_t*)&g_zcl_levelAttrs[4].minLevel     },
+    { ZCL_ATTRID_LEVEL_MAX_LEVEL,           ZCL_UINT8,      RW, (uint8_t*)&g_zcl_levelAttrs[4].maxLevel     },
     { ZCL_ATTRID_LEVEL_OPTIONS,             ZCL_BITMAP8,    RW, (uint8_t*)&g_zcl_levelAttrs[4].options      },
-    { ZCL_ATTRID_LEVEL_DEFAULT_MOVE_RATE,   ZCL_UINT8,      RW, (uint8_t*)&g_zcl_levelAttrs[4].defaultMoveRate     },
+    { ZCL_ATTRID_LEVEL_DEFAULT_MOVE_RATE,   ZCL_UINT8,      RW, (uint8_t*)&g_zcl_levelAttrs[4].defaultMoveRate  },
+    { ZCL_ATTRID_LEVEL_ON_OFF_TRANSITION_TIME, ZCL_UINT16,  RW, (uint8_t*)&g_zcl_levelAttrs[4].transitionTime   },
 
     { ZCL_ATTRID_GLOBAL_CLUSTER_REVISION,   ZCL_UINT16,     R,  (u8*)&zcl_attr_global_clusterRevision       },
 };
@@ -776,10 +862,11 @@ const zclAttrInfo_t level5_attrTbl[] =
 const zclAttrInfo_t level6_attrTbl[] =
 {
     { ZCL_ATTRID_LEVEL_CURRENT_LEVEL,       ZCL_UINT8,      RR, (uint8_t*)&g_zcl_levelAttrs[5].currentLevel },
-    { ZCL_ATTRID_LEVEL_MIN_LEVEL,           ZCL_UINT8,      R,  (uint8_t*)&g_zcl_levelAttrs[5].minLevel     },
-    { ZCL_ATTRID_LEVEL_MAX_LEVEL,           ZCL_UINT8,      R,  (uint8_t*)&g_zcl_levelAttrs[5].maxLevel     },
+    { ZCL_ATTRID_LEVEL_MIN_LEVEL,           ZCL_UINT8,      RW, (uint8_t*)&g_zcl_levelAttrs[5].minLevel     },
+    { ZCL_ATTRID_LEVEL_MAX_LEVEL,           ZCL_UINT8,      RW, (uint8_t*)&g_zcl_levelAttrs[5].maxLevel     },
     { ZCL_ATTRID_LEVEL_OPTIONS,             ZCL_BITMAP8,    RW, (uint8_t*)&g_zcl_levelAttrs[5].options      },
-    { ZCL_ATTRID_LEVEL_DEFAULT_MOVE_RATE,   ZCL_UINT8,      RW, (uint8_t*)&g_zcl_levelAttrs[5].defaultMoveRate     },
+    { ZCL_ATTRID_LEVEL_DEFAULT_MOVE_RATE,   ZCL_UINT8,      RW, (uint8_t*)&g_zcl_levelAttrs[5].defaultMoveRate  },
+    { ZCL_ATTRID_LEVEL_ON_OFF_TRANSITION_TIME, ZCL_UINT16,  RW, (uint8_t*)&g_zcl_levelAttrs[5].transitionTime   },
 
     { ZCL_ATTRID_GLOBAL_CLUSTER_REVISION,   ZCL_UINT16,     R,  (u8*)&zcl_attr_global_clusterRevision       },
 };
@@ -805,6 +892,7 @@ const zcl_specClusterInfo_t g_appEp1ClusterList[] = {
 uint8_t APP_EP1_CB_CLUSTER_NUM = (sizeof(g_appEp1ClusterList)/sizeof(g_appEp1ClusterList[0]));
 
 const zcl_specClusterInfo_t g_appEp2ClusterList[] = {
+    {ZCL_CLUSTER_GEN_IDENTIFY,              MANUFACTURER_CODE_NONE, ZCL_IDENTIFY2_ATTR_NUM,   identify2_attrTbl, zcl_identify_register,         app_identifyCb  },
     {ZCL_CLUSTER_GEN_GROUPS,                MANUFACTURER_CODE_NONE, 0,                        NULL,              zcl_group_register,            app_groupCb     },
     {ZCL_CLUSTER_GEN_SCENES,                MANUFACTURER_CODE_NONE, ZCL_SCENE2_ATTR_NUM,      scene2_attrTbl,    zcl_scene_register,            app_sceneCb     },
     {ZCL_CLUSTER_GEN_ON_OFF_SWITCH_CONFIG,  MANUFACTURER_CODE_NONE, ZCL_ON_OFF_CFG2_ATTR_NUM, onOffCfg2_attrTbl, zcl_onOffSwitchCfg_register,   NULL            },
@@ -815,6 +903,7 @@ const zcl_specClusterInfo_t g_appEp2ClusterList[] = {
 uint8_t APP_EP2_CB_CLUSTER_NUM = (sizeof(g_appEp2ClusterList)/sizeof(g_appEp2ClusterList[0]));
 
 const zcl_specClusterInfo_t g_appEp3ClusterList[] = {
+    {ZCL_CLUSTER_GEN_IDENTIFY,              MANUFACTURER_CODE_NONE, ZCL_IDENTIFY3_ATTR_NUM,   identify3_attrTbl, zcl_identify_register,         app_identifyCb  },
     {ZCL_CLUSTER_GEN_GROUPS,                MANUFACTURER_CODE_NONE, 0,                        NULL,              zcl_group_register,            app_groupCb     },
     {ZCL_CLUSTER_GEN_SCENES,                MANUFACTURER_CODE_NONE, ZCL_SCENE3_ATTR_NUM,      scene3_attrTbl,    zcl_scene_register,            app_sceneCb     },
     {ZCL_CLUSTER_GEN_ON_OFF_SWITCH_CONFIG,  MANUFACTURER_CODE_NONE, ZCL_ON_OFF_CFG3_ATTR_NUM, onOffCfg3_attrTbl, zcl_onOffSwitchCfg_register,   NULL            },
@@ -825,6 +914,7 @@ const zcl_specClusterInfo_t g_appEp3ClusterList[] = {
 uint8_t APP_EP3_CB_CLUSTER_NUM = (sizeof(g_appEp3ClusterList)/sizeof(g_appEp3ClusterList[0]));
 
 const zcl_specClusterInfo_t g_appEp4ClusterList[] = {
+    {ZCL_CLUSTER_GEN_IDENTIFY,              MANUFACTURER_CODE_NONE, ZCL_IDENTIFY4_ATTR_NUM,   identify4_attrTbl, zcl_identify_register,         app_identifyCb  },
     {ZCL_CLUSTER_GEN_GROUPS,                MANUFACTURER_CODE_NONE, 0,                        NULL,              zcl_group_register,            app_groupCb     },
     {ZCL_CLUSTER_GEN_SCENES,                MANUFACTURER_CODE_NONE, ZCL_SCENE4_ATTR_NUM,      scene4_attrTbl,    zcl_scene_register,            app_sceneCb     },
     {ZCL_CLUSTER_GEN_ON_OFF_SWITCH_CONFIG,  MANUFACTURER_CODE_NONE, ZCL_ON_OFF_CFG4_ATTR_NUM, onOffCfg4_attrTbl, zcl_onOffSwitchCfg_register,   NULL            },
@@ -835,8 +925,9 @@ const zcl_specClusterInfo_t g_appEp4ClusterList[] = {
 uint8_t APP_EP4_CB_CLUSTER_NUM = (sizeof(g_appEp4ClusterList)/sizeof(g_appEp4ClusterList[0]));
 
 const zcl_specClusterInfo_t g_appEp5ClusterList[] = {
+    {ZCL_CLUSTER_GEN_IDENTIFY,              MANUFACTURER_CODE_NONE, ZCL_IDENTIFY5_ATTR_NUM,   identify5_attrTbl, zcl_identify_register,          app_identifyCb  },
     {ZCL_CLUSTER_GEN_GROUPS,                MANUFACTURER_CODE_NONE, 0,                        NULL,              zcl_group_register,             app_groupCb     },
-    {ZCL_CLUSTER_GEN_SCENES,                MANUFACTURER_CODE_NONE, ZCL_SCENE5_ATTR_NUM,      scene5_attrTbl,    zcl_scene_register,            app_sceneCb     },
+    {ZCL_CLUSTER_GEN_SCENES,                MANUFACTURER_CODE_NONE, ZCL_SCENE5_ATTR_NUM,      scene5_attrTbl,    zcl_scene_register,             app_sceneCb     },
     {ZCL_CLUSTER_GEN_ON_OFF_SWITCH_CONFIG,  MANUFACTURER_CODE_NONE, ZCL_ON_OFF_CFG5_ATTR_NUM, onOffCfg5_attrTbl, zcl_onOffSwitchCfg_register,    NULL            },
     {ZCL_CLUSTER_GEN_MULTISTATE_INPUT_BASIC,MANUFACTURER_CODE_NONE, ZCL_MSINPUT5_ATTR_NUM,    msInput5_attrTbl,  zcl_multistate_input_register,  app_msInputCb   },
     {ZCL_CLUSTER_GEN_LEVEL_CONTROL,         MANUFACTURER_CODE_NONE, ZCL_LEVEL5_ATTR_NUM,      level5_attrTbl,    zcl_level_register,             app_levelCb     },
@@ -845,6 +936,7 @@ const zcl_specClusterInfo_t g_appEp5ClusterList[] = {
 uint8_t APP_EP5_CB_CLUSTER_NUM = (sizeof(g_appEp5ClusterList)/sizeof(g_appEp5ClusterList[0]));
 
 const zcl_specClusterInfo_t g_appEp6ClusterList[] = {
+    {ZCL_CLUSTER_GEN_IDENTIFY,              MANUFACTURER_CODE_NONE, ZCL_IDENTIFY6_ATTR_NUM,   identify6_attrTbl, zcl_identify_register,         app_identifyCb  },
     {ZCL_CLUSTER_GEN_GROUPS,                MANUFACTURER_CODE_NONE, 0,                        NULL,              zcl_group_register,            app_groupCb     },
     {ZCL_CLUSTER_GEN_SCENES,                MANUFACTURER_CODE_NONE, ZCL_SCENE6_ATTR_NUM,      scene6_attrTbl,    zcl_scene_register,            app_sceneCb     },
     {ZCL_CLUSTER_GEN_ON_OFF_SWITCH_CONFIG,  MANUFACTURER_CODE_NONE, ZCL_ON_OFF_CFG6_ATTR_NUM, onOffCfg6_attrTbl, zcl_onOffSwitchCfg_register,   NULL            },
