@@ -79,7 +79,7 @@
 #define DEBUG_PM_EN                     ON
 #define DEBUG_OTA_EN                    OFF
 #define DEBUG_ONOFF_EN                  ON
-#define DEBUG_LEVEL_EN                  OFF
+#define DEBUG_LEVEL_EN                  ON
 #define DEBUG_SCENE_EN                  OFF
 #define DEBUG_GPIO_EN                   OFF
 #define DEBUG_LED_EN                    OFF
