@@ -19,5 +19,6 @@ typedef enum {
 void button_handler();
 bool button_idle();
 void button_init();
+void clearButtonSleepTimer();
 
 #endif /* SRC_INCLUDE_APP_BUTTON_H_ */

@@ -7,5 +7,6 @@ typedef struct __attribute__((packed)) {
 } app_scene_t;
 
 void app_scene_send(uint8_t ep);
+int32_t app_repeatCmdScene(void *args);
 
 #endif /* SRC_INCLUDE_APP_SCENE_H_ */

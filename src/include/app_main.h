@@ -17,6 +17,7 @@
 #include "app_battery.h"
 #include "app_reporting.h"
 #include "app_findbind.h"
+#include "app_repeat_cmd.h"
 #include "app_endpoint_cfg.h"
 #include "app_utility.h"
 #include "app_on_off.h"

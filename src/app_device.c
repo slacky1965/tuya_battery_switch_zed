@@ -1,6 +1,5 @@
 #include "app_main.h"
 
-static bool first_start = true;
 static uint8_t zb_modelId[17] = {15,'T','S','0','0','4','1','-','M','0','0','0','-','S','l','D',0};
 
 device_model_t device_model = DEVICE_MODEL;
@@ -8,6 +7,7 @@ device_object_t device_object[DEVICE_MODEL_MAX];
 device_object_t *device = &device_object[DEVICE_MODEL_1];
 device_settings_t device_settings;
 bool model_in_flash = false;
+bool first_start = true;
 
 static void device_gpio_init(device_gpio_t *device_gpio) {
 
@@ -38,7 +38,6 @@ static void device_model_init() {
     device_gpio_init(&device->debug_gpio);
     gpio_write(device->debug_gpio.gpio, 1);
 #endif
-    light_init();
 
     if (first_start) {
         first_start = false;
@@ -64,6 +63,7 @@ static void device_model_init() {
         }
         memcpy(g_zcl_basicAttrs.modelId, zb_modelId, 16);
         g_zcl_onOffCfgAttrs[0].device_model = device_model+1;
+        light_init();
         button_init();
     }
 }
@@ -101,7 +101,6 @@ static void set_device_setting_default(device_settings_t *settings) {
             settings->switchActions[i] = ZCL_SWITCH_ACTION_TOGGLE;
             settings->switchType[i] = ZCL_SWITCH_TYPE_TOGGLE;
         }
-        settings->defaultMoveRate[i] = DEFAULT_MOVE_RATE;
         settings->defaultMoveRate[i] = DEFAULT_MOVE_RATE;
         settings->levelMin[i] = ZCL_LEVEL_ATTR_MIN_LEVEL;
         settings->levelMax[i] = ZCL_LEVEL_ATTR_MAX_LEVEL;

@@ -26,6 +26,7 @@ $(OUT_PATH)/$(SRC_PATH)/app_pm.o \
 $(OUT_PATH)/$(SRC_PATH)/app_battery.o \
 $(OUT_PATH)/$(SRC_PATH)/app_reporting.o \
 $(OUT_PATH)/$(SRC_PATH)/app_findbind.o \
+$(OUT_PATH)/$(SRC_PATH)/app_repeat_cmd.o \
 $(OUT_PATH)/$(SRC_PATH)/app_endpoint_cfg.o \
 $(OUT_PATH)/$(SRC_PATH)/app_utility.o \
 $(OUT_PATH)/$(SRC_PATH)/app_main.o \

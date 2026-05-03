@@ -95,6 +95,55 @@ bdb_commissionSetting_t g_bdbCommissionSetting = {
  * FUNCTIONS
  */
 
+static void afApsAckCb(void *args) {
+
+    apsdeDataConf_t *pApsDataCnf = (apsdeDataConf_t *)args;
+    repeat_cmd_t *r_cmd = app_find_repeat_cmd(pApsDataCnf->clusterId,
+                                              pApsDataCnf->srcEndpoint,
+                                              pApsDataCnf->dstEndpoint,
+                                              pApsDataCnf->dstAddrMode,
+                                              (tl_zb_addr_t*)&pApsDataCnf->dstAddr);
+#if UART_PRINTF_MODE
+    APP_DEBUG(DEBUG_REPEAT_EN, "afApsAckCb() - status: 0x%02x, clId: 0x%04x, src_ep: %d, dst_ep: %d, ",
+            pApsDataCnf->status, pApsDataCnf->clusterId, pApsDataCnf->srcEndpoint, pApsDataCnf->dstEndpoint);
+    if (pApsDataCnf->dstAddrMode == APS_SHORT_GROUPADDR_NOEP) {
+        APP_DEBUG(DEBUG_REPEAT_EN, "short_addr: 0x%04x, ", pApsDataCnf->dstAddr.addr_short);
+    } else {
+        APP_DEBUG(DEBUG_REPEAT_EN, "ieee: 0x%02x%02x%02x%02x%02x%02x%02x%02x, ",
+                pApsDataCnf->dstAddr.addr_long[0], pApsDataCnf->dstAddr.addr_long[1],
+                pApsDataCnf->dstAddr.addr_long[2], pApsDataCnf->dstAddr.addr_long[3],
+                pApsDataCnf->dstAddr.addr_long[4], pApsDataCnf->dstAddr.addr_long[5],
+                pApsDataCnf->dstAddr.addr_long[6], pApsDataCnf->dstAddr.addr_long[7]);
+
+        APP_DEBUG(DEBUG_REPEAT_EN, "cmp_addr: %d, ", ZB_64BIT_ADDR_CMP(pApsDataCnf->dstAddr.addr_long, pApsDataCnf->dstAddr.addr_long));
+    }
+    APP_DEBUG(DEBUG_REPEAT_EN, "r_cmd: %s\r\n", r_cmd?"true":"false");
+#endif
+
+    if (r_cmd) {
+        if (pApsDataCnf->status != APS_STATUS_SUCCESS) {
+            if (pApsDataCnf->dstAddrMode != APS_SHORT_GROUPADDR_NOEP) {
+                switch(pApsDataCnf->clusterId) {
+                    case ZCL_CLUSTER_GEN_ON_OFF:
+                        TL_ZB_TIMER_SCHEDULE(app_repeatCmdOnOff, r_cmd, TIMEOUT_250MS);
+                        break;
+                    case ZCL_CLUSTER_GEN_LEVEL_CONTROL:
+                        TL_ZB_TIMER_SCHEDULE(app_repeatCmdLevel, r_cmd, TIMEOUT_250MS);
+                        break;
+                    case ZCL_CLUSTER_GEN_SCENES:
+                        TL_ZB_TIMER_SCHEDULE(app_repeatCmdScene, r_cmd, TIMEOUT_250MS);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        r_cmd->used = false;
+        if (repeat_cmd_num > 0) repeat_cmd_num--;
+    }
+    if (repeat_cmd_num == 0) clearButtonSleepTimer();
+}
+
 /*********************************************************************
  * @fn      stack_init
  *
@@ -137,17 +186,17 @@ void user_app_init(void)
     zcl_init(app_zclProcessIncomingMsg);
 
     /* register endPoint */
-    af_endpointRegister(APP_ENDPOINT1, (af_simple_descriptor_t *)&app_ep1Desc, zcl_rx_handler, NULL);
+    af_endpointRegister(APP_ENDPOINT1, (af_simple_descriptor_t *)&app_ep1Desc, zcl_rx_handler, afApsAckCb);
     if (device->button_num > 1)
-        af_endpointRegister(APP_ENDPOINT2, (af_simple_descriptor_t *)&app_ep2Desc, zcl_rx_handler, NULL);
+        af_endpointRegister(APP_ENDPOINT2, (af_simple_descriptor_t *)&app_ep2Desc, zcl_rx_handler, afApsAckCb);
     if (device->button_num > 2)
-        af_endpointRegister(APP_ENDPOINT3, (af_simple_descriptor_t *)&app_ep3Desc, zcl_rx_handler, NULL);
+        af_endpointRegister(APP_ENDPOINT3, (af_simple_descriptor_t *)&app_ep3Desc, zcl_rx_handler, afApsAckCb);
     if (device->button_num > 3)
-        af_endpointRegister(APP_ENDPOINT4, (af_simple_descriptor_t *)&app_ep4Desc, zcl_rx_handler, NULL);
+        af_endpointRegister(APP_ENDPOINT4, (af_simple_descriptor_t *)&app_ep4Desc, zcl_rx_handler, afApsAckCb);
     if (device->button_num > 4)
-        af_endpointRegister(APP_ENDPOINT5, (af_simple_descriptor_t *)&app_ep5Desc, zcl_rx_handler, NULL);
+        af_endpointRegister(APP_ENDPOINT5, (af_simple_descriptor_t *)&app_ep5Desc, zcl_rx_handler, afApsAckCb);
     if (device->button_num > 5)
-        af_endpointRegister(APP_ENDPOINT6, (af_simple_descriptor_t *)&app_ep6Desc, zcl_rx_handler, NULL);
+        af_endpointRegister(APP_ENDPOINT6, (af_simple_descriptor_t *)&app_ep6Desc, zcl_rx_handler, afApsAckCb);
 
     zcl_reportingTabInit();
     device_settings_restore();

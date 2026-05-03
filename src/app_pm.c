@@ -1,6 +1,12 @@
 #include "app_main.h"
 
 #if PM_ENABLE
+
+#if UART_PRINTF_MODE
+static uint32_t time_point = 0;
+#endif
+
+
 /**
  *  @brief Definition for wakeup source and level for PM
  */
@@ -56,9 +62,12 @@ void app_lowPowerEnter() {
 
     if (g_appCtx.not_sleep || findbind->timerClearFindBindFlagEvt || light_idle()) {
         /* SDK deep sleep with SRAM retention */
-        APP_DEBUG(DEBUG_PM_EN, ".");
-//        APP_DEBUG(DEBUG_PM_EN, "timeout: %d\r\n", g_appCtx.timerSetPollRateEvt->timeout);
-//        APP_DEBUG(DEBUG_PM_EN, "not_sleep: %d, findBindFlag: %d\r\n", g_appCtx.not_sleep, findbind->timerClearFindBindFlagEvt?1:0);
+#if UART_PRINTF_MODE
+        if (clock_time_exceed(time_point, TIMEOUT_TICK_1SEC)) {
+            APP_DEBUG(UART_PRINTF_MODE, ".");
+            time_point = clock_time();
+        }
+#endif
         drv_pm_lowPowerEnter();
     } else /*if (zb_isDeviceJoinedNwk())*/{
         /* app deep sleep with SRAM retention */
