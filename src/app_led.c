@@ -8,6 +8,10 @@
 
 static light_t light[DEVICE_BUTTON_MAX + 1];
 
+bool get_led_status(uint8_t pin_idx) {
+    return light[pin_idx].led_status;
+}
+
 void led_on(uint8_t pin_idx) {
     APP_DEBUG(DEBUG_LED_EN, "LED %d is ON\r\n", pin_idx+1);
     if (device->device_en) drv_gpio_write(device->led_gpio[pin_idx].gpio, LED_ON(device->led_on));
@@ -41,7 +45,6 @@ void light_init(void) {
     for (uint8_t i = 0; i < device->button_num; i++) {
         if (device->device_en) led_off(i);
     }
-
 }
 
 static int32_t lightTimerCb(void *args) {
@@ -269,11 +272,8 @@ void light_blink_all_stop() {
 
 bool light_idle() {
 
-    light_t *lt = NULL;
-
-    for (uint8_t i = 0; i <= device->button_num; i++) {
-        lt = &light[i];
-        if (lt->timerLedEvt && lt->timerLedEvt->used && lt->times) {
+    for (uint8_t i = 0; i < device->button_num; i++) {
+        if (light[i].status) {
             return true;
         }
     }

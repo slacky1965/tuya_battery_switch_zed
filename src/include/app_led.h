@@ -33,6 +33,7 @@ void light_off(uint8_t pin_idx);
 bool light_idle();
 void light_test_timer();
 
+bool get_led_status(uint8_t pin_idx);
 void led_on(uint8_t pin_idx);
 void led_off(uint8_t pin_idx);
 
