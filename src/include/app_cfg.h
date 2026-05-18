@@ -80,6 +80,7 @@
 #define DEBUG_OTA_EN                    OFF
 #define DEBUG_ONOFF_EN                  ON
 #define DEBUG_LEVEL_EN                  ON
+#define DEBUG_COLOR_CTRL_EN             ON
 #define DEBUG_SCENE_EN                  OFF
 #define DEBUG_GPIO_EN                   ON
 #define DEBUG_LED_EN                    OFF
@@ -173,6 +174,7 @@
 #define ZCL_ON_OFF_SWITCH_CFG_SUPPORT               ON
 #define ZCL_MULTISTATE_INPUT_SUPPORT                ON
 #define ZCL_LEVEL_CTRL_SUPPORT                      ON
+#define ZCL_LIGHT_COLOR_CONTROL_SUPPORT             ON
 
 /**********************************************************************
  * Stack configuration

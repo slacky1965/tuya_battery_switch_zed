@@ -1,7 +1,7 @@
 #ifndef SRC_INCLUDE_APP_REPEAT_CMD_H_
 #define SRC_INCLUDE_APP_REPEAT_CMD_H_
 
-#define REPEAT_CMD_NUM   APS_BINDING_TABLE_NUM
+#define REPEAT_CMD_NUM 16   //APS_BINDING_TABLE_NUM    //16
 
 typedef struct {
     uint8_t         used;
@@ -12,9 +12,12 @@ typedef struct {
     uint8_t         dstAddrMode;
     tl_zb_addr_t    dstAddr;
     moveToLvl_t     move2Level;
-    move_t          move;
-    stop_t          stop;
-    step_t          step;
+    move_t          level_move;
+    stop_t          level_stop;
+    step_t          level_step;
+    colorCtrlMove2CTCmd_t move2ColorTemp;
+    colorCtrlStopCmd_t    stopMoveStep;
+    colorCtrlStepCTCmd_t  stepColorTemp;
     recallScene_t   recallScene;
 } repeat_cmd_t;
 

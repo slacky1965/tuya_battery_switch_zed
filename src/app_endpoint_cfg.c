@@ -56,6 +56,7 @@ const uint16_t app_ep1_outClusterList[] =
 #endif
     ZCL_CLUSTER_GEN_ON_OFF,
     ZCL_CLUSTER_GEN_LEVEL_CONTROL,
+    ZCL_CLUSTER_LIGHTING_COLOR_CONTROL,
 };
 
 /**
@@ -78,6 +79,7 @@ const uint16_t app_ep2_outClusterList[] =
     ZCL_CLUSTER_GEN_SCENES,
     ZCL_CLUSTER_GEN_ON_OFF,
     ZCL_CLUSTER_GEN_LEVEL_CONTROL,
+    ZCL_CLUSTER_LIGHTING_COLOR_CONTROL,
 };
 
 /**
@@ -100,6 +102,7 @@ const uint16_t app_ep3_outClusterList[] =
     ZCL_CLUSTER_GEN_SCENES,
     ZCL_CLUSTER_GEN_ON_OFF,
     ZCL_CLUSTER_GEN_LEVEL_CONTROL,
+    ZCL_CLUSTER_LIGHTING_COLOR_CONTROL,
 };
 
 /**
@@ -122,6 +125,7 @@ const uint16_t app_ep4_outClusterList[] =
     ZCL_CLUSTER_GEN_SCENES,
     ZCL_CLUSTER_GEN_ON_OFF,
     ZCL_CLUSTER_GEN_LEVEL_CONTROL,
+    ZCL_CLUSTER_LIGHTING_COLOR_CONTROL,
 };
 
 /**
@@ -144,6 +148,7 @@ const uint16_t app_ep5_outClusterList[] =
     ZCL_CLUSTER_GEN_SCENES,
     ZCL_CLUSTER_GEN_ON_OFF,
     ZCL_CLUSTER_GEN_LEVEL_CONTROL,
+    ZCL_CLUSTER_LIGHTING_COLOR_CONTROL,
 };
 
 /**
@@ -166,6 +171,7 @@ const uint16_t app_ep6_outClusterList[] =
     ZCL_CLUSTER_GEN_SCENES,
     ZCL_CLUSTER_GEN_ON_OFF,
     ZCL_CLUSTER_GEN_LEVEL_CONTROL,
+    ZCL_CLUSTER_LIGHTING_COLOR_CONTROL,
 };
 
 /**
@@ -875,6 +881,93 @@ const zclAttrInfo_t level6_attrTbl[] =
 
 #endif // ZCL_LEVEL_CTRL
 
+zcl_lightColorCtrlAttr_t g_zcl_lightColorCtrlAttrs[DEVICE_BUTTON_MAX] = {
+    {
+        .colorTempPhysicalMinMireds = COLOR_TEMPERATURE_COOLEST,
+        .colorTempPhysicalMaxMireds = COLOR_TEMPERATURE_WARMEST,
+    },
+    {
+        .colorTempPhysicalMinMireds = COLOR_TEMPERATURE_COOLEST,
+        .colorTempPhysicalMaxMireds = COLOR_TEMPERATURE_WARMEST,
+    },
+    {
+        .colorTempPhysicalMinMireds = COLOR_TEMPERATURE_COOLEST,
+        .colorTempPhysicalMaxMireds = COLOR_TEMPERATURE_WARMEST,
+    },
+    {
+        .colorTempPhysicalMinMireds = COLOR_TEMPERATURE_COOLEST,
+        .colorTempPhysicalMaxMireds = COLOR_TEMPERATURE_WARMEST,
+    },
+    {
+        .colorTempPhysicalMinMireds = COLOR_TEMPERATURE_COOLEST,
+        .colorTempPhysicalMaxMireds = COLOR_TEMPERATURE_WARMEST,
+    },
+    {
+        .colorTempPhysicalMinMireds = COLOR_TEMPERATURE_COOLEST,
+        .colorTempPhysicalMaxMireds = COLOR_TEMPERATURE_WARMEST,
+    },
+};
+
+const zclAttrInfo_t lightColorCtrl1_attrTbl[] =
+{
+    { ZCL_ATTRID_COLOR_TEMP_PHYSICAL_MIN_MIREDS,    ZCL_UINT16, R, (uint8_t*)&g_zcl_lightColorCtrlAttrs[0].colorTempPhysicalMinMireds},
+    { ZCL_ATTRID_COLOR_TEMP_PHYSICAL_MIN_MIREDS,    ZCL_UINT16, R, (uint8_t*)&g_zcl_lightColorCtrlAttrs[0].colorTempPhysicalMaxMireds},
+
+    { ZCL_ATTRID_GLOBAL_CLUSTER_REVISION,   ZCL_UINT16,     R,  (u8*)&zcl_attr_global_clusterRevision       },
+};
+
+#define ZCL_LIGHT_COLOR_CTRL1_ATTR_NUM   sizeof(lightColorCtrl1_attrTbl) / sizeof(zclAttrInfo_t)
+
+const zclAttrInfo_t lightColorCtrl2_attrTbl[] =
+{
+    { ZCL_ATTRID_COLOR_TEMP_PHYSICAL_MIN_MIREDS,    ZCL_UINT16, R, (uint8_t*)&g_zcl_lightColorCtrlAttrs[1].colorTempPhysicalMinMireds},
+    { ZCL_ATTRID_COLOR_TEMP_PHYSICAL_MIN_MIREDS,    ZCL_UINT16, R, (uint8_t*)&g_zcl_lightColorCtrlAttrs[1].colorTempPhysicalMaxMireds},
+
+    { ZCL_ATTRID_GLOBAL_CLUSTER_REVISION,   ZCL_UINT16,     R,  (u8*)&zcl_attr_global_clusterRevision       },
+};
+
+#define ZCL_LIGHT_COLOR_CTRL2_ATTR_NUM   sizeof(lightColorCtrl2_attrTbl) / sizeof(zclAttrInfo_t)
+
+const zclAttrInfo_t lightColorCtrl3_attrTbl[] =
+{
+    { ZCL_ATTRID_COLOR_TEMP_PHYSICAL_MIN_MIREDS,    ZCL_UINT16, R, (uint8_t*)&g_zcl_lightColorCtrlAttrs[2].colorTempPhysicalMinMireds},
+    { ZCL_ATTRID_COLOR_TEMP_PHYSICAL_MIN_MIREDS,    ZCL_UINT16, R, (uint8_t*)&g_zcl_lightColorCtrlAttrs[2].colorTempPhysicalMaxMireds},
+
+    { ZCL_ATTRID_GLOBAL_CLUSTER_REVISION,   ZCL_UINT16,     R,  (u8*)&zcl_attr_global_clusterRevision       },
+};
+
+#define ZCL_LIGHT_COLOR_CTRL3_ATTR_NUM   sizeof(lightColorCtrl3_attrTbl) / sizeof(zclAttrInfo_t)
+
+const zclAttrInfo_t lightColorCtrl4_attrTbl[] =
+{
+    { ZCL_ATTRID_COLOR_TEMP_PHYSICAL_MIN_MIREDS,    ZCL_UINT16, R, (uint8_t*)&g_zcl_lightColorCtrlAttrs[3].colorTempPhysicalMinMireds},
+    { ZCL_ATTRID_COLOR_TEMP_PHYSICAL_MIN_MIREDS,    ZCL_UINT16, R, (uint8_t*)&g_zcl_lightColorCtrlAttrs[3].colorTempPhysicalMaxMireds},
+
+    { ZCL_ATTRID_GLOBAL_CLUSTER_REVISION,   ZCL_UINT16,     R,  (u8*)&zcl_attr_global_clusterRevision       },
+};
+
+#define ZCL_LIGHT_COLOR_CTRL4_ATTR_NUM   sizeof(lightColorCtrl4_attrTbl) / sizeof(zclAttrInfo_t)
+
+const zclAttrInfo_t lightColorCtrl5_attrTbl[] =
+{
+    { ZCL_ATTRID_COLOR_TEMP_PHYSICAL_MIN_MIREDS,    ZCL_UINT16, R, (uint8_t*)&g_zcl_lightColorCtrlAttrs[4].colorTempPhysicalMinMireds},
+    { ZCL_ATTRID_COLOR_TEMP_PHYSICAL_MIN_MIREDS,    ZCL_UINT16, R, (uint8_t*)&g_zcl_lightColorCtrlAttrs[4].colorTempPhysicalMaxMireds},
+
+    { ZCL_ATTRID_GLOBAL_CLUSTER_REVISION,   ZCL_UINT16,     R,  (u8*)&zcl_attr_global_clusterRevision       },
+};
+
+#define ZCL_LIGHT_COLOR_CTRL5_ATTR_NUM   sizeof(lightColorCtrl5_attrTbl) / sizeof(zclAttrInfo_t)
+
+const zclAttrInfo_t lightColorCtrl6_attrTbl[] =
+{
+    { ZCL_ATTRID_COLOR_TEMP_PHYSICAL_MIN_MIREDS,    ZCL_UINT16, R, (uint8_t*)&g_zcl_lightColorCtrlAttrs[5].colorTempPhysicalMinMireds},
+    { ZCL_ATTRID_COLOR_TEMP_PHYSICAL_MIN_MIREDS,    ZCL_UINT16, R, (uint8_t*)&g_zcl_lightColorCtrlAttrs[5].colorTempPhysicalMaxMireds},
+
+    { ZCL_ATTRID_GLOBAL_CLUSTER_REVISION,   ZCL_UINT16,     R,  (u8*)&zcl_attr_global_clusterRevision       },
+};
+
+#define ZCL_LIGHT_COLOR_CTRL6_ATTR_NUM   sizeof(lightColorCtrl6_attrTbl) / sizeof(zclAttrInfo_t)
+
 /**
  *  @brief Definition for simple switch ZCL specific cluster
  */
@@ -887,6 +980,7 @@ const zcl_specClusterInfo_t g_appEp1ClusterList[] = {
     {ZCL_CLUSTER_GEN_ON_OFF_SWITCH_CONFIG,  MANUFACTURER_CODE_NONE, ZCL_ON_OFF_CFG1_ATTR_NUM,   onOffCfg1_attrTbl,  zcl_onOffSwitchCfg_register,    NULL            },
     {ZCL_CLUSTER_GEN_MULTISTATE_INPUT_BASIC,MANUFACTURER_CODE_NONE, ZCL_MSINPUT1_ATTR_NUM,      msInput1_attrTbl,   zcl_multistate_input_register,  app_msInputCb   },
     {ZCL_CLUSTER_GEN_LEVEL_CONTROL,         MANUFACTURER_CODE_NONE, ZCL_LEVEL1_ATTR_NUM,        level1_attrTbl,     zcl_level_register,             app_levelCb     },
+    {ZCL_CLUSTER_LIGHTING_COLOR_CONTROL,    MANUFACTURER_CODE_NONE, ZCL_LIGHT_COLOR_CTRL1_ATTR_NUM, lightColorCtrl1_attrTbl, zcl_lightColorCtrl_register, app_colorCtrlCb},
 };
 
 uint8_t APP_EP1_CB_CLUSTER_NUM = (sizeof(g_appEp1ClusterList)/sizeof(g_appEp1ClusterList[0]));
@@ -898,6 +992,7 @@ const zcl_specClusterInfo_t g_appEp2ClusterList[] = {
     {ZCL_CLUSTER_GEN_ON_OFF_SWITCH_CONFIG,  MANUFACTURER_CODE_NONE, ZCL_ON_OFF_CFG2_ATTR_NUM, onOffCfg2_attrTbl, zcl_onOffSwitchCfg_register,   NULL            },
     {ZCL_CLUSTER_GEN_MULTISTATE_INPUT_BASIC,MANUFACTURER_CODE_NONE, ZCL_MSINPUT2_ATTR_NUM,    msInput2_attrTbl,  zcl_multistate_input_register, app_msInputCb   },
     {ZCL_CLUSTER_GEN_LEVEL_CONTROL,         MANUFACTURER_CODE_NONE, ZCL_LEVEL2_ATTR_NUM,      level2_attrTbl,    zcl_level_register,            app_levelCb     },
+    {ZCL_CLUSTER_LIGHTING_COLOR_CONTROL,    MANUFACTURER_CODE_NONE, ZCL_LIGHT_COLOR_CTRL2_ATTR_NUM, lightColorCtrl2_attrTbl, zcl_lightColorCtrl_register, app_colorCtrlCb},
 };
 
 uint8_t APP_EP2_CB_CLUSTER_NUM = (sizeof(g_appEp2ClusterList)/sizeof(g_appEp2ClusterList[0]));
@@ -909,6 +1004,7 @@ const zcl_specClusterInfo_t g_appEp3ClusterList[] = {
     {ZCL_CLUSTER_GEN_ON_OFF_SWITCH_CONFIG,  MANUFACTURER_CODE_NONE, ZCL_ON_OFF_CFG3_ATTR_NUM, onOffCfg3_attrTbl, zcl_onOffSwitchCfg_register,   NULL            },
     {ZCL_CLUSTER_GEN_MULTISTATE_INPUT_BASIC,MANUFACTURER_CODE_NONE, ZCL_MSINPUT3_ATTR_NUM,    msInput3_attrTbl,  zcl_multistate_input_register, app_msInputCb   },
     {ZCL_CLUSTER_GEN_LEVEL_CONTROL,         MANUFACTURER_CODE_NONE, ZCL_LEVEL3_ATTR_NUM,      level3_attrTbl,    zcl_level_register,            app_levelCb     },
+    {ZCL_CLUSTER_LIGHTING_COLOR_CONTROL,    MANUFACTURER_CODE_NONE, ZCL_LIGHT_COLOR_CTRL3_ATTR_NUM, lightColorCtrl3_attrTbl, zcl_lightColorCtrl_register, app_colorCtrlCb},
 };
 
 uint8_t APP_EP3_CB_CLUSTER_NUM = (sizeof(g_appEp3ClusterList)/sizeof(g_appEp3ClusterList[0]));
@@ -920,6 +1016,7 @@ const zcl_specClusterInfo_t g_appEp4ClusterList[] = {
     {ZCL_CLUSTER_GEN_ON_OFF_SWITCH_CONFIG,  MANUFACTURER_CODE_NONE, ZCL_ON_OFF_CFG4_ATTR_NUM, onOffCfg4_attrTbl, zcl_onOffSwitchCfg_register,   NULL            },
     {ZCL_CLUSTER_GEN_MULTISTATE_INPUT_BASIC,MANUFACTURER_CODE_NONE, ZCL_MSINPUT4_ATTR_NUM,    msInput4_attrTbl,  zcl_multistate_input_register, app_msInputCb   },
     {ZCL_CLUSTER_GEN_LEVEL_CONTROL,         MANUFACTURER_CODE_NONE, ZCL_LEVEL4_ATTR_NUM,      level4_attrTbl,    zcl_level_register,            app_levelCb     },
+    {ZCL_CLUSTER_LIGHTING_COLOR_CONTROL,    MANUFACTURER_CODE_NONE, ZCL_LIGHT_COLOR_CTRL4_ATTR_NUM, lightColorCtrl4_attrTbl, zcl_lightColorCtrl_register, app_colorCtrlCb},
 };
 
 uint8_t APP_EP4_CB_CLUSTER_NUM = (sizeof(g_appEp4ClusterList)/sizeof(g_appEp4ClusterList[0]));
@@ -931,6 +1028,7 @@ const zcl_specClusterInfo_t g_appEp5ClusterList[] = {
     {ZCL_CLUSTER_GEN_ON_OFF_SWITCH_CONFIG,  MANUFACTURER_CODE_NONE, ZCL_ON_OFF_CFG5_ATTR_NUM, onOffCfg5_attrTbl, zcl_onOffSwitchCfg_register,    NULL            },
     {ZCL_CLUSTER_GEN_MULTISTATE_INPUT_BASIC,MANUFACTURER_CODE_NONE, ZCL_MSINPUT5_ATTR_NUM,    msInput5_attrTbl,  zcl_multistate_input_register,  app_msInputCb   },
     {ZCL_CLUSTER_GEN_LEVEL_CONTROL,         MANUFACTURER_CODE_NONE, ZCL_LEVEL5_ATTR_NUM,      level5_attrTbl,    zcl_level_register,             app_levelCb     },
+    {ZCL_CLUSTER_LIGHTING_COLOR_CONTROL,    MANUFACTURER_CODE_NONE, ZCL_LIGHT_COLOR_CTRL5_ATTR_NUM, lightColorCtrl5_attrTbl, zcl_lightColorCtrl_register, app_colorCtrlCb},
 };
 
 uint8_t APP_EP5_CB_CLUSTER_NUM = (sizeof(g_appEp5ClusterList)/sizeof(g_appEp5ClusterList[0]));
@@ -942,6 +1040,7 @@ const zcl_specClusterInfo_t g_appEp6ClusterList[] = {
     {ZCL_CLUSTER_GEN_ON_OFF_SWITCH_CONFIG,  MANUFACTURER_CODE_NONE, ZCL_ON_OFF_CFG6_ATTR_NUM, onOffCfg6_attrTbl, zcl_onOffSwitchCfg_register,   NULL            },
     {ZCL_CLUSTER_GEN_MULTISTATE_INPUT_BASIC,MANUFACTURER_CODE_NONE, ZCL_MSINPUT6_ATTR_NUM,    msInput6_attrTbl,  zcl_multistate_input_register, app_msInputCb   },
     {ZCL_CLUSTER_GEN_LEVEL_CONTROL,         MANUFACTURER_CODE_NONE, ZCL_LEVEL6_ATTR_NUM,      level6_attrTbl,    zcl_level_register,            app_levelCb     },
+    {ZCL_CLUSTER_LIGHTING_COLOR_CONTROL,    MANUFACTURER_CODE_NONE, ZCL_LIGHT_COLOR_CTRL6_ATTR_NUM, lightColorCtrl6_attrTbl, zcl_lightColorCtrl_register, app_colorCtrlCb},
 };
 
 uint8_t APP_EP6_CB_CLUSTER_NUM = (sizeof(g_appEp6ClusterList)/sizeof(g_appEp6ClusterList[0]));

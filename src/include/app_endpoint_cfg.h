@@ -92,6 +92,13 @@ typedef struct {
     uint16_t    transitionTime;
 } zcl_levelAttr_t;
 
+/**
+ *  @brief Defined for color control cluster cluster attributes
+ */
+typedef struct {
+    uint16_t    colorTempPhysicalMinMireds;
+    uint16_t    colorTempPhysicalMaxMireds;
+} zcl_lightColorCtrlAttr_t;
 
 extern const zcl_specClusterInfo_t g_appEp1ClusterList[];
 extern const zcl_specClusterInfo_t g_appEp2ClusterList[];
