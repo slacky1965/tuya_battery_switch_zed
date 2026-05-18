@@ -75,7 +75,6 @@ int32_t app_repeatCmdScene(void *args) {
     epInfo_t dstEpInfo;
     TL_SETSTRUCTCONTENT(dstEpInfo, 0);
     dstEpInfo.profileId = HA_PROFILE_ID;
-    dstEpInfo.txOptions = APS_TX_OPT_ACK_TX;
 
     dstEpInfo.dstAddrMode = r_cmd->dstAddrMode;
     if (dstEpInfo.dstAddrMode == APS_SHORT_GROUPADDR_NOEP) {
@@ -84,7 +83,7 @@ int32_t app_repeatCmdScene(void *args) {
         dstEpInfo.dstEp = r_cmd->dstEp;
         memcpy(dstEpInfo.dstAddr.extAddr, r_cmd->dstAddr.extAddr, sizeof(extAddr_t));
     }
-    zcl_scene_recallSceneCmd(r_cmd->srcEp, &dstEpInfo, TRUE, &r_cmd->recallScene);
+    zcl_scene_recallSceneCmd(r_cmd->srcEp, &dstEpInfo, FALSE, &r_cmd->recallScene);
 
     return -1;
 }
