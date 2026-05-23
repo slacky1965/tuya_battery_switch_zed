@@ -19,13 +19,13 @@
 
 | Custom Zigbee Model | Original Zigbee Model | Z2M Model | Original Zigbee Manufacturer| Update method | Description |
 |:-------------------:|:---------------------:|:---------:|:---------------------------:|:-------------:|:-----------:|
-| TS0041-M001-SlD | TS0041 | [TS0041](https://www.zigbee2mqtt.io/devices/TS0041.html) | _TZ3000_an5rjiwd | OTA file | [:bookmark_tabs:](doc/TS0041-M001.md) |
-| TS0041-M002-SlD | TS0601<br> TS004F | [ZG-101Z](https://www.zigbee2mqtt.io/devices/ZG-101Z.html)<br> [ZG-101ZL](https://www.zigbee2mqtt.io/devices/ZG-101ZL.html) | _TZE200_nojsjtj2<br> _TZ3000_ja5osu5g | OTA file<br> BIN file | [:bookmark_tabs:](doc/TS0041-M002.md)<br> [:bookmark_tabs:](doc/TS0041-M002_2.md) |
-| TS0042-M003-SlD | TS0042 | [TS0042](https://www.zigbee2mqtt.io/devices/TS0042.html) | _TZ3000_h68nee3e | OTA file | [:bookmark_tabs:](doc/TS0042-M003.md) | 
-| TS0044-M004-SlD | TS0044 | [TS0044](https://www.zigbee2mqtt.io/devices/TS0044.html) | HOBEIAN | BIN file | [:bookmark_tabs:](doc/TS0044-M004.md) |
-| TS0041-M005-SlD | TS0041 | [TS0041](https://www.zigbee2mqtt.io/devices/TS0041.html) | _TZ3000_itb0omhv | OTA file | [:bookmark_tabs:](doc/TS0041-M005.md) |
-| TS0042-M006-SlD | TS0042 | [TS0042](https://www.zigbee2mqtt.io/devices/TS0042.html) | _TZ3000_tzvbimpq | OTA file | [:bookmark_tabs:](doc/TS0041-M005.md) |
-| TS0043-M007-SlD | TS0043 | [TS0043](https://www.zigbee2mqtt.io/devices/TS0043.html) | _TZ3000_sj7jbgks | OTA file | [:bookmark_tabs:](doc/TS0043-M007.md) |
+| TS0041-M001-SlD | TS0041 | [TS0041](https://www.zigbee2mqtt.io/devices/TS0041.html) | _TZ3000_an5rjiwd | [OTA file](https://github.com/slacky1965/tuya_battery_switch_zed/raw/refs/heads/main/bin/1141-d3a3-1111114b-tuya_battery_switch_zed_M001.zigbee) | [:bookmark_tabs:](doc/TS0041-M001.md) |
+| TS0041-M002-SlD | TS0601<br> TS004F | [ZG-101Z](https://www.zigbee2mqtt.io/devices/ZG-101Z.html)<br> [ZG-101ZL](https://www.zigbee2mqtt.io/devices/ZG-101ZL.html) | _TZE200_nojsjtj2<br> _TZ3000_ja5osu5g | [OTA file](https://github.com/slacky1965/tuya_battery_switch_zed/raw/refs/heads/main/bin/1141-d3a3-1111114b-tuya_battery_switch_zed_M002.zigbee)<br> [BIN file](https://github.com/slacky1965/tuya_battery_switch_zed/raw/refs/heads/main/bin/tuya_battery_switch_zed_M002_last_version.bin) | [:bookmark_tabs:](doc/TS0041-M002.md)<br> [:bookmark_tabs:](doc/TS0041-M002_2.md) |
+| TS0042-M003-SlD | TS0042 | [TS0042](https://www.zigbee2mqtt.io/devices/TS0042.html) | _TZ3000_h68nee3e | [OTA file](https://github.com/slacky1965/tuya_battery_switch_zed/raw/refs/heads/main/bin/1141-d3a3-1111114b-tuya_battery_switch_zed_M003.zigbee) | [:bookmark_tabs:](doc/TS0042-M003.md) | 
+| TS0044-M004-SlD | TS0044 | [TS0044](https://www.zigbee2mqtt.io/devices/TS0044.html) | HOBEIAN | [BIN file](https://github.com/slacky1965/tuya_battery_switch_zed/raw/refs/heads/main/bin/tuya_battery_switch_zed_M004_last_version.bin) | [:bookmark_tabs:](doc/TS0044-M004.md) |
+| TS0041-M005-SlD | TS0041 | [TS0041](https://www.zigbee2mqtt.io/devices/TS0041.html) | _TZ3000_itb0omhv | [OTA file](https://github.com/slacky1965/tuya_battery_switch_zed/raw/refs/heads/main/bin/1141-d3a3-1111114b-tuya_battery_switch_zed_M005.zigbee) | [:bookmark_tabs:](doc/TS0041-M005.md) |
+| TS0042-M006-SlD | TS0042 | [TS0042](https://www.zigbee2mqtt.io/devices/TS0042.html) | _TZ3000_tzvbimpq | [OTA file](https://github.com/slacky1965/tuya_battery_switch_zed/raw/refs/heads/main/bin/1141-d3a3-1111114b-tuya_battery_switch_zed_M006.zigbee) | [:bookmark_tabs:](doc/TS0041-M005.md) |
+| TS0043-M007-SlD | TS0043 | [TS0043](https://www.zigbee2mqtt.io/devices/TS0043.html) | _TZ3000_sj7jbgks | [OTA file](https://github.com/slacky1965/tuya_battery_switch_zed/raw/refs/heads/main/bin/1141-d3a3-1111114b-tuya_battery_switch_zed_M007.zigbee) | [:bookmark_tabs:](doc/TS0043-M007.md) |
 
 #### Проверялся только в zigbee2mqtt. Требует всестороннего тестирования.
 
