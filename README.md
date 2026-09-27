@@ -26,6 +26,7 @@
 | TS0041-M005-SlD | TS0041 | [TS0041](https://www.zigbee2mqtt.io/devices/TS0041.html) | _TZ3000_itb0omhv | [OTA file](https://github.com/slacky1965/tuya_battery_switch_zed/raw/refs/heads/main/bin/1141-d3a3-1111114b-tuya_battery_switch_zed_M005.zigbee) | [:bookmark_tabs:](doc/TS0041-M005.md) |
 | TS0042-M006-SlD | TS0042 | [TS0042](https://www.zigbee2mqtt.io/devices/TS0042.html) | _TZ3000_tzvbimpq | [OTA file](https://github.com/slacky1965/tuya_battery_switch_zed/raw/refs/heads/main/bin/1141-d3a3-1111114b-tuya_battery_switch_zed_M006.zigbee) | [:bookmark_tabs:](doc/TS0042-M006.md) |
 | TS0043-M007-SlD | TS0043 | [TS0043](https://www.zigbee2mqtt.io/devices/TS0043.html) | _TZ3000_sj7jbgks | [OTA file](https://github.com/slacky1965/tuya_battery_switch_zed/raw/refs/heads/main/bin/1141-d3a3-1111114b-tuya_battery_switch_zed_M007.zigbee) | [:bookmark_tabs:](doc/TS0043-M007.md) |
+| TS0046-M008-SlD | TS0046 | [TS0046](https://www.zigbee2mqtt.io/devices/TS0046.html) | _TZ3000_nrfkrgf4 | [OTA file](https://github.com/slacky1965/tuya_battery_switch_zed/raw/refs/heads/main/bin/1141-d3a3-1111114b-tuya_battery_switch_zed_M008.zigbee) | [:bookmark_tabs:](doc/TS0046-M008.md) |
 
 #### Проверялся только в zigbee2mqtt. Требует всестороннего тестирования.
 
@@ -181,6 +182,7 @@
 	- Добавлен выключатель `TS0042_TZ3000_tzvbimpq` на 2 кнопки.
 	- Добавлен выключатель `TS0043_TZ3000_sj7jbgks` на 3 кнопки.
 	- Добавлена возможность менять температуру цвета ламп CCT.
+	- Добавлен выключатель `TS0046_TZ3000_nrfkrgf4` на 6 кнопок.
 	
 [Наверх](#Top)
 	
